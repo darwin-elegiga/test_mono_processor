@@ -1,0 +1,73 @@
+include:
+  - project: devops/cicd/templates
+    ref: ${CICD_TEMPLATES_2_VERSION}
+    file:
+      - docker.gitlab-ci.yml
+      - sonarqube.gitlab-ci.yml
+
+variables:
+  PROJECT: ols-processor
+  CHART_DIR: charts/ols-processor
+
+stages:
+  - build_and_test
+  - publish
+  - deploy
+
+app:sonarqube:
+  stage: build_and_test
+  extends:
+    - .sonarqube_dotnet
+  needs: []
+
+helm:lint:
+  stage: build_and_test
+  needs: []
+  trigger:
+    include:
+      - local: /.gitlab-ci/helm-lint.gitlab-ci.yml
+    strategy: depend
+  rules:
+    - when: always
+
+.build:
+  stage: build_and_test
+  extends:
+    - .docker_build
+  needs: []
+  variables:
+    DOCKERFILE: Dockerfile
+    BUILD_ARGS: "PROJECT_DIR PROJECT_NAME"
+
+.publish:
+  stage: publish
+  extends:
+    - .docker_publish
+
+.api:
+  variables:
+    IMAGE_NAME: api
+
+build:api:
+  extends:
+    - .build
+    - .api
+  variables:
+    PROJECT_DIR: src/VPay.Ols.Processor.Api
+    PROJECT_NAME: VPay.Ols.Processor.Api
+
+publish:api:
+  extends:
+    - .publish
+    - .api
+  needs:
+    - build:api
+
+deploy:
+  stage: deploy
+  trigger:
+    include:
+      - local: /.gitlab-ci/deploy.gitlab-ci.yml
+  rules:
+    - if: $CHART_DIR && $CI_COMMIT_TAG
+      when: on_success

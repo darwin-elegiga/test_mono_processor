@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ols-processor
+description: OLS Processor
+icon: https://www.vpayusa.com/wp-content/themes/vpay/images/logo.svg
+version: 0.0.1
+dependencies:
+  - name: helm-gen
+    version: v1.2.0
+    repository: https://plinfharbor.vpayusa.net/chartrepo/devops
