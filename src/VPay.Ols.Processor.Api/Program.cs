@@ -1,0 +1,17 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using VPay.Ols.Processor.Api;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.Configure();
+builder.Logging.Configure();
+builder.Services.Configure();
+
+var app = builder.Build();
+
+app.ConfigureMiddleware();
+app.ConfigureEndpoints();
+
+app.Run();
