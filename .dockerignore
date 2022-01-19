@@ -1,0 +1,8 @@
+*
+!*.sln
+!nuget.config
+!source/**
+!database/**
+**/bin
+**/obj
+**/Dockerfile*

@@ -1,0 +1,9 @@
+version: '3.5'
+
+services:
+  vpay.ols.processor.api:
+    image: ${DOCKER_REGISTRY-}vpayolsprocessorapi
+    container_name: ols-processor-api
+    build:
+      context: .
+      dockerfile: src/VPay.Ols.Processor.Api/Dockerfile
