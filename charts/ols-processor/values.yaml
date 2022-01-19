@@ -1,0 +1,53 @@
+chart:
+  virtual:
+    shared:
+      image:
+        registry: plinfharbor.vpayusa.net
+        tag: latest
+        pullPolicy: Always
+      env:
+        ASPNETCORE_ENVIRONMENT: '{{ .Values.global.environment.name }}'
+        DOTNET_ENVIRONMENT: '{{ .Values.global.environment.name }}'
+        ASPNETCORE_Logging__GELF__AdditionalFields__environment: "{{ .Values.global.environment.name }}"
+        ASPNETCORE_Logging__GELF__AdditionalFields__namespace: "{{ .Release.Namespace }}"
+        DOTNET_Logging__GELF__AdditionalFields__environment: "{{ .Values.global.environment.name }}"
+        DOTNET_Logging__GELF__AdditionalFields__namespace: "{{ .Release.Namespace }}"
+      generate:
+        deployment: true
+        service: false
+        ingress: false
+        secret: true
+    charts:
+      - api
+
+global:
+  parent: 'ols-processor'
+  environment:
+    name: Development
+    ingress:
+      subdomain: dev.pks.vpayusa.net
+
+api:
+  generate:
+    service: true
+    ingress: true
+  enabled: true
+  listeningPort: 80
+  contentRoot: /app
+  probes:
+    readiness:
+      endpoint: /api/about
+    liveness:
+      endpoint: /api/about
+  image:
+    name: ols-processor/api
+  secrets:
+    appsettings.secure.json:
+      data: {}
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "50m"
+    limits:
+      memory: "1Gi"
+      cpu: "250m"

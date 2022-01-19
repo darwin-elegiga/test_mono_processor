@@ -1,0 +1,89 @@
+include:
+  - project: devops/cicd/templates
+    ref: ${CICD_TEMPLATES_2_VERSION}
+    file:
+      - helm.gitlab-ci.yml
+
+stages:
+  - test
+  - dryrun
+
+helm:template:
+  stage: test
+  extends: .helm_template
+
+helm:lint:
+  stage: test
+  extends: .helm_lint
+
+helm:lint-dev-pl:
+  stage: test
+  extends: .helm_lint_pldev
+
+helm:lint-dev-stl:
+  stage: test
+  extends: .helm_lint_stldev
+
+helm:lint-stg-pl:
+  stage: test
+  extends: .helm_lint_plstg
+
+helm:lint-stg-stl:
+  stage: test
+  extends: .helm_lint_stlstg
+
+helm:lint-prod-pl:
+  stage: test
+  extends: .helm_lint_plprod
+
+helm:lint-prod-stl:
+  stage: test
+  extends: .helm_lint_stlprod
+
+dryrun:dev-pl:
+  extends: .helm_dryrun_pldev
+  needs:
+    - helm:lint-dev-pl
+  environment:
+    kubernetes:
+      namespace: ols-processor-dev
+
+dryrun:dev-stl:
+  extends: .helm_dryrun_stldev
+  needs:
+    - helm:lint-dev-stl
+  environment:
+    kubernetes:
+      namespace: ols-processor-dev
+
+dryrun:stg-pl:
+  extends: .helm_dryrun_plstg
+  needs:
+    - helm:lint-stg-pl
+  environment:
+    kubernetes:
+      namespace: ols-processor-stage
+
+dryrun:stg-stl:
+  extends: .helm_dryrun_stlstg
+  needs:
+    - helm:lint-stg-stl
+  environment:
+    kubernetes:
+      namespace: ols-processor-stage
+
+dryrun:prod-pl:
+  extends: .helm_dryrun_plprod
+  needs:
+    - helm:lint-prod-pl
+  environment:
+    kubernetes:
+      namespace: ols-processor-prod
+
+dryrun:prod-stl:
+  extends: .helm_dryrun_stlprod
+  needs:
+    - helm:lint-prod-stl
+  environment:
+    kubernetes:
+      namespace: ols-processor-prod

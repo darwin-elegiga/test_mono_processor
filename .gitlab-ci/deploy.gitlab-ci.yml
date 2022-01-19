@@ -1,0 +1,59 @@
+include:
+  - project: devops/cicd/templates
+    ref: ${CICD_TEMPLATES_2_VERSION}
+    file:
+      - helm.gitlab-ci.yml
+
+stages:
+  - deploy-dev
+  - deploy-stg
+  - security-gate
+  - deploy-prod
+
+plano-dev:
+  extends: .helm_deploy_pldev
+  stage: deploy-dev
+  environment:
+    kubernetes:
+      namespace: ols-processor-dev
+
+stl-dev:
+  extends: .helm_deploy_stldev
+  stage: deploy-dev
+  environment:
+    kubernetes:
+      namespace: ols-processor-dev
+
+plano-stg:
+  extends: .helm_deploy_plstg
+  stage: deploy-stg
+  environment:
+    kubernetes:
+      namespace: ols-processor-stage
+
+stl-stg:
+  extends: .helm_deploy_stlstg
+  stage: deploy-stg
+  environment:
+    kubernetes:
+      namespace: ols-processor-stage
+
+labdog:create-deployment:
+  stage: security-gate
+  extends: .labdog_create_deployment
+  variables:
+    PROD_DEPLOY_STAGE_NAME: deploy-prod
+
+plano-prod:
+  extends: .helm_deploy_plprod
+  stage: deploy-prod
+  environment:
+    kubernetes:
+      namespace: ols-processor-prod
+
+stl-prod:
+  extends: .helm_deploy_stlprod
+  stage: deploy-prod
+  environment:
+    kubernetes:
+      namespace: ols-processor-prod
