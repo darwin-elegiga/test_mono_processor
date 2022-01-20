@@ -1,4 +1,6 @@
-﻿namespace VPay.Ols.Processor.Api.Models;
+﻿using static System.Environment;
+
+namespace VPay.Ols.Processor.Api.Models;
 
 public sealed class AboutInfo
 {
@@ -24,9 +26,9 @@ public sealed class AboutInfo
     public string DataCenter { get; }
 
     public static AboutInfo GetBuildAboutInfo() => new(
-        gitRevision: System.Environment.GetEnvironmentVariable("RELEASE_COMMIT_SHA") ?? "[[GitRevision]]",
-        buildTime: System.Environment.GetEnvironmentVariable("IMAGE_BUILD_TIME") ?? "[[BuildTime]]",
-        environment: System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
-        versionInfo: System.Environment.GetEnvironmentVariable("RELEASE_TAG") ?? "[[VersionInfo]]",
-        dataCenter: System.Environment.GetEnvironmentVariable("DEPLOYMENT_DATACENTER") ?? "[[DataCenter]]");
+        gitRevision: GetEnvironmentVariable("RELEASE_COMMIT_SHA") ?? "[[GitRevision]]",
+        buildTime: GetEnvironmentVariable("IMAGE_BUILD_TIME") ?? "[[BuildTime]]",
+        environment: GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
+        versionInfo: GetEnvironmentVariable("RELEASE_TAG") ?? "[[VersionInfo]]",
+        dataCenter: GetEnvironmentVariable("DEPLOYMENT_DATACENTER") ?? "[[DataCenter]]");
 }
