@@ -1,9 +1,9 @@
-version: '3.4'
+version: '3.5'
 
 services:
   vpay.ols.processor.api:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=LocalDevelopment
       - DOTNET_ENVIRONMENT=LocalDevelopment
       - ASPNETCORE_Logging__GELF__AdditionalFields__namespace=ols-processor-api-local
       - DOTNET_Logging__GELF__AdditionalFields__namespace=ols-processor-api-local
