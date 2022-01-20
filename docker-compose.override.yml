@@ -9,3 +9,23 @@ services:
       - DOTNET_Logging__GELF__AdditionalFields__namespace=ols-processor-api-local
     ports:
       - "80"
+
+  vpay.ols.processor.queueconsumers:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=LocalDevelopment
+      - DOTNET_ENVIRONMENT=LocalDevelopment
+      - ASPNETCORE_Logging__GELF__AdditionalFields__namespace=ols-processor-queueconsumers-local
+      - DOTNET_Logging__GELF__AdditionalFields__namespace=ols-processor-queueconsumers-local
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    networks:
+      - olsprocessor
+
+  ols-processor-rabbitmq:
+    networks:
+      - olsprocessor
+
+networks:
+  olsprocessor:
+    name: olsprocessor
+    driver: bridge

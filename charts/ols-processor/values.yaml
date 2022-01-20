@@ -51,3 +51,12 @@ api:
     limits:
       memory: "1Gi"
       cpu: "250m"
+
+queue-consumers:
+  enabled: true
+  contentRoot: /app
+  image:
+    name: ols-processor/queue-consumers
+  secrets:
+    appSettings.secure.json:
+      data: {}

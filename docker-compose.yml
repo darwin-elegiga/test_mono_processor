@@ -7,3 +7,28 @@ services:
     build:
       context: .
       dockerfile: src/VPay.Ols.Processor.Api/Dockerfile
+
+  vpay.ols.processor.queueconsumers:
+    image: ${DOCKER_REGISTRY-}vpayolsprocessorqueueconsumers
+    container_name: ols-processor-queueconsumers
+    volumes:
+      - ./db-data/SRVFS:/SRVFS
+    build:
+      context: .
+      dockerfile: src/VPay.Ols.Processor.QueueConsumers/Dockerfile
+    depends_on:
+      - ols-processor-rabbitmq
+
+  ols-processor-rabbitmq:
+    image: rabbitmq:3.7-management
+    hostname: ols-processor-rabbitmq
+    container_name: ols-processor-rabbitmq
+    ports:      
+      - 15680:15672
+    volumes:
+      - ./db-data/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@ols-processor-rabbitmq:cached
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "6085SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: / 
