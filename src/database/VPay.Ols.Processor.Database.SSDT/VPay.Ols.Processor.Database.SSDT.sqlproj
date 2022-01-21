@@ -60,4 +60,10 @@
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Tables" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\TriggeredTranLog.sql" />
+    <Build Include="dbo\Stored Procedures\sp_select_unacked_transactions_restriced.sql" />
+    <Build Include="dbo\Stored Procedures\sp_update_ack_status.sql" />
+    <Build Include="dbo\Stored Procedures\sp_update_send_status.sql" />
+  </ItemGroup>
 </Project>

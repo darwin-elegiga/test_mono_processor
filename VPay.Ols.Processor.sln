@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPay.Ols.Processor", "src\V
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{75397622-BF24-45B6-A601-80716748BEF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vpay.Ols.Processor.Database.Build", "src\database\Vpay.Ols.Processor.Database.Build\Vpay.Ols.Processor.Database.Build.csproj", "{8036BC27-6917-4FB6-B809-6D23DFE0D94F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPay.Ols.Processor.Database.Build", "src\database\VPay.Ols.Processor.Database.Build\VPay.Ols.Processor.Database.Build.csproj", "{8036BC27-6917-4FB6-B809-6D23DFE0D94F}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "VPay.Ols.Processor.Database.SSDT", "src\database\VPay.Ols.Processor.Database.SSDT\VPay.Ols.Processor.Database.SSDT.sqlproj", "{2366CB8B-5557-4481-8E89-3D97B4FAC332}"
 EndProject
