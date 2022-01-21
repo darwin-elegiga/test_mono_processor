@@ -1,0 +1,16 @@
+<Project Sdk="MSBuild.Sdk.SqlProj/2.0.0-beta.1">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <SqlServerVersion>Sql140</SqlServerVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\VPay.Ols.Processor.Database.SSDT\**\*.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="..\VPay.Ols.Processor.Database.SSDT\bin\**\*.sql" />
+  </ItemGroup>
+
+</Project>
