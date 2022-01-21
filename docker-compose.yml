@@ -21,20 +21,20 @@ services:
       MSSQL_AGENT_ENABLED: "True"
     volumes:
       - ./db-data/data:/var/opt/mssql/data
-      - ./database/start-sql-db/SqlCmdStartup.sh:/SqlCmdStartup.sh
-      - ./database/start-sql-db/entrypoint.sh:/entrypoint.sh
+      - ./scripts/start-sql-db/SqlCmdStartup.sh:/SqlCmdStartup.sh
+      - ./scripts/start-sql-db/entrypoint.sh:/entrypoint.sh
 
   ols-migrate:
     image: plinfharbor.vpayusa.net/base-images/dotnet/sdk:6.0-focal
     depends_on:
       - ols-sqlserver
     volumes:
-      - ./wait-for-it.sh:/wait-for-it.sh
-      - ./db-data/dbmigration/obj:/database/VPay.Ols.Processor.Database.Build/obj
-      - ./db-data/dbmigration/bin:/database/VPay.Ols.Processor.Database.Build/bin
-      - ./database:/database
+      - ./scripts/wait-for-it.sh:/wait-for-it.sh
+      - ./db-data/dbmigration/obj:/src/database/VPay.Ols.Processor.Database.Build/obj
+      - ./db-data/dbmigration/bin:/src/database/VPay.Ols.Processor.Database.Build/bin
+      - ./database:/src/database
     container_name: ols-migrate
-    command: /bin/bash -c 'dotnet clean /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet build /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet publish /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj /p:TargetUser=sa /p:TargetPassword=Your_password123 /p:TargetServerName=ols-sqlserver /p:TargetDatabaseName=SE_OLS'
+    command: /bin/bash -c 'dotnet clean /src/database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet build /src/database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet publish /src/database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj /p:TargetUser=sa /p:TargetPassword=Your_password123 /p:TargetServerName=ols-sqlserver /p:TargetDatabaseName=SE_OLS'
     entrypoint: /wait-for-it.sh "ols-sqlserver:1433" --timeout=120 --
   
   vpay.ols.processor.queueconsumers:
