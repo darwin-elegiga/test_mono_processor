@@ -36,9 +36,17 @@ services:
     container_name: ols-migrate
     command: /bin/bash -c 'dotnet clean /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet build /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet publish /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj /p:TargetUser=sa /p:TargetPassword=Your_password123 /p:TargetServerName=ols-sqlserver /p:TargetDatabaseName=OLS'
     entrypoint: /wait-for-it.sh "ols-sqlserver:1433" --timeout=120 --
-
-
-
+  
+  vpay.ols.processor.queueconsumers:
+    image: ${DOCKER_REGISTRY-}vpayolsprocessorqueueconsumers
+    container_name: ols-processor-queueconsumers
+    volumes:
+      - ./db-data/SRVFS:/SRVFS
+    build:
+      context: .
+      dockerfile: src/VPay.Ols.Processor.QueueConsumers/Dockerfile
+    depends_on:
+      - ols-processor-rabbitmq
    
   ols-processor-rabbitmq:
     image: rabbitmq:3.7-management
