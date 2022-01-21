@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <SqlServerVersion>Sql140</SqlServerVersion>
+    
+    <!-- Exclude the project from analysis for now - https://github.com/rr-wfm/MSBuild.Sdk.SqlProj/issues/197 -->
+    <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
 
   <ItemGroup>
