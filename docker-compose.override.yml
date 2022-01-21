@@ -25,6 +25,15 @@ services:
     networks:
       - olsprocessor
 
+  ols-sqlserver:
+    networks:
+      - olsprocessor
+
+  ols-migrate:
+    networks:
+      - olsprocessor
+
+
 networks:
   olsprocessor:
     name: olsprocessor
