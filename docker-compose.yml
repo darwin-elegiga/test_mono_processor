@@ -16,7 +16,7 @@ services:
     command: /bin/bash -c "./entrypoint.sh"
     environment:
       SA_PASSWORD: "Your_password123"
-      DATABASE_NAME: "OLS"
+      DATABASE_NAME: "SE_OLS"
       ACCEPT_EULA: "Y"
       MSSQL_AGENT_ENABLED: "True"
     volumes:
@@ -34,7 +34,7 @@ services:
       - ./db-data/dbmigration/bin:/database/VPay.Ols.Processor.Database.Build/bin
       - ./database:/database
     container_name: ols-migrate
-    command: /bin/bash -c 'dotnet clean /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet build /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet publish /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj /p:TargetUser=sa /p:TargetPassword=Your_password123 /p:TargetServerName=ols-sqlserver /p:TargetDatabaseName=OLS'
+    command: /bin/bash -c 'dotnet clean /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet build /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet publish /database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj /p:TargetUser=sa /p:TargetPassword=Your_password123 /p:TargetServerName=ols-sqlserver /p:TargetDatabaseName=SE_OLS'
     entrypoint: /wait-for-it.sh "ols-sqlserver:1433" --timeout=120 --
   
   vpay.ols.processor.queueconsumers:
