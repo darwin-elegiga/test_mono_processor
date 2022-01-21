@@ -32,7 +32,7 @@ services:
       - ./scripts/wait-for-it.sh:/wait-for-it.sh
       - ./db-data/dbmigration/obj:/src/database/VPay.Ols.Processor.Database.Build/obj
       - ./db-data/dbmigration/bin:/src/database/VPay.Ols.Processor.Database.Build/bin
-      - ./database:/src/database
+      - ./src/database:/src/database
     container_name: ols-migrate
     command: /bin/bash -c 'dotnet clean /src/database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet build /src/database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj && dotnet publish /src/database/VPay.Ols.Processor.Database.Build/VPay.Ols.Processor.Database.Build.csproj /p:TargetUser=sa /p:TargetPassword=Your_password123 /p:TargetServerName=ols-sqlserver /p:TargetDatabaseName=SE_OLS'
     entrypoint: /wait-for-it.sh "ols-sqlserver:1433" --timeout=120 --

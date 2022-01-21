@@ -6,7 +6,7 @@
     <Name>VPay.Ols.Processor.Database.SSDT</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{1ff45a98-f652-452e-a87b-a6b913da4efd}</ProjectGuid>
+    <ProjectGuid>{2366cb8b-5557-4481-8e89-3d97b4fac332}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
@@ -57,17 +57,7 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="dbo" />
-    <Folder Include="dbo\Tables" />
-    <Folder Include="dbo\Functions" />
-    <Folder Include="dbo\Types" />
     <Folder Include="dbo\Stored Procedures" />
-    <Folder Include="Security" />
-    <Folder Include="Deployment_Configuration" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="dbo\Tables\TriggeredTranLog.sql" />
-    <Build Include="dbo\Stored Procedures\sp_select_unacked_transactions_restriced.sql" />
-    <Build Include="dbo\Stored Procedures\sp_update_ack_status.sql" />
-    <Build Include="dbo\Stored Procedures\sp_update_send_status.sql" />
+    <Folder Include="dbo\Tables" />
   </ItemGroup>
 </Project>
