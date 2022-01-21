@@ -1,13 +1,4 @@
-﻿/*
-======================================================================================================
-Created by: Jonathan Surrells
-Created date: 2021-09-28
-
-Detail: Converted from MySQL.
-======================================================================================================
-*/
-
-CREATE   PROCEDURE [dbo].[sp_select_unacked_transactions_restricted]
+﻿CREATE   PROCEDURE [dbo].[sp_select_unacked_transactions_restricted]
 (
 	@pMinId bigint
 )
