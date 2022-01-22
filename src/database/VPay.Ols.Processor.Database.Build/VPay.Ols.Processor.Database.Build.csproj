@@ -1,0 +1,19 @@
+<Project Sdk="MSBuild.Sdk.SqlProj/2.0.0-beta.1">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <SqlServerVersion>Sql140</SqlServerVersion>
+    
+    <!-- Exclude the project from analysis for now - https://github.com/rr-wfm/MSBuild.Sdk.SqlProj/issues/197 -->
+    <SonarQubeExclude>true</SonarQubeExclude>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\VPay.Ols.Processor.Database.SSDT\**\*.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="..\VPay.Ols.Processor.Database.SSDT\bin\**\*.sql" />
+  </ItemGroup>
+
+</Project>
