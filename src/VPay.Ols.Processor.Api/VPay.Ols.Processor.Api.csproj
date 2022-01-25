@@ -30,4 +30,8 @@
     </AssemblyAttribute>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\database\VPay.Ols.Processor.Data.Sql\VPay.Ols.Processor.Data.Sql.csproj" />
+  </ItemGroup>
+
 </Project>

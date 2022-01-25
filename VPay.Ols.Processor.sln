@@ -29,6 +29,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPay.Ols.Processor.Database
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "VPay.Ols.Processor.Database.SSDT", "src\database\VPay.Ols.Processor.Database.SSDT\VPay.Ols.Processor.Database.SSDT.sqlproj", "{2366CB8B-5557-4481-8E89-3D97B4FAC332}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPay.Ols.Processor.Data", "src\database\VPay.Ols.Processor.Data\VPay.Ols.Processor.Data.csproj", "{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPay.Ols.Processor.Data.Sql", "src\database\VPay.Ols.Processor.Data.Sql\VPay.Ols.Processor.Data.Sql.csproj", "{F55EBD48-8CAB-4893-B368-D136B343D5F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AA325C5F-2079-42BA-9696-C482C21E80B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPay.Ols.Processor.Tests", "tests\VPay.Ols.Processor.Tests\VPay.Ols.Processor.Tests.csproj", "{FE8E3158-7A6D-4886-8218-9FC2BAB7727F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +81,24 @@ Global
 		{2366CB8B-5557-4481-8E89-3D97B4FAC332}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{2366CB8B-5557-4481-8E89-3D97B4FAC332}.Sonarqube|Any CPU.ActiveCfg = Debug|Any CPU
 		{2366CB8B-5557-4481-8E89-3D97B4FAC332}.Sonarqube|Any CPU.Deploy.0 = Debug|Any CPU
+		{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D}.Sonarqube|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D}.Sonarqube|Any CPU.Build.0 = Debug|Any CPU
+		{F55EBD48-8CAB-4893-B368-D136B343D5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F55EBD48-8CAB-4893-B368-D136B343D5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F55EBD48-8CAB-4893-B368-D136B343D5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F55EBD48-8CAB-4893-B368-D136B343D5F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F55EBD48-8CAB-4893-B368-D136B343D5F7}.Sonarqube|Any CPU.ActiveCfg = Debug|Any CPU
+		{F55EBD48-8CAB-4893-B368-D136B343D5F7}.Sonarqube|Any CPU.Build.0 = Debug|Any CPU
+		{FE8E3158-7A6D-4886-8218-9FC2BAB7727F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE8E3158-7A6D-4886-8218-9FC2BAB7727F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE8E3158-7A6D-4886-8218-9FC2BAB7727F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE8E3158-7A6D-4886-8218-9FC2BAB7727F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE8E3158-7A6D-4886-8218-9FC2BAB7727F}.Sonarqube|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE8E3158-7A6D-4886-8218-9FC2BAB7727F}.Sonarqube|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +110,9 @@ Global
 		{75397622-BF24-45B6-A601-80716748BEF0} = {6C48F88E-2D24-4D66-9DBB-4F3E30AADD6B}
 		{8036BC27-6917-4FB6-B809-6D23DFE0D94F} = {75397622-BF24-45B6-A601-80716748BEF0}
 		{2366CB8B-5557-4481-8E89-3D97B4FAC332} = {75397622-BF24-45B6-A601-80716748BEF0}
+		{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D} = {75397622-BF24-45B6-A601-80716748BEF0}
+		{F55EBD48-8CAB-4893-B368-D136B343D5F7} = {75397622-BF24-45B6-A601-80716748BEF0}
+		{FE8E3158-7A6D-4886-8218-9FC2BAB7727F} = {AA325C5F-2079-42BA-9696-C482C21E80B6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F3A03BFC-0AD6-49F8-8BD6-B982A123FDCD}
