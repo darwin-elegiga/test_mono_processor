@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using VPay.Ols.Processor.PostedTransactions.Models;
 
-namespace VPay.Ols.Processor.PostedTransactions.Parsers;
+namespace VPay.Ols.Processor.Parsers;
 
 public interface IPostedTransactionsParser
 {

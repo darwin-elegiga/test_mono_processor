@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using VPay.Ols.Processor.Commands.OlsFile;
 using VPay.Ols.Processor.Messages;
-using VPay.Ols.Processor.PostedTransactions.Commands;
 
 namespace VPay.Ols.Processor.QueueConsumers.Consumers;
 

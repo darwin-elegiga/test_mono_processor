@@ -1,6 +1,6 @@
-﻿namespace VPay.Ols.Processor.PostedTransactions.Constants;
+﻿namespace VPay.Ols.Processor.Models.Constants;
 
-public static class Optum
+public static class PostedTransactionFileConstants
 {
     public static class OptumHeaderValues
     {

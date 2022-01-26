@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VPay.Ols.Processor.PostedTransactions.Models;
+namespace VPay.Ols.Processor.Models.PostedTransactions;
 
 public class PostedTransactionHeader
 {

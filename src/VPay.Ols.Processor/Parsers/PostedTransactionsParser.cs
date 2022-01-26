@@ -2,7 +2,7 @@
 using System.IO;
 using VPay.Ols.Processor.PostedTransactions.Models;
 
-namespace VPay.Ols.Processor.PostedTransactions.Parsers;
+namespace VPay.Ols.Processor.Parsers;
 
 public class PostedTransactionsParser : IPostedTransactionsParser
 {
@@ -40,7 +40,7 @@ public class PostedTransactionsParser : IPostedTransactionsParser
             }
             else
             {
-                var detail = new Detail
+                var detail = new PostedTransactionDetail
                 {
                     LineNumber = lineNumber,
                     CardNumber = data[(int)PostedTransactionFileEnum.Details.CardNumber],

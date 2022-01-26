@@ -1,6 +1,6 @@
-﻿namespace VPay.Ols.Processor.PostedTransactions.Models;
+﻿namespace VPay.Ols.Processor.Models.PostedTransactions;
 
-public class Detail
+public class PostedTransactionDetail
 {
     public int LineNumber { get; set; }
     public string CardNumber { get; set; } = string.Empty;

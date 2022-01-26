@@ -1,4 +1,4 @@
-﻿namespace VPay.Ols.Processor.PostedTransactions.Models;
+﻿namespace VPay.Ols.Processor.Models.PostedTransactions;
 
 public static class PostedTransactionFileEnum
 {
