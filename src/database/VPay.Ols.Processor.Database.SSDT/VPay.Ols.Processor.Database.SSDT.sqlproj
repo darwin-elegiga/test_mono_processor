@@ -65,5 +65,7 @@
     <Build Include="dbo\Stored Procedures\sp_select_unacked_transactions_restriced.sql" />
     <Build Include="dbo\Stored Procedures\sp_update_ack_status.sql" />
     <Build Include="dbo\Stored Procedures\sp_update_send_status.sql" />
+    <Build Include="dbo\Tables\OlsFile.sql" />
+    <Build Include="dbo\Stored Procedures\usp_OlsFile_Insert.sql" />
   </ItemGroup>
 </Project>

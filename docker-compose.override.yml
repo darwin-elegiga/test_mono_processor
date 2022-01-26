@@ -9,6 +9,8 @@ services:
       - DOTNET_Logging__GELF__AdditionalFields__namespace=ols-processor-api-local
     ports:
       - "80"
+    networks:
+      - olsprocessor
 
   vpay.ols.processor.queueconsumers:
     environment:

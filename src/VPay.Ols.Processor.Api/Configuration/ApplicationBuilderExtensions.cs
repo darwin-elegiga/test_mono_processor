@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using VPay.AspNetCore.Mvc;
 using VPay.Extensions.Logging.GrayLog;
 using VPay.Ols.Processor.Api.MvcCustomizations;
+using VPay.Ols.Processor.Data.Sql.DependencyInjection;
+using VPay.Ols.Processor.Data.Sql.Health;
 
 namespace VPay.Ols.Processor.Api.Configuration;
 
@@ -26,7 +28,7 @@ public static class ApplicationBuilderExtensions
         logging.AddVPayGrayLog();
     }
 
-    public static void Configure(this IServiceCollection services)
+    public static void Configure(this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddHttpContextAccessor()
@@ -54,7 +56,9 @@ public static class ApplicationBuilderExtensions
             options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
         });
 
-        services.AddHealthChecks();
+        services
+            .AddHealthChecks()
+            .AddCheck<SqlServerSystemHealthCheck>("ols-sqlserver");
 
         services.AddApiVersioning(o =>
         {
@@ -65,5 +69,7 @@ public static class ApplicationBuilderExtensions
         });
 
         services.AddSwagger();
+
+        services.AddSql(config => configuration.Bind("OlsDatabase", config));
     }
 }
