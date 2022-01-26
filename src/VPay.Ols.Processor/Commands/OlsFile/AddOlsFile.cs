@@ -10,7 +10,7 @@ namespace VPay.Ols.Processor.Commands.OlsFile;
 
 public static class AddOlsFile
 {
-    public record Command(string FileName, string FileHash, OlsFileType FileType, string? Warnings = null) : IRequest<Result>;    
+    public record Command(string FileName, string FileHash, OlsFileType FileType) : IRequest<Result>;    
 
     public class Handler : IRequestHandler<Command, Result>
     {
@@ -32,8 +32,7 @@ public static class AddOlsFile
                     new {
                         request.FileName,
                         request.FileHash,
-                        FileType = request.FileType.ToString(),
-                        request.Warnings
+                        FileType = request.FileType.ToString()                        
                     },
                     cancellationToken
                 ).ConfigureAwait(false);

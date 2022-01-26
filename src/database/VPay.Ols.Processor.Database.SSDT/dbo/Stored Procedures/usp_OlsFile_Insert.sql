@@ -1,8 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[usp_OlsFile_Insert]
 	@FileName NVARCHAR(255)
 	,@FileHash CHAR(64)
-	,@FileType NVARCHAR(20)
-	,@Warnings NVARCHAR(MAX) = NULL
+	,@FileType NVARCHAR(20)	
 AS
 BEGIN
 	SET XACT_ABORT ON;
@@ -12,14 +11,12 @@ BEGIN
 		DateProcessed
 		,[FileName]
 		,FileHash
-		,FileType
-		,Warnings
+		,FileType		
 	)
 	VALUES (
 		GETDATE()
 		,@FileName
 		,@FileHash
-		,@FileType
-		,@Warnings
+		,@FileType		
 	)
 END
