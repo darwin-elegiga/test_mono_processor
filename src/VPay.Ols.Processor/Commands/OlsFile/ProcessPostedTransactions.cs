@@ -37,6 +37,7 @@ public static class ProcessPostedTransactions
         public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
         {
             var fileName = _fileSystem.Path.GetFileName(request.FilePath);
+            var directory = _fileSystem.Path.GetDirectoryName(request.FilePath);
 
             PostedTransactionFile originalFile;
             string fileHash;
@@ -61,9 +62,12 @@ public static class ProcessPostedTransactions
 
             // todo: Add lookup for TPA by txid
 
-            originalFile.Trailer = new PostedTransactionTrailer(PostedTransactionFileConstants.OptumTrailerValues.RecordName, originalFile.Details.Count);            
-            
-            await _fileSystem.File.WriteAllTextAsync("", _writer.WritePostedTransactionFile(originalFile), cancellationToken).ConfigureAwait(false);            
+            originalFile.Trailer = new PostedTransactionTrailer(PostedTransactionFileConstants.OptumTrailerValues.RecordName, originalFile.Details.Count);
+
+            var outputPath = $"{directory}/optum_out/{fileName}";
+            _fileSystem.Directory.CreateDirectory(outputPath);
+
+            await _fileSystem.File.WriteAllTextAsync(outputPath, _writer.WritePostedTransactionFile(originalFile), cancellationToken).ConfigureAwait(false);
 
             // todo: Send to balancing?
 
