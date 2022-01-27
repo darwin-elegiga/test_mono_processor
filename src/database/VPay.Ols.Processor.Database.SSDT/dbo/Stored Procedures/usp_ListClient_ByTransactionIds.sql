@@ -1,11 +1,11 @@
-﻿CREATE PROCEDURE [dbo].[usp_ListTpa_ByTransactionIds]
+﻿CREATE PROCEDURE [dbo].[usp_ListClient_ByTransactionIds]
 	@transactionIds [dbo].[udt_TransactionIdLookup] READONLY
 AS
 BEGIN
 	SET NOCOUNT ON;
 
 	SELECT 
-		[TMCLIC] as TPA
+		[TMCLIC] as ClientCode
 		,[TMTXID] as TransactionId
 	FROM [dbo].[SEWCPS_CPSTMF]
 	WHERE [TMTXID] IN (

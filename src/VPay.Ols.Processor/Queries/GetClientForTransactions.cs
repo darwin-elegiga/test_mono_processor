@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -11,27 +10,27 @@ using VPay.Ols.Processor.Models;
 
 namespace VPay.Ols.Processor.Queries;
 
-public static class GetTPAForTransactions
+public static class GetClientForTransactions
 {
-    public class Query : IRequest<List<TransactionTpa>>
+    public class Query : IRequest<List<TransactionClient>>
     {
         internal List<TransactionIdLookup> TransactionIdList { get; }
         public DataTable TransactionIds => TransactionIdList.ToDataTable();
 
-        public Query(List<int> transactionIds) => TransactionIdList = transactionIds.Select(i => new TransactionIdLookup(i)).ToList();
+        public Query(List<int> transactionIds) => TransactionIdList = transactionIds.ConvertAll(i => new TransactionIdLookup(i));
     }
 
-    public class Handler : IRequestHandler<Query, List<TransactionTpa>>
+    public class Handler : IRequestHandler<Query, List<TransactionClient>>
     {
-        internal static readonly string Sproc = "[dbo].[usp_ListTpa_ByTransactionIds]";
+        internal static readonly string Sproc = "[dbo].[usp_ListClient_ByTransactionIds]";
 
         private readonly IDataConnection<SqlConnection> _connection;
 
         public Handler(IDataConnection<SqlConnection> connection) => _connection = connection;
 
-        public Task<List<TransactionTpa>> Handle(Query request, CancellationToken cancellationToken)
+        public Task<List<TransactionClient>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return _connection.ListAsync<TransactionTpa>(Sproc, request, cancellationToken);
+            return _connection.ListAsync<TransactionClient>(Sproc, request, cancellationToken);
         }
     }
 }

@@ -69,7 +69,7 @@
     <Build Include="dbo\Tables\OlsFile.sql" />
     <Build Include="dbo\Stored Procedures\usp_OlsFile_Insert.sql" />
     <Build Include="dbo\Tables\SEWCPS_CPSTMF.sql" />
-    <Build Include="dbo\Stored Procedures\usp_ListTpa_ByTransactionIds.sql" />
+    <Build Include="dbo\Stored Procedures\usp_ListClient_ByTransactionIds.sql" />
     <Build Include="dbo\Types\udt_TransactionIdLookup.sql" />
   </ItemGroup>
 </Project>
