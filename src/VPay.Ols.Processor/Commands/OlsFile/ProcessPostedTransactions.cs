@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using VPay.Ols.Processor.Models;
 using VPay.Ols.Processor.Models.Constants;
 using VPay.Ols.Processor.Models.PostedTransactions;
 using VPay.Ols.Processor.Parsers;
+using VPay.Ols.Processor.Queries;
 using VPay.Ols.Processor.Writers;
 
 namespace VPay.Ols.Processor.Commands.OlsFile;
@@ -56,11 +58,23 @@ public static class ProcessPostedTransactions
             originalFile.Header.RecordName = PostedTransactionFileConstants.OptumHeaderValues.RecordName;
             originalFile.Header.ProcessorName = PostedTransactionFileConstants.OptumHeaderValues.ProcessorName;
             originalFile.Header.ReportName = PostedTransactionFileConstants.OptumHeaderValues.ReportName;
-            originalFile.Header.FileFormat = PostedTransactionFileConstants.OptumHeaderValues.FileFormat;
+            originalFile.Header.FileFormat = PostedTransactionFileConstants.OptumHeaderValues.FileFormat;            
 
-            originalFile.Details.ForEach(d => d.CardNumber = $"{d.CardNumber[..6]}XXXXXX{d.CardNumber[^4..]}");
+            var tpaResults = await _mediator.Send(new GetTPAForTransactions.Query(originalFile.Details.Select(d => int.Parse(d.SeExternalIdNumber)).ToList()), cancellationToken).ConfigureAwait(false);
+            foreach(var detailRecord in originalFile.Details)
+            {
+                detailRecord.CardNumber = $"{detailRecord.CardNumber[..6]}XXXXXX{detailRecord.CardNumber[^4..]}";
 
-            // todo: Add lookup for TPA by txid
+                var tpaResult = tpaResults.FirstOrDefault(t => t.TransactionId == int.Parse(detailRecord.SeExternalIdNumber));
+
+                if(tpaResult == null)
+                {
+                    // todo: Log this?
+                    continue;                    
+                }
+
+                detailRecord.TPA = tpaResult.TPA;
+            }
 
             originalFile.Trailer = new PostedTransactionTrailer(PostedTransactionFileConstants.OptumTrailerValues.RecordName, originalFile.Details.Count);
 
