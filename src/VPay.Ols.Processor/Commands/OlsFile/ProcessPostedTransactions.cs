@@ -22,6 +22,8 @@ public static class ProcessPostedTransactions
 
     public class Handler : IRequestHandler<Command, Result>
     {
+        internal readonly int[] OPTUM_BINS = new int[] { 528972, 532086, 546893, 547117 };
+
         private readonly IFileSystem _fileSystem;
         private readonly IPostedTransactionsParser _parser;
         private readonly IHashingService<SHA256CryptoServiceProvider> _hashingService;
@@ -64,7 +66,9 @@ public static class ProcessPostedTransactions
             originalFile.Header.RecordName = PostedTransactionFileConstants.OptumHeaderValues.RecordName;
             originalFile.Header.ProcessorName = PostedTransactionFileConstants.OptumHeaderValues.ProcessorName;
             originalFile.Header.ReportName = PostedTransactionFileConstants.OptumHeaderValues.ReportName;
-            originalFile.Header.FileFormat = PostedTransactionFileConstants.OptumHeaderValues.FileFormat;            
+            originalFile.Header.FileFormat = PostedTransactionFileConstants.OptumHeaderValues.FileFormat;
+
+            originalFile.Details.RemoveAll(d => !OPTUM_BINS.Contains(int.Parse(d.Bin)));
 
             var tpaResults = await _mediator.Send(new GetClientForTransactions.Query(originalFile.Details.Where(d => !string.IsNullOrWhiteSpace(d.SeExternalIdNumber)).Select(d => int.Parse(d.SeExternalIdNumber)).ToList()), cancellationToken).ConfigureAwait(false);
             foreach(var detailRecord in originalFile.Details)

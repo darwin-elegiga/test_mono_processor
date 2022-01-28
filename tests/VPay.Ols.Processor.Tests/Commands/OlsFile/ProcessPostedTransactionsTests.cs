@@ -125,7 +125,7 @@ public class ProcessPostedTransactionsTests
                     MerchantCategoryCode = "6010",
                     MerchantCountryCode = "US",
                     SeExternalIdNumber = "2",
-                    Bin = "546897"
+                    Bin = "532086"
                 },
                 new PostedTransactionDetail
                 {
@@ -140,7 +140,22 @@ public class ProcessPostedTransactionsTests
                     PostDate = "01122022 18:56:30",
                     NetworkCode = "SE",
                     SeExternalIdNumber = "",
-                    Bin = "546899"
+                    Bin = "528972"
+                },
+                new PostedTransactionDetail
+                {
+                    LineNumber = 4,
+                    CardNumber = "5555930000004332",
+                    TransactionDate = "01122022",
+                    TransactionCode = "2200-2S-0000",
+                    TransactionAmount = 0.20m,
+                    TransactionAmountSign = "-",
+                    TransactionCurrencyCode = 840,
+                    AuthorizationCode = "990019",
+                    PostDate = "01122022 18:56:30",
+                    NetworkCode = "SE",
+                    SeExternalIdNumber = "",
+                    Bin = "123456"
                 }
             },
             Trailer = new PostedTransactionTrailer("TRAILER", 3)            
@@ -222,7 +237,7 @@ public class ProcessPostedTransactionsTests
                     MerchantCountryCode = "US",
                     SeExternalIdNumber = "2",
                     TPA = "DEF",
-                    Bin = "546897"
+                    Bin = "532086"
                 },
                 new PostedTransactionDetail
                 {
@@ -238,7 +253,7 @@ public class ProcessPostedTransactionsTests
                     NetworkCode = "SE",
                     SeExternalIdNumber = "",
                     TPA = "",
-                    Bin = "546899"
+                    Bin = "528972"
                 }
             },
             Trailer = new PostedTransactionTrailer("TRAILER", 3)
