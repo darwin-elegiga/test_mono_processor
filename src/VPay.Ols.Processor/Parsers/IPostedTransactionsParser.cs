@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using VPay.Ols.Processor.PostedTransactions.Models;
+using VPay.Ols.Processor.Models.PostedTransactions;
 
 namespace VPay.Ols.Processor.Parsers;
 

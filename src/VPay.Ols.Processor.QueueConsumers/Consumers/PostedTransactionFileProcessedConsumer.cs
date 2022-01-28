@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Threading.Tasks;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using VPay.Ols.Processor.Commands.OlsFile;
 using VPay.Ols.Processor.Messages;
+using VPay.Ols.Processor.Models.PostedTransactions;
 
 namespace VPay.Ols.Processor.QueueConsumers.Consumers;
 
@@ -13,20 +15,26 @@ public class PostedTransactionFileProcessedConsumer : IConsumer<PostedTransactio
 {
     private readonly ILogger<PostedTransactionFileProcessedConsumer> _logger;
     private readonly IMediator _mediator;
+    private readonly PostedTransactionsFileSettings _postedTransactionsSettings;
+    private readonly IFileSystem _fileSystem;
 
-    public PostedTransactionFileProcessedConsumer(ILogger<PostedTransactionFileProcessedConsumer> logger, IMediator mediator)
+    public PostedTransactionFileProcessedConsumer(ILogger<PostedTransactionFileProcessedConsumer> logger, IMediator mediator, IFileSystem fileSystem, PostedTransactionsFileSettings postedTransactionsSettings)
     {
         _logger = logger;
         _mediator = mediator;
+        _postedTransactionsSettings = postedTransactionsSettings;
+        _fileSystem = fileSystem;
     }
 
     public async Task Consume(ConsumeContext<PostedTransactionFileProcessed> context)
     {
         using (_logger.BeginScope(new Dictionary<string, object> { ["FileName"] = context.Message.Filename }))
         {
+            var filePath = _fileSystem.Path.Combine(_postedTransactionsSettings.WorkingDirectory, context.Message.Filename);
+
             try
             {
-                var result = await _mediator.Send(new ProcessPostedTransactions.Command(context.Message.Filename)).ConfigureAwait(false);
+                var result = await _mediator.Send(new ProcessPostedTransactions.Command(filePath)).ConfigureAwait(false);
 
                 if (!result.Success)
                 {

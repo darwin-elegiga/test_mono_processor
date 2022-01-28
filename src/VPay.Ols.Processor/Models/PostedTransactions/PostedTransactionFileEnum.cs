@@ -28,13 +28,12 @@ public static class PostedTransactionFileEnum
         MerchantName,
         MerchantCategoryCode,
         MerchantCountryCode,
+        InterchangeFeeAmount,
         AchRoutingNumber,
         LinkedCard,
         AchConfirmationCode,
         SeExternalIdNumber,
-        Bin,
-        TPA,
-        FileName
+        Bin        
     }
 
     public enum Trailer

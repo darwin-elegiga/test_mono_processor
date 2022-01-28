@@ -16,6 +16,7 @@ public class PostedTransactionDetail
     public string MerchantName { get; set; } = string.Empty;
     public string MerchantCategoryCode { get; set; } = string.Empty;
     public string MerchantCountryCode { get; set; } = string.Empty;
+    public string InterchangeFeeAmount { get; set; } = string.Empty;
     public string AchRoutingNumber { get; set; } = string.Empty;
     public string LinkedCard { get; set; } = string.Empty;
     public string AchConfirmationCode { get; set; } = string.Empty;

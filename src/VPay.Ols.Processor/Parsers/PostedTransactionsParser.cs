@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using VPay.Ols.Processor.PostedTransactions.Models;
+using VPay.Ols.Processor.Models.PostedTransactions;
 
 namespace VPay.Ols.Processor.Parsers;
 
@@ -28,15 +28,15 @@ public class PostedTransactionsParser : IPostedTransactionsParser
                     RecordName = data[(int)PostedTransactionFileEnum.Header.RecordName],
                     ProcessorName = data[(int)PostedTransactionFileEnum.Header.ProcessorName],
                     ReportName = data[(int)PostedTransactionFileEnum.Header.ReportName],
-                    FileDate = DateTime.Parse(data[(int)PostedTransactionFileEnum.Header.FileDate]),
-                    RunBeginDate = DateTime.Parse(data[(int)PostedTransactionFileEnum.Header.RunBeginDate]),
-                    RunEndDate = DateTime.Parse(data[(int)PostedTransactionFileEnum.Header.RunEndDate]),
+                    FileDate = DateTime.ParseExact(data[(int)PostedTransactionFileEnum.Header.FileDate], "MMddyyyy", null),
+                    RunBeginDate = DateTime.ParseExact(data[(int)PostedTransactionFileEnum.Header.RunBeginDate], "MMddyyyy", null),
+                    RunEndDate = DateTime.ParseExact(data[(int)PostedTransactionFileEnum.Header.RunEndDate], "MMddyyyy", null),
                     FileFormat = data[(int)PostedTransactionFileEnum.Header.FileFormat]
                 };
             }
             else if (data.Length == 2)
             {
-                file.Trailer = new PostedTransactionTrailer(data[(int)PostedTransactionFileEnum.Trailer.RecordName], int.Parse(data[(int)PostedTransactionFileEnum.Trailer.RecordName]));
+                file.Trailer = new PostedTransactionTrailer(data[(int)PostedTransactionFileEnum.Trailer.RecordName], int.Parse(data[(int)PostedTransactionFileEnum.Trailer.RecordCount]));
             }
             else
             {
@@ -54,13 +54,12 @@ public class PostedTransactionsParser : IPostedTransactionsParser
                     MerchantName = data[(int)PostedTransactionFileEnum.Details.MerchantName],
                     MerchantCategoryCode = data[(int)PostedTransactionFileEnum.Details.MerchantCategoryCode],
                     MerchantCountryCode = data[(int)PostedTransactionFileEnum.Details.MerchantCountryCode],
-                    AchRoutingNumber = data[(int)PostedTransactionFileEnum.Details.AchRoutingNumber],
+                    InterchangeFeeAmount = data[(int)PostedTransactionFileEnum.Details.InterchangeFeeAmount],
+                    AchRoutingNumber = data[(int)PostedTransactionFileEnum.Details.AchRoutingNumber],                    
                     LinkedCard = data[(int)PostedTransactionFileEnum.Details.LinkedCard],
                     AchConfirmationCode = data[(int)PostedTransactionFileEnum.Details.AchConfirmationCode],
                     SeExternalIdNumber = data[(int)PostedTransactionFileEnum.Details.SeExternalIdNumber],
-                    Bin = data[(int)PostedTransactionFileEnum.Details.Bin],
-                    TPA = data[(int)PostedTransactionFileEnum.Details.TPA],
-                    FileName = data[(int)PostedTransactionFileEnum.Details.FileName]
+                    Bin = data[(int)PostedTransactionFileEnum.Details.Bin]                    
                 };
 
                 if (decimal.TryParse(data[(int)PostedTransactionFileEnum.Details.TransactionAmount], out decimal amount))
@@ -75,6 +74,8 @@ public class PostedTransactionsParser : IPostedTransactionsParser
 
                 file.Details.Add(detail);
             }
+
+            lineNumber++;
         }
 
         return file;

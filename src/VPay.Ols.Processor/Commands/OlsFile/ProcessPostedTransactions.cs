@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using VPay.Ols.Processor.Hashing;
 using VPay.Ols.Processor.Models;
 using VPay.Ols.Processor.Models.Constants;
@@ -26,20 +27,23 @@ public static class ProcessPostedTransactions
         private readonly IHashingService<SHA256CryptoServiceProvider> _hashingService;
         private readonly IMediator _mediator;
         private readonly IPostedTransactionFileWriter _writer;
+        private readonly ILogger<Handler> _logger;
+        private readonly PostedTransactionsFileSettings _postedTransactionsSettings;
 
-        public Handler(IFileSystem fileSystem, IPostedTransactionsParser parser, IHashingService<SHA256CryptoServiceProvider> hashingService, IMediator mediator, IPostedTransactionFileWriter writer)
+        public Handler(IFileSystem fileSystem, IPostedTransactionsParser parser, IHashingService<SHA256CryptoServiceProvider> hashingService, IMediator mediator, IPostedTransactionFileWriter writer, ILogger<Handler> logger, PostedTransactionsFileSettings postedTransactionsSettings)
         {
             _fileSystem = fileSystem;
             _parser = parser;
             _hashingService = hashingService;
             _mediator = mediator;
             _writer = writer;
+            _logger = logger;
+            _postedTransactionsSettings = postedTransactionsSettings;
         }
 
         public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
         {
-            var fileName = _fileSystem.Path.GetFileName(request.FilePath);
-            var directory = _fileSystem.Path.GetDirectoryName(request.FilePath);
+            var fileName = _fileSystem.Path.GetFileName(request.FilePath);            
 
             PostedTransactionFile originalFile;
             string fileHash;
@@ -52,38 +56,42 @@ public static class ProcessPostedTransactions
             }
             catch(Exception e)
             {
-                return Result.Fail($"Unable to read posted transactions file. {e}");
-            }                        
-            
+                return Result.Fail($"Unable to read posted transactions file. {e.Message}");
+            }
+
+            var generatedFilename = $"{DateTime.Now:yyyyMMddHHmmss}_Optum_posted_se_debit.TXT";
+
             originalFile.Header.RecordName = PostedTransactionFileConstants.OptumHeaderValues.RecordName;
             originalFile.Header.ProcessorName = PostedTransactionFileConstants.OptumHeaderValues.ProcessorName;
             originalFile.Header.ReportName = PostedTransactionFileConstants.OptumHeaderValues.ReportName;
             originalFile.Header.FileFormat = PostedTransactionFileConstants.OptumHeaderValues.FileFormat;            
 
-            var tpaResults = await _mediator.Send(new GetTPAForTransactions.Query(originalFile.Details.Select(d => int.Parse(d.SeExternalIdNumber)).ToList()), cancellationToken).ConfigureAwait(false);
+            var tpaResults = await _mediator.Send(new GetClientForTransactions.Query(originalFile.Details.Where(d => !string.IsNullOrWhiteSpace(d.SeExternalIdNumber)).Select(d => int.Parse(d.SeExternalIdNumber)).ToList()), cancellationToken).ConfigureAwait(false);
             foreach(var detailRecord in originalFile.Details)
             {
                 detailRecord.CardNumber = $"{detailRecord.CardNumber[..6]}XXXXXX{detailRecord.CardNumber[^4..]}";
+                detailRecord.FileName = generatedFilename;
 
-                var tpaResult = tpaResults.FirstOrDefault(t => t.TransactionId == int.Parse(detailRecord.SeExternalIdNumber));
-
-                if(tpaResult == null)
+                if (!string.IsNullOrWhiteSpace(detailRecord.SeExternalIdNumber))
                 {
-                    // todo: Log this?
-                    continue;                    
-                }
+                    var tpaResult = tpaResults.FirstOrDefault(t => t.TransactionId == int.Parse(detailRecord.SeExternalIdNumber));
 
-                detailRecord.TPA = tpaResult.TPA;
+                    if (tpaResult == null)
+                    {
+                        _logger.LogWarning("Row {LineNumber} with SE External Id {SEExternalId} did not match any known transaction.", detailRecord.LineNumber, detailRecord.SeExternalIdNumber);
+                        continue;
+                    }
+
+                    detailRecord.TPA = tpaResult.ClientCode;
+                }                
             }
 
             originalFile.Trailer = new PostedTransactionTrailer(PostedTransactionFileConstants.OptumTrailerValues.RecordName, originalFile.Details.Count);
 
-            var outputPath = $"{directory}/optum_out/{fileName}";
-            _fileSystem.Directory.CreateDirectory(outputPath);
+            var outputPath = _fileSystem.Path.Combine(_postedTransactionsSettings.OutputDirectory, generatedFilename);
+            _fileSystem.Directory.CreateDirectory(_postedTransactionsSettings.OutputDirectory);
 
-            await _fileSystem.File.WriteAllTextAsync(outputPath, _writer.WritePostedTransactionFile(originalFile), cancellationToken).ConfigureAwait(false);
-
-            // todo: Send to balancing?
+            await _fileSystem.File.WriteAllTextAsync(outputPath, _writer.WritePostedTransactionFile(originalFile), cancellationToken).ConfigureAwait(false);            
 
             return await _mediator.Send(new AddOlsFile.Command(fileName, fileHash, OlsFileType.Posted), cancellationToken).ConfigureAwait(false);
         }

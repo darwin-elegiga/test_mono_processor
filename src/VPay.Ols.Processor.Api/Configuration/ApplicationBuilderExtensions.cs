@@ -1,16 +1,22 @@
-﻿using Hellang.Middleware.ProblemDetails;
+﻿using System.IO.Abstractions;
+using Hellang.Middleware.ProblemDetails;
+using MassTransit;
+using MassTransit.MultiBus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using VPay.AspNetCore.Mvc;
 using VPay.Extensions.Logging.GrayLog;
+using VPay.MassTransit.Abstractions;
 using VPay.Ols.Processor.Api.MvcCustomizations;
 using VPay.Ols.Processor.Data.Sql.DependencyInjection;
 using VPay.Ols.Processor.Data.Sql.Health;
+using VPay.Ols.Processor.Models.PostedTransactions;
 
 namespace VPay.Ols.Processor.Api.Configuration;
 
@@ -55,6 +61,22 @@ public static class ApplicationBuilderExtensions
             options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
             options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
         });
+
+        services.AddSingleton<IFileSystem, FileSystem>();
+
+        services.Configure<PostedTransactionsFileSettings>(configuration.GetSection("PostedTransactionsFileSettings"));
+        services.AddTransient(cfg => cfg.GetService<IOptions<PostedTransactionsFileSettings>>().Value);
+
+        var fileQueueConfig = new RabbitMqConfig();
+        configuration.GetSection("OlsProcessorQueue").Bind(fileQueueConfig);
+
+        services.AddMassTransit<IFileQueueBus>(configure => configure.UsingRabbitMq((context, cfg) =>
+        {
+            cfg.Host(fileQueueConfig);
+            cfg.ConfigureEndpoints(context);
+        }));
+
+        services.AddMassTransitHostedService();
 
         services
             .AddHealthChecks()
