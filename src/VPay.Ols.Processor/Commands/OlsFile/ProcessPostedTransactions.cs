@@ -45,7 +45,7 @@ public static class ProcessPostedTransactions
 
         public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
         {
-            var fileName = _fileSystem.Path.GetFileName(request.FilePath);            
+            var fileName = _fileSystem.Path.GetFileName(request.FilePath);
 
             PostedTransactionFile originalFile;
             string fileHash;
@@ -56,7 +56,7 @@ public static class ProcessPostedTransactions
                 fileContent.BaseStream.Position = 0;
                 fileHash = _hashingService.ComputeHash(fileContent.BaseStream);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Result.Fail($"Unable to read posted transactions file. {e.Message}");
             }
@@ -71,14 +71,14 @@ public static class ProcessPostedTransactions
             originalFile.Details.RemoveAll(d => !OPTUM_BINS.Contains(int.Parse(d.Bin)));
 
             var tpaResults = await _mediator.Send(new GetClientForTransactions.Query(originalFile.Details.Where(d => !string.IsNullOrWhiteSpace(d.SeExternalIdNumber)).Select(d => int.Parse(d.SeExternalIdNumber)).ToList()), cancellationToken).ConfigureAwait(false);
-            foreach(var detailRecord in originalFile.Details)
+            foreach (var detailRecord in originalFile.Details)
             {
                 detailRecord.CardNumber = $"{detailRecord.CardNumber[..6]}XXXXXX{detailRecord.CardNumber[^4..]}";
                 detailRecord.FileName = generatedFilename;
 
                 if (!string.IsNullOrWhiteSpace(detailRecord.SeExternalIdNumber))
                 {
-                    var tpaResult = tpaResults.FirstOrDefault(t => t.TransactionId == int.Parse(detailRecord.SeExternalIdNumber));
+                    var tpaResult = tpaResults.Find(t => t.TransactionId == int.Parse(detailRecord.SeExternalIdNumber));
 
                     if (tpaResult == null)
                     {
@@ -87,7 +87,7 @@ public static class ProcessPostedTransactions
                     }
 
                     detailRecord.TPA = tpaResult.ClientCode;
-                }                
+                }
             }
 
             originalFile.Trailer = new PostedTransactionTrailer(PostedTransactionFileConstants.OptumTrailerValues.RecordName, originalFile.Details.Count);
@@ -95,7 +95,7 @@ public static class ProcessPostedTransactions
             var outputPath = _fileSystem.Path.Combine(_postedTransactionsSettings.OutputDirectory, generatedFilename);
             _fileSystem.Directory.CreateDirectory(_postedTransactionsSettings.OutputDirectory);
 
-            await _fileSystem.File.WriteAllTextAsync(outputPath, _writer.WritePostedTransactionFile(originalFile), cancellationToken).ConfigureAwait(false);            
+            await _fileSystem.File.WriteAllTextAsync(outputPath, _writer.WritePostedTransactionFile(originalFile), cancellationToken).ConfigureAwait(false);
 
             return await _mediator.Send(new AddOlsFile.Command(fileName, fileHash, OlsFileType.Posted), cancellationToken).ConfigureAwait(false);
         }

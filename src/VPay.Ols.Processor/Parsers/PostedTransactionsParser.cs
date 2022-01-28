@@ -55,11 +55,11 @@ public class PostedTransactionsParser : IPostedTransactionsParser
                     MerchantCategoryCode = data[(int)PostedTransactionFileEnum.Details.MerchantCategoryCode],
                     MerchantCountryCode = data[(int)PostedTransactionFileEnum.Details.MerchantCountryCode],
                     InterchangeFeeAmount = data[(int)PostedTransactionFileEnum.Details.InterchangeFeeAmount],
-                    AchRoutingNumber = data[(int)PostedTransactionFileEnum.Details.AchRoutingNumber],                    
+                    AchRoutingNumber = data[(int)PostedTransactionFileEnum.Details.AchRoutingNumber],
                     LinkedCard = data[(int)PostedTransactionFileEnum.Details.LinkedCard],
                     AchConfirmationCode = data[(int)PostedTransactionFileEnum.Details.AchConfirmationCode],
                     SeExternalIdNumber = data[(int)PostedTransactionFileEnum.Details.SeExternalIdNumber],
-                    Bin = data[(int)PostedTransactionFileEnum.Details.Bin]                    
+                    Bin = data[(int)PostedTransactionFileEnum.Details.Bin]
                 };
 
                 if (decimal.TryParse(data[(int)PostedTransactionFileEnum.Details.TransactionAmount], out decimal amount))

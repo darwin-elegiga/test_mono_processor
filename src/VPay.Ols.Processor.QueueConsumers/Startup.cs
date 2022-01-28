@@ -21,14 +21,14 @@ public static class Startup
 {
     public static void ConfigureServices(HostBuilderContext hostContext, IServiceCollection services)
     {
-        services.AddMediatR(typeof(AddOlsFile.Handler).Assembly);        
+        services.AddMediatR(typeof(AddOlsFile.Handler).Assembly);
 
         var rabbitConfig = new RabbitMqConfig();
         hostContext.Configuration.Bind("OlsProcessorQueue", rabbitConfig);
 
         services.UseMassTransit(rabbitConfig, opts =>
         {
-            opts.AddConsumer<PostedTransactionFileProcessedConsumer>();          
+            opts.AddConsumer<PostedTransactionFileProcessedConsumer>();
         });
 
         services.AddMassTransitHostedService();

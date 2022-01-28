@@ -45,8 +45,8 @@ public class PostedTransactionFileProcessedConsumer : IConsumer<PostedTransactio
                     _logger.LogInformation("Posted transactions file processed successfully.");
                 }
             }
-            catch(Exception ex)
-            {                
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "An error occurred processing the posted transactions file.");
             }
             finally
