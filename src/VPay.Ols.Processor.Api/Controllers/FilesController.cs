@@ -1,7 +1,7 @@
 ﻿using System.IO.Abstractions;
+using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VPay.Ols.Processor.Api.Configuration;
 using VPay.Ols.Processor.Messages;
 using VPay.Ols.Processor.Models.PostedTransactions;
 
@@ -12,14 +12,14 @@ namespace VPay.Ols.Processor.Api.Controllers;
 public class FilesController : Controller
 {
     private readonly IFileSystem _fileSystem;
-    private readonly IFileQueueBus _fileQueueBus;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly PostedTransactionsFileSettings _postedTransactionsSettings;
 
-    public FilesController(IFileSystem fileSystem, IFileQueueBus fileQueueBus, PostedTransactionsFileSettings postedTransactionSettings)
+    public FilesController(IFileSystem fileSystem, IPublishEndpoint publishEndpoint, PostedTransactionsFileSettings postedTransactionSettings)
     {
         _fileSystem = fileSystem;
         _postedTransactionsSettings = postedTransactionSettings;
-        _fileQueueBus = fileQueueBus;
+        _publishEndpoint = publishEndpoint;
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class FilesController : Controller
             await file.CopyToAsync(stream, token).ConfigureAwait(false);
         }
 
-        await _fileQueueBus.Publish<PostedTransactionFileProcessed>(new { Filename = fileName }, token).ConfigureAwait(false);
+        await _publishEndpoint.Publish<PostedTransactionFileProcessed>(new { Filename = fileName }, token).ConfigureAwait(false);
 
         return Accepted();
     }
