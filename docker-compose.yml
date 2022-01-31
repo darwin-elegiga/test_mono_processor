@@ -4,6 +4,8 @@ services:
   vpay.ols.processor.api:
     image: ${DOCKER_REGISTRY-}vpayolsprocessorapi
     container_name: ols-processor-api
+    volumes:
+      - ./db-data/SRVFS:/SRVFS
     build:
       context: .
       dockerfile: src/VPay.Ols.Processor.Api/Dockerfile
