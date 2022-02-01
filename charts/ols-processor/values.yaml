@@ -19,6 +19,7 @@ chart:
         secret: true
     charts:
       - api
+      - queue-consumers
 
 global:
   parent: 'ols-processor'
@@ -26,6 +27,12 @@ global:
     name: Development
     ingress:
       subdomain: dev.pks.vpayusa.net
+
+smbShares:
+  acctbal-rw:
+    source: willbereplaced
+    username: willbereplaced
+    password: willbereplaced
 
 api:
   generate:
@@ -51,6 +58,9 @@ api:
     limits:
       memory: "1Gi"
       cpu: "250m"
+  mountSmb:
+    acctbal-rw:
+      - path: /SRVFS/acctbal
 
 queue-consumers:
   enabled: true
@@ -60,3 +70,6 @@ queue-consumers:
   secrets:
     appSettings.secure.json:
       data: {}
+  mountSmb:
+    acctbal-rw:
+      - path: /SRVFS/acctbal
