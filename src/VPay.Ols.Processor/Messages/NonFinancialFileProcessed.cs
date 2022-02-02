@@ -1,6 +1,6 @@
 ﻿namespace VPay.Ols.Processor.Messages;
 
-public interface NonFinancialFileMessage
+public interface NonFinancialFileProcessed
 {
     public string FileName { get; set; }
 }

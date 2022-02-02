@@ -16,6 +16,7 @@ using VPay.MassTransit.DependencyInjection;
 using VPay.Ols.Processor.Api.MvcCustomizations;
 using VPay.Ols.Processor.Data.Sql.DependencyInjection;
 using VPay.Ols.Processor.Data.Sql.Health;
+using VPay.Ols.Processor.Models.NonFinancial;
 using VPay.Ols.Processor.Models.PostedTransactions;
 
 namespace VPay.Ols.Processor.Api.Configuration;
@@ -65,7 +66,10 @@ public static class ApplicationBuilderExtensions
         services.AddSingleton<IFileSystem, FileSystem>();
 
         services.Configure<PostedTransactionsFileSettings>(configuration.GetSection("PostedTransactionsFileSettings"));
-        services.AddTransient(cfg => cfg.GetService<IOptions<PostedTransactionsFileSettings>>().Value);
+        services.AddTransient(cfg => cfg.GetService<IOptions<PostedTransactionsFileSettings>>()!.Value);
+
+        services.Configure<NonFinancialFileSettings>(configuration.GetSection("NonFinancialFileSettings"));
+        services.AddTransient(cfg => cfg.GetService<IOptions<NonFinancialFileSettings>>()!.Value);
 
         var fileQueueConfig = new RabbitMqConfig();
         configuration.GetSection("OlsProcessorQueue").Bind(fileQueueConfig);
