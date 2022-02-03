@@ -66,10 +66,10 @@ public static class ApplicationBuilderExtensions
         services.AddSingleton<IFileSystem, FileSystem>();
 
         services.Configure<PostedTransactionsFileSettings>(configuration.GetSection("PostedTransactionsFileSettings"));
-        services.AddTransient(cfg => cfg.GetService<IOptions<PostedTransactionsFileSettings>>()!.Value);
+        services.AddTransient(cfg => cfg.GetRequiredService<IOptions<PostedTransactionsFileSettings>>().Value);
 
         services.Configure<NonFinancialFileSettings>(configuration.GetSection("NonFinancialFileSettings"));
-        services.AddTransient(cfg => cfg.GetService<IOptions<NonFinancialFileSettings>>()!.Value);
+        services.AddTransient(cfg => cfg.GetRequiredService<IOptions<NonFinancialFileSettings>>().Value);
 
         var fileQueueConfig = new RabbitMqConfig();
         configuration.GetSection("OlsProcessorQueue").Bind(fileQueueConfig);

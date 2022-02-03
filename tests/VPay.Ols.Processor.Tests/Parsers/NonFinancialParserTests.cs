@@ -101,10 +101,8 @@ TRAILER|3
 
         var parser = new NonFinancialParser();
 
-        NonFinancialFile fileResult;
-
         using var fileStream = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(fileContent)));
-        fileResult = parser.ParseFile(fileStream);
+        NonFinancialFile fileResult = parser.ParseFile(fileStream);
 
         fileResult.Should().BeEquivalentTo(file);
     }

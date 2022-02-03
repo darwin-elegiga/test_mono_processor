@@ -40,10 +40,10 @@ public static class Startup
         services.AddSingleton<IFileSystem, FileSystem>();
 
         services.Configure<PostedTransactionsFileSettings>(hostContext.Configuration.GetSection("PostedTransactionsFileSettings"));
-        services.AddTransient(cfg => cfg.GetService<IOptions<PostedTransactionsFileSettings>>()!.Value);
+        services.AddTransient(cfg => cfg.GetRequiredService<IOptions<PostedTransactionsFileSettings>>().Value);
 
         services.Configure<NonFinancialFileSettings>(hostContext.Configuration.GetSection("NonFinancialFileSettings"));
-        services.AddTransient(cfg => cfg.GetService<IOptions<NonFinancialFileSettings>>()!.Value);
+        services.AddTransient(cfg => cfg.GetRequiredService<IOptions<NonFinancialFileSettings>>().Value);
 
         services.AddTransient(typeof(IHashingService<>), typeof(HashingService<>));
         services.AddTransient<IPostedTransactionsParser, PostedTransactionsParser>();
