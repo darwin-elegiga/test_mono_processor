@@ -16,6 +16,7 @@ using VPay.MassTransit.DependencyInjection;
 using VPay.Ols.Processor.Api.MvcCustomizations;
 using VPay.Ols.Processor.Data.Sql.DependencyInjection;
 using VPay.Ols.Processor.Data.Sql.Health;
+using VPay.Ols.Processor.Models.Authorization;
 using VPay.Ols.Processor.Models.PostedTransactions;
 
 namespace VPay.Ols.Processor.Api.Configuration;
@@ -64,8 +65,8 @@ public static class ApplicationBuilderExtensions
 
         services.AddSingleton<IFileSystem, FileSystem>();
 
-        services.Configure<PostedTransactionsFileSettings>(configuration.GetSection("PostedTransactionsFileSettings"));
-        services.AddTransient(cfg => cfg.GetService<IOptions<PostedTransactionsFileSettings>>().Value);
+        services.AddConfigurationSettings<PostedTransactionsFileSettings>(configuration);
+        services.AddConfigurationSettings<AuthorizationFileSettings>(configuration);
 
         var fileQueueConfig = new RabbitMqConfig();
         configuration.GetSection("OlsProcessorQueue").Bind(fileQueueConfig);
@@ -89,5 +90,14 @@ public static class ApplicationBuilderExtensions
         services.AddSwagger();
 
         services.AddSql(config => configuration.Bind("OlsDatabase", config));
+    }
+
+    private static void AddConfigurationSettings<TFileSettings>(this IServiceCollection services, IConfiguration configuration)
+        where TFileSettings : class
+    {
+        string settingsName = typeof(TFileSettings).Name;
+
+        services.Configure<TFileSettings>(configuration.GetSection(settingsName));
+        services.AddTransient(cfg => cfg.GetRequiredService<IOptions<TFileSettings>>().Value);
     }
 }

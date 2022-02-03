@@ -104,7 +104,7 @@ public class ProcessPostedTransactionsTests
                     TransactionCurrencyCode = 840,
                     AuthorizationCode = "990011",
                     PostDate = "01122022 18:56:30",
-                    NetworkCode = "SE",                    
+                    NetworkCode = "SE",
                     SeExternalIdNumber = "1",
                     Bin = "546893"
                 },
@@ -158,7 +158,7 @@ public class ProcessPostedTransactionsTests
                     Bin = "123456"
                 }
             },
-            Trailer = new PostedTransactionTrailer("TRAILER", 3)            
+            Trailer = new PostedTransactionTrailer("TRAILER", 3)
         };
 
         _parser.Setup(x => x.ParseFile(It.IsAny<StreamReader>())).Returns(originalFile);
