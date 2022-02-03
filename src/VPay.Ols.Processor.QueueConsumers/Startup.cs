@@ -31,6 +31,7 @@ public static class Startup
         {
             opts.AddConsumer<AuthorizationFileConsumer>();
             opts.AddConsumer<PostedTransactionFileProcessedConsumer>();
+            opts.AddConsumer<NonFinancialFileConsumer, NonFinancialFileConsumerDefinition>();
         });
 
         services.AddMassTransitHostedService();
@@ -40,6 +41,7 @@ public static class Startup
         services.AddSingleton<IFileSystem, FileSystem>();
 
         services.AddConfigurationSettings<PostedTransactionsFileSettings>(hostContext.Configuration);
+        services.AddConfigurationSettings<NonFinancialFileSettings>(hostContext.Configuration);
         services.AddConfigurationSettings<AuthorizationFileSettings>(hostContext.Configuration);
 
         services.AddTransient(typeof(IHashingService<>), typeof(HashingService<>));
@@ -47,8 +49,8 @@ public static class Startup
         services.AddTransient<IAuthorizationFileWriter, AuthorizationFileWriter>();
         services.AddTransient<IPostedTransactionsParser, PostedTransactionsParser>();
         services.AddTransient<IPostedTransactionFileWriter, OptumPostedTransactionFileWriter>();
-    }
-
+        services.AddTransient<INonFinancialParser, NonFinancialParser>();
+        services.AddTransient<INonFinancialFileWriter, NonFinancialFileWriter>();
     private static void AddConfigurationSettings<TFileSettings>(this IServiceCollection services, IConfiguration configuration)
         where TFileSettings : class
     {
