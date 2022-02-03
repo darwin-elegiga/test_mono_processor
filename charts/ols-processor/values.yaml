@@ -68,7 +68,7 @@ queue-consumers:
   image:
     name: ols-processor/queue-consumers
   secrets:
-    appSettings.secure.json:
+    appsettings.secure.json:
       data: {}
   mountSmb:
     acctbal-rw:
