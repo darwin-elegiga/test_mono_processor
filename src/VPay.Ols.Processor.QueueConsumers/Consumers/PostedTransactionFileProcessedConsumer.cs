@@ -38,7 +38,7 @@ public class PostedTransactionFileProcessedConsumer : IConsumer<PostedTransactio
 
                 if (!result.Success)
                 {
-                    _logger.LogError("Unable to process the posted transactions file.", result.Error);
+                    _logger.LogError("Unable to process the posted transactions file. {Error}", result.Error);
                 }
                 else
                 {

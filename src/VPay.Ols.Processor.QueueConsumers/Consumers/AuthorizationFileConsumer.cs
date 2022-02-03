@@ -44,7 +44,7 @@ public sealed class AuthorizationFileConsumer : IConsumer<AuthorizationMessage>
                 }
                 else
                 {
-                    _logger.LogError("Unable to process the authorization file.", result.Error);
+                    _logger.LogError("Unable to process the authorization file. {Error}", result.Error);
                 }
             }
             catch (Exception ex)

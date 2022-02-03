@@ -24,7 +24,7 @@ public sealed class AuthorizationParser : IAuthorizationParser
         _trailerGroup = new AuthorizationTrailer();
 
         // header
-        var headerPropertyNames = new List<string>
+        var headerPropertyNames = new string[]
         {
             nameof(_headerGroup.RecordName),
             nameof(_headerGroup.ProcessorName),
@@ -38,7 +38,7 @@ public sealed class AuthorizationParser : IAuthorizationParser
         _headerRegex = new Regex(headerRegex, RegexOptions.Compiled);
 
         // detail
-        var detailPropertyNames = new List<string>
+        var detailPropertyNames = new string[]
         {
             nameof(_detailGroup.CardNumber),
             nameof(_detailGroup.TransactionDateTime),
@@ -60,7 +60,7 @@ public sealed class AuthorizationParser : IAuthorizationParser
         _detailRegex = new Regex(detailRegex, RegexOptions.Compiled);
 
         // trailer
-        var trailerPropertyNames = new List<string>
+        var trailerPropertyNames = new string[]
         {
             nameof(_trailerGroup.RecordName),
             nameof(_trailerGroup.Count)

@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using VPay.Extensions.Testing.Logging;
 using VPay.Ols.Processor.Commands.OlsFile;
 using VPay.Ols.Processor.Hashing;
 using VPay.Ols.Processor.Models;
@@ -32,7 +33,7 @@ public class ProcessAuthorizationsTests
     private readonly Mock<IHashingService<SHA256CryptoServiceProvider>> _hashingService;
     private readonly Mock<IMediator> _mediator;
     private readonly Mock<IAuthorizationFileWriter> _writer;
-    private readonly Mock<ILogger<ProcessAuthorizations.Handler>> _logger;
+    private readonly LoggerMock<ProcessAuthorizations.Handler> _logger;
     private readonly AuthorizationFileSettings _settings;
 
     private readonly ProcessAuthorizations.Handler _handler;
@@ -44,7 +45,7 @@ public class ProcessAuthorizationsTests
         _hashingService = new Mock<IHashingService<SHA256CryptoServiceProvider>>();
         _mediator = new Mock<IMediator>(MockBehavior.Strict);
         _writer = new Mock<IAuthorizationFileWriter>();
-        _logger = new Mock<ILogger<ProcessAuthorizations.Handler>>();
+        _logger = LoggerMock<ProcessAuthorizations.Handler>.CreateDefault(); ;
         _settings = new AuthorizationFileSettings
         {
             OutputDirectory = "test_output",
@@ -137,8 +138,7 @@ public class ProcessAuthorizationsTests
             writeFileCaptor.Value.Details.Should().BeEquivalentTo(expectedOutput.Details, opt => opt.Excluding(m => m.SelectedMemberPath.EndsWith("FileName")));
             writeFileCaptor.Value.Trailer.Should().BeEquivalentTo(expectedOutput.Trailer);
 
-
-            _logger.VerifyWarningWasCalled("Row 3 with SE External Id 3 did not match any known transaction.");
+            _logger.VerifyMessageWasLogged("Row 3 with SE External Id 3 did not match any known transaction.", LogLevel.Warning);
         }
     }
 
