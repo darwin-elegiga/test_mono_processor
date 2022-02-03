@@ -37,7 +37,6 @@ public class ProcessNonFinancialTests
 
     public ProcessNonFinancialTests()
     {
-
         _fileSystem = new Mock<IFileSystem>();
         _parser = new Mock<INonFinancialParser>();
         _hashingService = new Mock<IHashingService<SHA256CryptoServiceProvider>>();

@@ -6,7 +6,6 @@ using VPay.Ols.Processor.Models.NonFinancial;
 using VPay.Ols.Processor.Writers;
 using Xunit;
 
-
 namespace VPay.Ols.Processor.Tests.Writers;
 
 public class OptumNonFinancialFileWriterTests
