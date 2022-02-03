@@ -33,7 +33,7 @@ public class FilesController : Controller
     /// </summary>
     /// <param name="file">The 'Authorization' file</param>
     /// <param name="token">A token that can be used to cancel the work</param>
-    /// <response code="2020">The file has been submitted for post-processing</response>
+    /// <response code="202">The file has been submitted for post-processing</response>
     [HttpPost("ingest-authorizations")]
     [ProducesResponseType(202)]
     public async Task<IActionResult> IngestAuthorizationFile(IFormFile file, CancellationToken token = default)
@@ -60,7 +60,7 @@ public class FilesController : Controller
     /// </summary>
     /// <param name="file">The 'Posted Transactions' file</param>
     /// <param name="token">A token that can be used to cancel the work</param>
-    /// <response code="2020">The file has been submitted for post-processing</response>
+    /// <response code="202">The file has been submitted for post-processing</response>
     [HttpPost("ingest-posted-transactions")]
     [ProducesResponseType(202)]
     public async Task<IActionResult> IngestPostedTransactionsFile(IFormFile file, CancellationToken token = default)
