@@ -52,7 +52,7 @@ public class NonFinancialFileProcessedConsumer : IConsumer<NonFinancialFileProce
                 }
                 else
                 {
-                    _logger.LogError("Non-financial file {FileName} processing has failed.", fileName);
+                    _logger.LogError("Non-financial file {FileName} processing has failed. {ErrorMsg}", fileName, proccessResult.Error);
                 }
             }
             catch (Exception e)

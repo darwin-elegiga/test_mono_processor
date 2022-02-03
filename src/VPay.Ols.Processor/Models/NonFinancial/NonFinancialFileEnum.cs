@@ -49,8 +49,6 @@ public static class NonFinancialFileEnum
         CurrentPaymentDueDate,
         SeExternalIdNumber,
         Bin,
-        //TPA,
-        //FileName
     }
 
     public enum Trailer
