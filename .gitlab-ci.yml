@@ -63,6 +63,25 @@ publish:api:
   needs:
     - build:api
 
+.queue-consumers:
+  variables:
+    IMAGE_NAME: queue-consumers
+
+build:queue-consumers:
+  extends:
+    - .build
+    - .queue-consumers
+  variables:
+    PROJECT_DIR: src/VPay.Ols.Processor.QueueConsumers
+    PROJECT_NAME: VPay.Ols.Processor.QueueConsumers
+
+publish:queue-consumers:
+  extends:
+    - .publish
+    - .queue-consumers
+  needs:
+    - build:queue-consumers
+
 deploy:
   stage: deploy
   trigger:
