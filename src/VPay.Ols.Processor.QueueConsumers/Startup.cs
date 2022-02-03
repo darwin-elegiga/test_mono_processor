@@ -10,6 +10,7 @@ using VPay.MassTransit.DependencyInjection;
 using VPay.Ols.Processor.Commands.OlsFile;
 using VPay.Ols.Processor.Data.Sql.DependencyInjection;
 using VPay.Ols.Processor.Hashing;
+using VPay.Ols.Processor.Models.Authorization;
 using VPay.Ols.Processor.Models.PostedTransactions;
 using VPay.Ols.Processor.Parsers;
 using VPay.Ols.Processor.QueueConsumers.Consumers;
@@ -28,6 +29,7 @@ public static class Startup
 
         services.UseMassTransit(rabbitConfig, opts =>
         {
+            opts.AddConsumer<AuthorizationFileConsumer>();
             opts.AddConsumer<PostedTransactionFileProcessedConsumer>();
         });
 
@@ -37,11 +39,22 @@ public static class Startup
 
         services.AddSingleton<IFileSystem, FileSystem>();
 
-        services.Configure<PostedTransactionsFileSettings>(hostContext.Configuration.GetSection("PostedTransactionsFileSettings"));
-        services.AddTransient(cfg => cfg.GetService<IOptions<PostedTransactionsFileSettings>>().Value);
+        services.AddConfigurationSettings<PostedTransactionsFileSettings>(hostContext.Configuration);
+        services.AddConfigurationSettings<AuthorizationFileSettings>(hostContext.Configuration);
 
         services.AddTransient(typeof(IHashingService<>), typeof(HashingService<>));
+        services.AddTransient<IAuthorizationParser, AuthorizationParser>();
+        services.AddTransient<IAuthorizationFileWriter, AuthorizationFileWriter>();
         services.AddTransient<IPostedTransactionsParser, PostedTransactionsParser>();
         services.AddTransient<IPostedTransactionFileWriter, OptumPostedTransactionFileWriter>();
+    }
+
+    private static void AddConfigurationSettings<TFileSettings>(this IServiceCollection services, IConfiguration configuration)
+        where TFileSettings : class
+    {
+        string settingsName = typeof(TFileSettings).Name;
+
+        services.Configure<TFileSettings>(configuration.GetSection(settingsName));
+        services.AddTransient(cfg => cfg.GetRequiredService<IOptions<TFileSettings>>().Value);
     }
 }
