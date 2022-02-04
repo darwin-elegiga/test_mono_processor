@@ -15,6 +15,7 @@ using VPay.Ols.Processor.Models.NonFinancial;
 using VPay.Ols.Processor.Models.PostedTransactions;
 using VPay.Ols.Processor.Parsers;
 using VPay.Ols.Processor.QueueConsumers.Consumers;
+using VPay.Ols.Processor.QueueConsumers.Consumers.NonFinancialFile;
 using VPay.Ols.Processor.Writers;
 
 namespace VPay.Ols.Processor.QueueConsumers;
@@ -24,9 +25,13 @@ public static class Startup
     public static void ConfigureServices(HostBuilderContext hostContext, IServiceCollection services)
     {
         services.AddMediatR(typeof(AddOlsFile.Handler).Assembly);
+        services.AddMediatR(typeof(ProcessNonFinancialFile.Command).Assembly);
 
         var rabbitConfig = new RabbitMqConfig();
         hostContext.Configuration.Bind("OlsProcessorQueue", rabbitConfig);
+
+        services.Configure<NonFinancialFileConsumerSettings>(hostContext.Configuration.GetSection("NonFinancialFileConsumerSettings"));
+        services.AddTransient(cfg => cfg.GetService<IOptions<NonFinancialFileConsumerSettings>>()!.Value);
 
         services.UseMassTransit(rabbitConfig, opts =>
         {

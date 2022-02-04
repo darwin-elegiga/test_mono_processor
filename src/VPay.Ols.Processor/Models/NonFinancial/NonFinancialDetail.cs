@@ -39,5 +39,4 @@ public class NonFinancialDetail
     public string Bin { get; set; } = string.Empty;
     public string TPA { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
-
 }
