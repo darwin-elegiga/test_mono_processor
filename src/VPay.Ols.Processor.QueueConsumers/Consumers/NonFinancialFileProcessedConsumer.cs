@@ -48,16 +48,16 @@ public class NonFinancialFileProcessedConsumer : IConsumer<NonFinancialFileProce
 
                 if (proccessResult.Success)
                 {
-                    _logger.LogInformation("Non-finacnial file {FileName} has processed successfully.", fileName);
+                    _logger.LogInformation("Non-financial file {FileName} has processed successfully.", fileName);
                 }
                 else
                 {
-                    _logger.LogError("Non-finacnial file {FileName} processing has failed.", fileName);
+                    _logger.LogError("Non-financial file {FileName} processing has failed.", fileName);
                 }
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Non-finacnial file {FileName} processing has failed due to an error.", fileName);
+                _logger.LogError(e, "Non-financial file {FileName} processing has failed due to an error.", fileName);
             }
         }
     }
