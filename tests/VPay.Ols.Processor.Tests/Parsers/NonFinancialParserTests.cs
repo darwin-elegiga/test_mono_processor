@@ -106,3 +106,6 @@ TRAILER|3
         fileResult.Should().BeEquivalentTo(file);
     }
 }
+        fileResult.Should().BeEquivalentTo(file);
+    }
+}

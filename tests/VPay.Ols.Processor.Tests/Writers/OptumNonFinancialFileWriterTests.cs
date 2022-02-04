@@ -113,3 +113,4 @@ TRAILER|3
         result.Should().Be(expectedOutput);
     }
 }
+}
