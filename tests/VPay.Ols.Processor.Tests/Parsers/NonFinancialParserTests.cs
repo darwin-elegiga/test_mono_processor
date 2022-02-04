@@ -28,9 +28,9 @@ TRAILER|3
                 RecordName = "HEADER",
                 ProcessorName = "STONEEAGLE",
                 ReportName = "NON-FINANCIAL",
-                FileDate = new DateTime(2022, 1, 24),
-                RunBeginDate = new DateTime(2022, 1, 13),
-                RunEndDate = new DateTime(2022, 1, 14),
+                FileDate = new DateOnly(2022, 1, 24),
+                RunBeginDate = new DateOnly(2022, 1, 13),
+                RunEndDate = new DateOnly(2022, 1, 14),
                 FileFormat = "3"
             },
             Details = new List<NonFinancialDetail>
@@ -103,9 +103,6 @@ TRAILER|3
         using var fileStream = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(fileContent)));
         NonFinancialFile fileResult = parser.ParseFile(fileStream);
 
-        fileResult.Should().BeEquivalentTo(file);
-    }
-}
         fileResult.Should().BeEquivalentTo(file);
     }
 }

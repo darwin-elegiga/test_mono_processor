@@ -28,9 +28,9 @@ public class NonFinancialParser : INonFinancialParser
                     RecordName = data[(int)NonFinancialFileEnum.Header.RecordName],
                     ProcessorName = data[(int)NonFinancialFileEnum.Header.ProcessorName],
                     ReportName = data[(int)NonFinancialFileEnum.Header.ReportName],
-                    FileDate = DateTime.ParseExact(data[(int)NonFinancialFileEnum.Header.FileDate], "MMddyyyy", null),
-                    RunBeginDate = DateTime.ParseExact(data[(int)NonFinancialFileEnum.Header.RunBeginDate], "MMddyyyy", null),
-                    RunEndDate = DateTime.ParseExact(data[(int)NonFinancialFileEnum.Header.RunEndDate], "MMddyyyy", null),
+                    FileDate = DateOnly.ParseExact(data[(int)NonFinancialFileEnum.Header.FileDate], "MMddyyyy", null),
+                    RunBeginDate = DateOnly.ParseExact(data[(int)NonFinancialFileEnum.Header.RunBeginDate], "MMddyyyy", null),
+                    RunEndDate = DateOnly.ParseExact(data[(int)NonFinancialFileEnum.Header.RunEndDate], "MMddyyyy", null),
                     FileFormat = data[(int)NonFinancialFileEnum.Header.FileFormat]
                 };
             }

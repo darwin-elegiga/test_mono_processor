@@ -7,8 +7,8 @@ public class NonFinancialHeader
     public string RecordName { get; set; } = string.Empty;
     public string ProcessorName { get; set; } = string.Empty;
     public string ReportName { get; set; } = string.Empty;
-    public DateTime FileDate { get; set; }
-    public DateTime RunBeginDate { get; set; }
-    public DateTime RunEndDate { get; set; }
+    public DateOnly FileDate { get; set; }
+    public DateOnly RunBeginDate { get; set; }
+    public DateOnly RunEndDate { get; set; }
     public string FileFormat { get; set; } = string.Empty;
 }

@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using VPay.Extensions.Testing.Logging;
 using VPay.Ols.Processor.Commands.OlsFile;
 using VPay.Ols.Processor.Hashing;
 using VPay.Ols.Processor.Models;
@@ -30,7 +31,7 @@ public class ProcessNonFinancialTests
     private readonly Mock<IHashingService<SHA256CryptoServiceProvider>> _hashingService;
     private readonly Mock<IMediator> _mediator;
     private readonly Mock<INonFinancialFileWriter> _writer;
-    private readonly ILogger<ProcessNonFinancial.Handler> _logger = new NullLogger<ProcessNonFinancial.Handler>();
+    private readonly LoggerMock<ProcessNonFinancial.Handler> _logger;
     private readonly NonFinancialFileSettings _settings;
 
     private readonly ProcessNonFinancial.Handler _handler;
@@ -42,13 +43,14 @@ public class ProcessNonFinancialTests
         _hashingService = new Mock<IHashingService<SHA256CryptoServiceProvider>>();
         _mediator = new Mock<IMediator>(MockBehavior.Strict);
         _writer = new Mock<INonFinancialFileWriter>();
+        _logger = LoggerMock<ProcessNonFinancial.Handler>.CreateDefault(); ;
         _settings = new NonFinancialFileSettings
         {
             OutputDirectory = "dir1",
             WorkingDirectory = "dir2"
         };
 
-        _handler = new ProcessNonFinancial.Handler(_logger, _mediator.Object, _fileSystem.Object, _writer.Object, _parser.Object, _hashingService.Object, _settings);
+        _handler = new ProcessNonFinancial.Handler(_logger.Object, _mediator.Object, _fileSystem.Object, _writer.Object, _parser.Object, _hashingService.Object, _settings);
     }
 
     [Fact]
@@ -83,9 +85,9 @@ public class ProcessNonFinancialTests
                 RecordName = "HEADER",
                 ProcessorName = "STONEEAGLE",
                 ReportName = "NON-FINANCIAL",
-                FileDate = new DateTime(2022, 1, 24),
-                RunBeginDate = new DateTime(2022, 1, 13),
-                RunEndDate = new DateTime(2022, 1, 14),
+                FileDate = new DateOnly(2022, 1, 24),
+                RunBeginDate = new DateOnly(2022, 1, 13),
+                RunEndDate = new DateOnly(2022, 1, 14),
                 FileFormat = "3"
             },
             Details = new List<NonFinancialDetail>
@@ -152,7 +154,7 @@ public class ProcessNonFinancialTests
                     CardholderPrimaryPhone = "9725551212",
                     AvailableBalance = 0.44m,
                     CurrentBalance = 1.66m,
-                    SeExternalIdNumber = "",
+                    SeExternalIdNumber = "000",
                     Bin = "528972"
                 },
                 new NonFinancialDetail
@@ -180,6 +182,7 @@ public class ProcessNonFinancialTests
         var queryCaptor = new ArgumentCaptor<GetClientForTransactions.Query>();
         var expectedQueryList = new List<TransactionIdLookup>
         {
+            new TransactionIdLookup(0),
             new TransactionIdLookup(1),
             new TransactionIdLookup(2)
         };
@@ -208,9 +211,9 @@ public class ProcessNonFinancialTests
                 RecordName = "HEADER",
                 ProcessorName = "VPAY, INC",
                 ReportName = "NON-FINANCIAL",
-                FileDate = new DateTime(2022, 1, 24),
-                RunBeginDate = new DateTime(2022, 1, 13),
-                RunEndDate = new DateTime(2022, 1, 14),
+                FileDate = new DateOnly(2022, 1, 24),
+                RunBeginDate = new DateOnly(2022, 1, 13),
+                RunEndDate = new DateOnly(2022, 1, 14),
                 FileFormat = "3"
             },
             Details = new List<NonFinancialDetail>
@@ -279,7 +282,7 @@ public class ProcessNonFinancialTests
                     CardholderPrimaryPhone = NonFinancialFileConstants.OptumDetailValues.CardholderPrimaryPhone,
                     AvailableBalance = 0.44m,
                     CurrentBalance = 1.66m,
-                    SeExternalIdNumber = "",
+                    SeExternalIdNumber = "000",
                     TPA = "",
                     Bin = "528972"
                 }
@@ -302,10 +305,11 @@ public class ProcessNonFinancialTests
         {
             result.Should().BeEquivalentTo(Result.Ok());
 
+            _logger.VerifyMessageWasLogged($"Row 3 with SE External Id 000 did not match any known transaction.", LogLevel.Warning);
+
             fileObjCaptor.Value.Should().BeEquivalentTo(expectedFileObj);
             queryCaptor.Value.TransactionIdList.Should().BeEquivalentTo(expectedQueryList);
             outputObjCaptor.Value.Should().BeEquivalentTo(expectedOutput, opt => opt.Excluding(m => m.SelectedMemberPath.EndsWith("FileName")));
         }
     }
-}
 }

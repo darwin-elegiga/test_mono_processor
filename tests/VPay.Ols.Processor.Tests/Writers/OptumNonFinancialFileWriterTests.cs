@@ -22,9 +22,9 @@ public class OptumNonFinancialFileWriterTests
                 RecordName = "HEADER",
                 ProcessorName = "VPAY, INC",
                 ReportName = "NON-FINANCIAL",
-                FileDate = new DateTime(2022, 1, 24),
-                RunBeginDate = new DateTime(2022, 1, 13),
-                RunEndDate = new DateTime(2022, 1, 14),
+                FileDate = new DateOnly(2022, 1, 24),
+                RunBeginDate = new DateOnly(2022, 1, 13),
+                RunEndDate = new DateOnly(2022, 1, 14),
                 FileFormat = "3"
             },
             Details = new List<NonFinancialDetail>
@@ -112,5 +112,4 @@ TRAILER|3
 
         result.Should().Be(expectedOutput);
     }
-}
 }
