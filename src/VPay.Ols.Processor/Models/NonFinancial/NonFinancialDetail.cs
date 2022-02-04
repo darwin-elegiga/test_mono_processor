@@ -6,7 +6,7 @@ public class NonFinancialDetail
     public string CardNumber { get; set; } = string.Empty;
     public string CardOpenDate { get; set; } = string.Empty;
     public string CardExpirationDate { get; set; } = string.Empty;
-    public string CardHolderIdCode { get; set; } = string.Empty;
+    public string CardholderIdCode { get; set; } = string.Empty;
     public string CardholderIdValue { get; set; } = string.Empty;
     public string CardholderFirstName { get; set; } = string.Empty;
     public string CardholderLastName { get; set; } = string.Empty;
@@ -15,6 +15,7 @@ public class NonFinancialDetail
     public string CardholderCity { get; set; } = string.Empty;
     public string CardholderState { get; set; } = string.Empty;
     public string CardholderZip { get; set; } = string.Empty;
+    public string CardholderCountry { get; set; } = string.Empty;
     public string CardholderPrimaryPhone { get; set; } = string.Empty;
     public string CardholderSecondaryPhone { get; set; } = string.Empty;
     public string CardholderDOB { get; set; } = string.Empty;

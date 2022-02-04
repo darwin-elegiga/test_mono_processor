@@ -36,7 +36,7 @@ public class NonFinancialParser : INonFinancialParser
             }
             else if (data.Length == 2)
             {
-                file.Trailer = new NonfinancialTrailer(data[(int)NonFinancialFileEnum.Trailer.RecordName], int.Parse(data[(int)NonFinancialFileEnum.Trailer.RecordCount]));
+                file.Trailer = new NonFinancialTrailer(data[(int)NonFinancialFileEnum.Trailer.RecordName], int.Parse(data[(int)NonFinancialFileEnum.Trailer.RecordCount]));
             }
             else
             {
@@ -46,7 +46,7 @@ public class NonFinancialParser : INonFinancialParser
                     CardNumber = data[(int)NonFinancialFileEnum.Details.CardNumber],
                     CardOpenDate = data[(int)NonFinancialFileEnum.Details.CardOpenDate],
                     CardExpirationDate = data[(int)NonFinancialFileEnum.Details.CardExpirationDate],
-                    CardHolderIdCode = data[(int)NonFinancialFileEnum.Details.CardHolderIdCode],
+                    CardholderIdCode = data[(int)NonFinancialFileEnum.Details.CardHolderIdCode],
                     CardholderIdValue = data[(int)NonFinancialFileEnum.Details.CardholderIdValue],
                     CardholderFirstName = data[(int)NonFinancialFileEnum.Details.CardholderFirstName],
                     CardholderLastName = data[(int)NonFinancialFileEnum.Details.CardholderLastName],
@@ -55,6 +55,7 @@ public class NonFinancialParser : INonFinancialParser
                     CardholderCity = data[(int)NonFinancialFileEnum.Details.CardholderCity],
                     CardholderState = data[(int)NonFinancialFileEnum.Details.CardholderState],
                     CardholderZip = data[(int)NonFinancialFileEnum.Details.CardholderZip],
+                    CardholderCountry = data[(int)NonFinancialFileEnum.Details.CardholderCountryCode],
                     CardholderPrimaryPhone = data[(int)NonFinancialFileEnum.Details.CardholderPrimaryPhone],
                     CardholderSecondaryPhone = data[(int)NonFinancialFileEnum.Details.CardholderSecondaryPhone],
                     CardholderDOB = data[(int)NonFinancialFileEnum.Details.CardholderDOB],

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
-//using System.IO.Abstractions;
 using System.Threading.Tasks;
 using MassTransit;
 using MediatR;
@@ -11,17 +10,17 @@ using VPay.Ols.Processor.Messages;
 using VPay.Ols.Processor.Models;
 using VPay.Ols.Processor.Models.NonFinancial;
 
-namespace VPay.Ols.Processor.QueueConsumers.Consumers.NonFinancialFile;
+namespace VPay.Ols.Processor.QueueConsumers.Consumers;
 
-public class NonFinancialFileConsumer : IConsumer<NonFinancialFileMessage>
+public class NonFinancialFileProcessedConsumer : IConsumer<NonFinancialFileProcessed>
 {
     private readonly NonFinancialFileSettings _settings;
-    private readonly ILogger<NonFinancialFileConsumer> _logger;
+    private readonly ILogger<NonFinancialFileProcessedConsumer> _logger;
     private readonly IMediator _mediator;
     private readonly IFileSystem _fs;
 
-    public NonFinancialFileConsumer(
-        ILogger<NonFinancialFileConsumer> logger,
+    public NonFinancialFileProcessedConsumer(
+        ILogger<NonFinancialFileProcessedConsumer> logger,
         NonFinancialFileSettings settings,
         IMediator mediator,
         IFileSystem fs)
@@ -32,7 +31,7 @@ public class NonFinancialFileConsumer : IConsumer<NonFinancialFileMessage>
         _settings = settings;
     }
 
-    public async Task Consume(ConsumeContext<NonFinancialFileMessage> context)
+    public async Task Consume(ConsumeContext<NonFinancialFileProcessed> context)
     {
         var fileName = context.Message.FileName;
         using (_logger.BeginScope(new Dictionary<string, string>()
@@ -45,7 +44,7 @@ public class NonFinancialFileConsumer : IConsumer<NonFinancialFileMessage>
 
             try
             {
-                var proccessResult = await _mediator.Send(new ProcessNonFinancialFile.Command(filePath)).ConfigureAwait(false);
+                var proccessResult = await _mediator.Send(new ProcessNonFinancial.Command(filePath)).ConfigureAwait(false);
 
                 if (proccessResult.Success)
                 {

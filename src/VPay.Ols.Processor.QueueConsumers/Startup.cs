@@ -11,6 +11,7 @@ using VPay.Ols.Processor.Commands.OlsFile;
 using VPay.Ols.Processor.Data.Sql.DependencyInjection;
 using VPay.Ols.Processor.Hashing;
 using VPay.Ols.Processor.Models.Authorization;
+using VPay.Ols.Processor.Models.NonFinancial;
 using VPay.Ols.Processor.Models.PostedTransactions;
 using VPay.Ols.Processor.Parsers;
 using VPay.Ols.Processor.QueueConsumers.Consumers;
@@ -31,7 +32,7 @@ public static class Startup
         {
             opts.AddConsumer<AuthorizationFileConsumer>();
             opts.AddConsumer<PostedTransactionFileProcessedConsumer>();
-            opts.AddConsumer<NonFinancialFileConsumer, NonFinancialFileConsumerDefinition>();
+            opts.AddConsumer<NonFinancialFileProcessedConsumer>();
         });
 
         services.AddMassTransitHostedService();
@@ -50,7 +51,9 @@ public static class Startup
         services.AddTransient<IPostedTransactionsParser, PostedTransactionsParser>();
         services.AddTransient<IPostedTransactionFileWriter, OptumPostedTransactionFileWriter>();
         services.AddTransient<INonFinancialParser, NonFinancialParser>();
-        services.AddTransient<INonFinancialFileWriter, NonFinancialFileWriter>();
+        services.AddTransient<INonFinancialFileWriter, OptumNonFinancialFileWriter>();
+    }
+    
     private static void AddConfigurationSettings<TFileSettings>(this IServiceCollection services, IConfiguration configuration)
         where TFileSettings : class
     {

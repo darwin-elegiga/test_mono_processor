@@ -6,6 +6,6 @@ public class NonFinancialFile
 {
     public NonFinancialHeader Header { get; set; }
     public List<NonFinancialDetail> Details { get; set; } = new List<NonFinancialDetail>();
-    public NonfinancialTrailer Trailer { get; set; }
+    public NonFinancialTrailer Trailer { get; set; }
 }
 
