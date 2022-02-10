@@ -68,7 +68,7 @@ public static class ProcessNonFinancial
                 return Result.Fail($"Unable to read non-financial file. {e.Message}");
             }
 
-            var generatedFilename = $"{DateTime.Now:yyyyMMddHHmmss}_Optum_nonfinancial_processor.TXT";
+            var generatedFilename = $"{DateTime.Now:yyyyMMddHHmmss}_Optum_nonfinancial_op_debit.TXT";
 
             originalFile.Header.RecordName = NonFinancialFileConstants.OptumHeaderValues.RecordName;
             originalFile.Header.ProcessorName = NonFinancialFileConstants.OptumHeaderValues.ProcessorName;

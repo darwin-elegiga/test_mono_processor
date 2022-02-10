@@ -61,7 +61,7 @@ public static class ProcessPostedTransactions
                 return Result.Fail($"Unable to read posted transactions file. {e.Message}");
             }
 
-            var generatedFilename = $"{DateTime.Now:yyyyMMddHHmmss}_Optum_posted_se_debit.TXT";
+            var generatedFilename = $"{DateTime.Now:yyyyMMddHHmmss}_Optum_posted_op_debit.TXT";
 
             originalFile.Header.RecordName = PostedTransactionFileConstants.OptumHeaderValues.RecordName;
             originalFile.Header.ProcessorName = PostedTransactionFileConstants.OptumHeaderValues.ProcessorName;

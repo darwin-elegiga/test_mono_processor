@@ -51,7 +51,7 @@ public static class ProcessAuthorizations
             {
                 (AuthorizationFile originalFile, string fileHash) = ReadFile(command.FilePath);
 
-                string generatedFileName = $"{DateTime.Now:yyyyMMddHHmmss}_Optum_authorized_se_debit.TXT";
+                string generatedFileName = $"{DateTime.Now:yyyyMMddHHmmss}_Optum_authorized_op_debit.TXT";
 
                 AuthorizationFile processedFile = await EnsureValues(originalFile, generatedFileName, cancellationToken).ConfigureAwait(false);
 
