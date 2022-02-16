@@ -29,7 +29,7 @@ global:
       subdomain: dev.pks.vpayusa.net
 
 smbShares:
-  acctbal-rw:
+  ols-rw:
     source: willbereplaced
     username: willbereplaced
     password: willbereplaced
@@ -59,8 +59,8 @@ api:
       memory: "1Gi"
       cpu: "250m"
   mountSmb:
-    acctbal-rw:
-      - path: /SRVFS/acctbal
+    ols-rw:
+      - path: /SRVFS/ols
 
 queue-consumers:
   enabled: true
@@ -71,5 +71,5 @@ queue-consumers:
     appsettings.secure.json:
       data: {}
   mountSmb:
-    acctbal-rw:
-      - path: /SRVFS/acctbal
+    ols-rw:
+      - path: /SRVFS/ols

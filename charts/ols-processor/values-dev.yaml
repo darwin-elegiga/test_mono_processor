@@ -1,3 +1,0 @@
-api:
-  enabled: true
-  replicas: 1
