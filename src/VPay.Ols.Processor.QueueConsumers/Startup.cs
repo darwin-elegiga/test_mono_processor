@@ -15,6 +15,7 @@ using VPay.Ols.Processor.Models.NonFinancial;
 using VPay.Ols.Processor.Models.PostedTransactions;
 using VPay.Ols.Processor.Parsers;
 using VPay.Ols.Processor.QueueConsumers.Consumers;
+using VPay.Ols.Processor.QueueConsumers.FileTransfer;
 using VPay.Ols.Processor.Writers;
 
 namespace VPay.Ols.Processor.QueueConsumers;
@@ -35,6 +36,8 @@ public static class Startup
             opts.AddConsumer<NonFinancialFileProcessedConsumer>();
         });
 
+        services.ConfigureFileTransferServices(hostContext.Configuration);
+        services.UseMassTransitActivityTracking();
         services.AddMassTransitHostedService();
 
         services.AddSql(config => hostContext.Configuration.Bind("OlsDatabase", config));
@@ -53,7 +56,7 @@ public static class Startup
         services.AddTransient<INonFinancialParser, NonFinancialParser>();
         services.AddTransient<INonFinancialFileWriter, OptumNonFinancialFileWriter>();
     }
-    
+
     private static void AddConfigurationSettings<TFileSettings>(this IServiceCollection services, IConfiguration configuration)
         where TFileSettings : class
     {

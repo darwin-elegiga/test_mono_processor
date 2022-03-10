@@ -55,7 +55,9 @@ public static class ProcessAuthorizations
 
                 AuthorizationFile processedFile = await EnsureValues(originalFile, generatedFileName, cancellationToken).ConfigureAwait(false);
 
-                await WriteFile(processedFile, generatedFileName, cancellationToken).ConfigureAwait(false);
+                var outputPath = await WriteFile(processedFile, generatedFileName, cancellationToken).ConfigureAwait(false);
+
+                await _mediator.Send(new SendToFileTransferService.Command(_fileSystem.FileInfo.FromFileName(outputPath)), cancellationToken).ConfigureAwait(false);
 
                 return await AddFileToDatabase(command.FilePath, fileHash, cancellationToken).ConfigureAwait(false);
             }
@@ -121,13 +123,14 @@ public static class ProcessAuthorizations
             return await _mediator.Send(query, cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task WriteFile(AuthorizationFile processedFile, string generatedFileName, CancellationToken cancellationToken)
+        private async Task<string> WriteFile(AuthorizationFile processedFile, string generatedFileName, CancellationToken cancellationToken)
         {
             string outputPath = _fileSystem.Path.Combine(_authorizationSettings.OutputDirectory, generatedFileName);
             _fileSystem.Directory.CreateDirectory(_authorizationSettings.OutputDirectory);
             string output = _writer.WriteAuthorizationFile(processedFile);
 
             await _fileSystem.File.WriteAllTextAsync(outputPath, output, cancellationToken).ConfigureAwait(false);
+            return outputPath;
         }
 
         private async Task<Result> AddFileToDatabase(string filePath, string fileHash, CancellationToken cancellationToken)
