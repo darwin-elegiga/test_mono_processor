@@ -20,6 +20,7 @@ services:
       - DOTNET_Logging__GELF__AdditionalFields__namespace=ols-processor-queueconsumers-local
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ./keys/id_rsa_localonly:/root/.ssh/keys/id_rsa:ro
     networks:
       - olsprocessor
 
