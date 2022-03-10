@@ -11,19 +11,19 @@
 
     <ItemGroup>
         <PackageReference Include="Gelf.Extensions.Logging" Version="2.3.0" />
-        <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.3.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
+        <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.4.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
-        <PackageReference Include="System.IO.Abstractions" Version="13.2.5" />
-        <PackageReference Include="VPay.AspNetCore.Mvc" Version="0.6.5" />
-        <PackageReference Include="VPay.AspNetCore.SwashBuckle" Version="0.6.5" />
-        <PackageReference Include="VPay.AspNetCore.SwashBuckle.HealthChecks" Version="0.6.5" />
-        <PackageReference Include="VPay.Extensions.Logging.GrayLog" Version="0.6.5" />
-        <PackageReference Include="VPay.MassTransit.DependencyInjection" Version="2.1.0-alpha.2" />
+        <PackageReference Include="System.IO.Abstractions" Version="16.1.20" />
+        <PackageReference Include="VPay.AspNetCore.Mvc" Version="0.6.7" />
+        <PackageReference Include="VPay.AspNetCore.SwashBuckle" Version="0.6.7" />
+        <PackageReference Include="VPay.AspNetCore.SwashBuckle.HealthChecks" Version="0.6.7" />
+        <PackageReference Include="VPay.Extensions.Logging.GrayLog" Version="0.6.7" />
+        <PackageReference Include="VPay.MassTransit.DependencyInjection" Version="2.4.1" />
     </ItemGroup>
 
     <ItemGroup>
