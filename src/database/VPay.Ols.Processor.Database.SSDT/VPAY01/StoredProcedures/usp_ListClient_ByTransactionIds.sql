@@ -7,7 +7,7 @@ BEGIN
 	SELECT 
 		[TMCLIC] as ClientCode
 		,[TMTXID] as TransactionId
-	FROM [dbo].[SEWCPS_CPSTMF]
+	FROM [VPAY01].[SEWCPS_CPSTMF]
 	WHERE [TMTXID] IN (
 		SELECT [TransactionId] FROM @transactionIds
 	)
