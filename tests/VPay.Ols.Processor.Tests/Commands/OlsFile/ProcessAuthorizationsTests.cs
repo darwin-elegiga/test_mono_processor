@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using VPay.Extensions.Testing.Logging;
+using VPay.Ols.Processor.Commands;
 using VPay.Ols.Processor.Commands.OlsFile;
 using VPay.Ols.Processor.Hashing;
 using VPay.Ols.Processor.Models;
@@ -88,6 +91,7 @@ public class ProcessAuthorizationsTests
         _fileSystem.Setup(x => x.Path.Combine(_settings.OutputDirectory, It.IsAny<string>())).Returns("optum-file.txt");
         _fileSystem.Setup(x => x.Directory.CreateDirectory(It.IsAny<string>()));
         _fileSystem.Setup(x => x.File.WriteAllTextAsync(It.Is<string>(s => s == "optum-file.txt"), It.Is<string>(s => s == "TEST_OUTPUT_STRING"), default));
+        _fileSystem.Setup(x => x.FileInfo.FromFileName(It.IsAny<string>())).Returns(Mock.Of<IFileInfo>());
 
         AuthorizationFile originalFile = BuildOriginalFile();
         _parser.Setup(x => x.ParseFile(It.IsAny<StreamReader>())).Returns(originalFile);
@@ -115,6 +119,11 @@ public class ProcessAuthorizationsTests
             }
         });
 
+        _mediator
+            .Setup(x => x.Send(It.IsAny<SendToFileTransferService.Command>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Unit.Value)
+            .Verifiable();
+
         var writeFileCaptor = new ArgumentCaptor<AuthorizationFile>();
         _writer.Setup(x => x.WriteAuthorizationFile(writeFileCaptor.Capture())).Returns("TEST_OUTPUT_STRING");
 
@@ -135,8 +144,11 @@ public class ProcessAuthorizationsTests
             addFileCommandCaptor.Value.Should().BeEquivalentTo(expectedAddFileCommand);
             queryCaptor.Value.TransactionIdList.Should().BeEquivalentTo(expectedQueryList);
             writeFileCaptor.Value.Header.Should().BeEquivalentTo(expectedOutput.Header);
-            writeFileCaptor.Value.Details.Should().BeEquivalentTo(expectedOutput.Details, opt => opt.Excluding(m => m.SelectedMemberPath.EndsWith("FileName")));
+            writeFileCaptor.Value.Details.Should().BeEquivalentTo(expectedOutput.Details, opt => opt.Excluding(m => m.Path.EndsWith("FileName")));
             writeFileCaptor.Value.Trailer.Should().BeEquivalentTo(expectedOutput.Trailer);
+
+            // make sure the file was sent to the transfer service
+            _mediator.Verify(x => x.Send(It.IsAny<SendToFileTransferService.Command>(), It.IsAny<CancellationToken>()), Times.Once);
 
             _logger.VerifyMessageWasLogged("Row 3 with SE External Id 3 did not match any known transaction.", LogLevel.Warning);
         }

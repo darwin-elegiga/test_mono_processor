@@ -1,2 +1,6 @@
+smbShares:
+  files-smb:
+    source: //plprdwsmb01.vpayusa.net/prdpks
+
 api:
   replicas: 2

@@ -1,0 +1,6 @@
+smbShares:
+  files-smb:
+    source: //stlstgwsmb01.vpayusa.net/stgpks
+
+api:
+  replicas: 2

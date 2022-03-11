@@ -33,6 +33,10 @@ smbShares:
     source: willbereplaced
     username: willbereplaced
     password: willbereplaced
+  files-smb:
+    source: //pldevwnfs01.vpayusa.net/devpks
+    username: "willbereplaced"
+    password: "willbereplaced"
 
 api:
   generate:
@@ -69,7 +73,16 @@ queue-consumers:
     name: ols-processor/queue-consumers
   secrets:
     appsettings.secure.json:
-      data: {}
+      data:
+        SigningServiceOptions:
+          PrivateKeyPath: '/app/id-rsa.key'
+    id-rsa.key:
+      name: "id-rsa-key"
+      data: dGVzdA==
+      mount: true
+      isEncoded: true
   mountSmb:
     ols-rw:
       - path: /SRVFS/ols
+    files-smb:
+      - path: /SRVFS/filetransfer
