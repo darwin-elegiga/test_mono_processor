@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -11,6 +12,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using VPay.Ols.Processor.Commands;
 using VPay.Ols.Processor.Commands.OlsFile;
 using VPay.Ols.Processor.Hashing;
 using VPay.Ols.Processor.Models;
@@ -262,11 +264,17 @@ public class ProcessPostedTransactionsTests
         _writer.Setup(x => x.WritePostedTransactionFile(outputObjCaptor.Capture())).Returns("TEST_OUTPUT_STRING");
 
         _fileSystem.Setup(x => x.File.WriteAllTextAsync(It.Is<string>(s => s == "optum-file.txt"), It.Is<string>(s => s == "TEST_OUTPUT_STRING"), default));
+        _fileSystem.Setup(x => x.FileInfo.FromFileName(It.IsAny<string>())).Returns(Mock.Of<IFileInfo>());
 
         var fileObjCaptor = new ArgumentCaptor<AddOlsFile.Command>();
         var expectedFileObj = new AddOlsFile.Command("test-file.txt", "TEST_HASH", OlsFileType.Posted);
 
         _mediator.Setup(x => x.Send(fileObjCaptor.Capture(), default)).ReturnsAsync(Result.Ok());
+
+        _mediator
+            .Setup(x => x.Send(It.IsAny<SendToFileTransferService.Command>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Unit.Value)
+            .Verifiable();
 
         var result = await _handler.Handle(command, default).ConfigureAwait(false);
 
@@ -276,7 +284,10 @@ public class ProcessPostedTransactionsTests
 
             fileObjCaptor.Value.Should().BeEquivalentTo(expectedFileObj);
             queryCaptor.Value.TransactionIdList.Should().BeEquivalentTo(expectedQueryList);
-            outputObjCaptor.Value.Should().BeEquivalentTo(expectedOutput, opt => opt.Excluding(m => m.SelectedMemberPath.EndsWith("FileName")));
+            outputObjCaptor.Value.Should().BeEquivalentTo(expectedOutput, opt => opt.Excluding(m => m.Path.EndsWith("FileName")));
+
+            // make sure the file was sent to the transfer service
+            _mediator.Verify(x => x.Send(It.IsAny<SendToFileTransferService.Command>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

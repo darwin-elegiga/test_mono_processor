@@ -96,6 +96,7 @@ public static class ProcessPostedTransactions
             _fileSystem.Directory.CreateDirectory(_postedTransactionsSettings.OutputDirectory);
 
             await _fileSystem.File.WriteAllTextAsync(outputPath, _writer.WritePostedTransactionFile(originalFile), cancellationToken).ConfigureAwait(false);
+            await _mediator.Send(new SendToFileTransferService.Command(_fileSystem.FileInfo.FromFileName(outputPath)), cancellationToken).ConfigureAwait(false);
 
             return await _mediator.Send(new AddOlsFile.Command(fileName, fileHash, OlsFileType.Posted), cancellationToken).ConfigureAwait(false);
         }

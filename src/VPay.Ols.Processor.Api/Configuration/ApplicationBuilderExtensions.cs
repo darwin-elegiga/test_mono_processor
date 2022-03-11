@@ -75,6 +75,7 @@ public static class ApplicationBuilderExtensions
 
         services.UseMassTransit(fileQueueConfig);
 
+        services.UseMassTransitActivityTracking();
         services.AddMassTransitHostedService();
 
         services

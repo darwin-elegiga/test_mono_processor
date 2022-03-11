@@ -58,8 +58,10 @@ services:
       - 15680:15672
     volumes:
       - ./db-data/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@ols-processor-rabbitmq:cached
+      - ./nacha_definitions.json:/etc/rabbitmq/definitions/nacha_definitions.json
     environment:
       RABBITMQ_ERLANG_COOKIE: "6085SWQOKODSQALRPCLNMEQG"
       RABBITMQ_DEFAULT_USER: "rabbitmq"
       RABBITMQ_DEFAULT_PASS: "rabbitmq"
-      RABBITMQ_DEFAULT_VHOST: / 
+      RABBITMQ_DEFAULT_VHOST: /
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbitmq_management load_definitions '/etc/rabbitmq/definitions/'"
