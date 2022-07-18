@@ -82,13 +82,6 @@ public static class ProcessNonFinancial
             {
                 detailRecord.CardNumber = $"{detailRecord.CardNumber[..6]}XXXXXX{detailRecord.CardNumber[^4..]}";
                 detailRecord.FileName = generatedFilename;
-
-                detailRecord.CardholderFirstName = NonFinancialFileConstants.OptumDetailValues.CardholderFirstName;
-                detailRecord.CardholderAddress1 = NonFinancialFileConstants.OptumDetailValues.CardholderAddressLine1;
-                detailRecord.CardholderCity = NonFinancialFileConstants.OptumDetailValues.CardholderCity;
-                detailRecord.CardholderZip = NonFinancialFileConstants.OptumDetailValues.CardholderZip;
-                detailRecord.CardholderPrimaryPhone = NonFinancialFileConstants.OptumDetailValues.CardholderPrimaryPhone;
-
                 if (!string.IsNullOrWhiteSpace(detailRecord.SeExternalIdNumber))
                 {
                     var tpaResult = tpaResults.Find(t => t.TransactionId == int.Parse(detailRecord.SeExternalIdNumber));

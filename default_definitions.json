@@ -1,0 +1,25 @@
+{
+  "rabbit_version": "3.7.28",
+  "users": [
+    {
+      "name": "rabbitmq",
+      "password_hash": "XthXINCSZBCg1NyAShXVYQyKfcxyfCUADF+IdS3+dX/oZG2v",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "rabbitmq",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ]
+}
