@@ -1,0 +1,8 @@
+apiVersion: v1
+metadata:
+  askId: AIDE_0077865
+  caAgileId: 638692936141d
+  projectKey: com.optum:eps-eps
+  projectFriendlyName: vpay-test
+  componentType: code
+  targetQG: GATE_00
