@@ -17,7 +17,7 @@ public sealed class AuthorizationDetail
     public string MerchantName { get; set; }
     public string MerchantCategoryCode { get; set; }
     public string MerchantCountryCode { get; set; }
-    public int SEExternalId { get; set; }
+    public long SEExternalId { get; set; }
     public int Bin { get; set; }
     public string ClientCode { get; set; }
     public string FileName { get; set; }
