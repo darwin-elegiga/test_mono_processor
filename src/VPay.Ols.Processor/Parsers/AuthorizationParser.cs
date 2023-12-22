@@ -150,7 +150,7 @@ public sealed class AuthorizationParser : IAuthorizationParser
             MerchantName = match.Groups[nameof(_detailGroup.MerchantName)].Value,
             MerchantCategoryCode = match.Groups[nameof(_detailGroup.MerchantCategoryCode)].Value,
             MerchantCountryCode = match.Groups[nameof(_detailGroup.MerchantCountryCode)].Value,
-            SEExternalId = int.Parse(match.Groups[nameof(_detailGroup.SEExternalId)].Value),
+            SEExternalId = long.Parse(match.Groups[nameof(_detailGroup.SEExternalId)].Value),
             Bin = int.Parse(match.Groups[nameof(_detailGroup.Bin)].Value)
         };
     }

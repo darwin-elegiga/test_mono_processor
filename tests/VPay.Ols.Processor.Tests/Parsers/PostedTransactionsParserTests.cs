@@ -17,9 +17,9 @@ public class PostedTransactionsParserTests
     [Fact]
     public void WithValidFile_ReturnsPostedTransactionFile()
     {
-        var fileContent = @"HEADER|STONEEAGLE|POSTED|01242022|01132022|01142022|2
-555593XXXXXX3147|01122022|2200-2S-0000|0.10|+|840|990011|01122022 18:56:30|SE|||||||||1|546893
-555593XXXXXX3237|01122022|2200-2S-0000|0.10|-|840|990012|01122022 18:56:30|MS|BOGUSMD|BOGUSMD|6010|US|||||2|532086
+        var fileContent = $@"HEADER|STONEEAGLE|POSTED|01242022|01132022|01142022|2
+555593XXXXXX3147|01122022|2200-2S-0000|0.10|+|840|990011|01122022 18:56:30|SE|||||||||{(long)int.MaxValue + 1}|546893
+555593XXXXXX3237|01122022|2200-2S-0000|0.10|-|840|990012|01122022 18:56:30|MS|BOGUSMD|BOGUSMD|6010|US|||||{(long)int.MaxValue + 2}|532086
 555593XXXXXX4152|01122022|2200-2S-0000|0.10|+|840|990013|01122022 18:56:30|SE||||||||||528972
 TRAILER|3
 ";
@@ -50,7 +50,7 @@ TRAILER|3
                     AuthorizationCode = "990011",
                     PostDate = "01122022 18:56:30",
                     NetworkCode = "SE",
-                    SeExternalIdNumber = "1",
+                    SeExternalIdNumber = ((long)int.MaxValue + 1).ToString(),
                     Bin = "546893"
                 },
                 new PostedTransactionDetail
@@ -69,7 +69,7 @@ TRAILER|3
                     MerchantName = "BOGUSMD",
                     MerchantCategoryCode = "6010",
                     MerchantCountryCode = "US",
-                    SeExternalIdNumber = "2",
+                    SeExternalIdNumber = ((long)int.MaxValue + 2).ToString(),
                     Bin = "532086",
                 },
                 new PostedTransactionDetail

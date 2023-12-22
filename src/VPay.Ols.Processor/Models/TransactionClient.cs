@@ -3,5 +3,5 @@
 public class TransactionClient
 {
     public string ClientCode { get; set; } = string.Empty;
-    public int TransactionId { get; set; }
+    public long TransactionId { get; set; }
 }
