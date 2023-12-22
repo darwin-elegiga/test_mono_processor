@@ -14,8 +14,8 @@ public class AuthorizationParserTests
     public void ParseFileTest()
     {
         // arrange
-        string fileContent = @"abcd|bcde|cdef|02031234|03042345|04053456
-1234|03042345 05:06:07|5678|abcd|bcde|67.89|cdef|defg|efgh|fghi|ghij|hijk|7890|8901
+        string fileContent = $@"abcd|bcde|cdef|02031234|03042345|04053456
+1234|03042345 05:06:07|5678|abcd|bcde|67.89|cdef|defg|efgh|fghi|ghij|hijk|{(long)int.MaxValue + 56}|8901
 abcd|1234
 ";
 
@@ -44,7 +44,7 @@ abcd|1234
             MerchantName = "fghi",
             MerchantCategoryCode = "ghij",
             MerchantCountryCode = "hijk",
-            SEExternalId = 7890,
+            SEExternalId = (long)int.MaxValue + 56,
             Bin = 8901
         };
 

@@ -27,7 +27,7 @@ services:
       - ./scripts/start-sql-db/entrypoint.sh:/entrypoint.sh
 
   ols-migrate:
-    image: plinfharbor.vpayusa.net/base-images/dotnet/sdk:6.0-focal
+    image: docker.repo1.uhc.com/vpay-docker/base-images/dotnet/sdk:6.0-focal
     depends_on:
       - ols-sqlserver
     volumes:
