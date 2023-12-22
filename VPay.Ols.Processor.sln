@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		Dockerfile = Dockerfile
+		nuget.config = nuget.config
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -29,13 +30,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPay.Ols.Processor.Database
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "VPay.Ols.Processor.Database.SSDT", "src\database\VPay.Ols.Processor.Database.SSDT\VPay.Ols.Processor.Database.SSDT.sqlproj", "{2366CB8B-5557-4481-8E89-3D97B4FAC332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPay.Ols.Processor.Data", "src\database\VPay.Ols.Processor.Data\VPay.Ols.Processor.Data.csproj", "{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPay.Ols.Processor.Data", "src\database\VPay.Ols.Processor.Data\VPay.Ols.Processor.Data.csproj", "{AFC69DBE-B4F3-4E4E-82FF-E57E34FCCD3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPay.Ols.Processor.Data.Sql", "src\database\VPay.Ols.Processor.Data.Sql\VPay.Ols.Processor.Data.Sql.csproj", "{F55EBD48-8CAB-4893-B368-D136B343D5F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPay.Ols.Processor.Data.Sql", "src\database\VPay.Ols.Processor.Data.Sql\VPay.Ols.Processor.Data.Sql.csproj", "{F55EBD48-8CAB-4893-B368-D136B343D5F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AA325C5F-2079-42BA-9696-C482C21E80B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPay.Ols.Processor.Tests", "tests\VPay.Ols.Processor.Tests\VPay.Ols.Processor.Tests.csproj", "{FE8E3158-7A6D-4886-8218-9FC2BAB7727F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPay.Ols.Processor.Tests", "tests\VPay.Ols.Processor.Tests\VPay.Ols.Processor.Tests.csproj", "{FE8E3158-7A6D-4886-8218-9FC2BAB7727F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

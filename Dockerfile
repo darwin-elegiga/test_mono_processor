@@ -5,7 +5,7 @@
 #######################################
 
 ## General arguments
-ARG REGISTRY=plinfharbor.vpayusa.net
+ARG REGISTRY=docker.repo1.uhc.com/vpay-docker
 ARG DOTNET_VERSION=6.0
 
 ## ***Use for dotnet 5.0 and above***

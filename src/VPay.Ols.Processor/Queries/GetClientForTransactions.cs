@@ -17,7 +17,7 @@ public static class GetClientForTransactions
         internal List<TransactionIdLookup> TransactionIdList { get; }
         public DataTable TransactionIds => TransactionIdList.ToDataTable();
 
-        public Query(List<int> transactionIds) => TransactionIdList = transactionIds.ConvertAll(i => new TransactionIdLookup(i));
+        public Query(List<long> transactionIds) => TransactionIdList = transactionIds.ConvertAll(i => new TransactionIdLookup(i));
     }
 
     public class Handler : IRequestHandler<Query, List<TransactionClient>>

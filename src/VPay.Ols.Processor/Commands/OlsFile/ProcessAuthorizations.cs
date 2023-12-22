@@ -117,7 +117,7 @@ public static class ProcessAuthorizations
 
         private async Task<List<TransactionClient>> GetClientsForTransactions(List<AuthorizationDetail> details, CancellationToken cancellationToken)
         {
-            List<int> transactionIds = details.ConvertAll(detail => detail.SEExternalId);
+            List<long> transactionIds = details.ConvertAll(detail => detail.SEExternalId);
             var query = new GetClientForTransactions.Query(transactionIds);
 
             return await _mediator.Send(query, cancellationToken).ConfigureAwait(false);

@@ -70,7 +70,7 @@ public static class ProcessPostedTransactions
 
             originalFile.Details.RemoveAll(d => !OPTUM_BINS.Contains(int.Parse(d.Bin)));
 
-            var tpaResults = await _mediator.Send(new GetClientForTransactions.Query(originalFile.Details.Where(d => !string.IsNullOrWhiteSpace(d.SeExternalIdNumber)).Select(d => int.Parse(d.SeExternalIdNumber)).ToList()), cancellationToken).ConfigureAwait(false);
+            var tpaResults = await _mediator.Send(new GetClientForTransactions.Query(originalFile.Details.Where(d => !string.IsNullOrWhiteSpace(d.SeExternalIdNumber)).Select(d => long.Parse(d.SeExternalIdNumber)).ToList()), cancellationToken).ConfigureAwait(false);
             foreach (var detailRecord in originalFile.Details)
             {
                 detailRecord.CardNumber = $"{detailRecord.CardNumber[..6]}XXXXXX{detailRecord.CardNumber[^4..]}";
@@ -78,7 +78,7 @@ public static class ProcessPostedTransactions
 
                 if (!string.IsNullOrWhiteSpace(detailRecord.SeExternalIdNumber))
                 {
-                    var tpaResult = tpaResults.Find(t => t.TransactionId == int.Parse(detailRecord.SeExternalIdNumber));
+                    var tpaResult = tpaResults.Find(t => t.TransactionId == long.Parse(detailRecord.SeExternalIdNumber));
 
                     if (tpaResult == null)
                     {

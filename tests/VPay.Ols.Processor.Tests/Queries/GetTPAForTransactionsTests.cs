@@ -29,7 +29,7 @@ public class GetTPAForTransactionsTests
     [Fact]
     public async Task WithRequest_CallsConnection_ReturnsResult()
     {
-        var ids = new List<int> { 1, 2, 3 };
+        var ids = new List<long> { 1, 2, 3 };
         var expectedQuery = ids.Select(i => new TransactionIdLookup(i)).ToList();
 
         var query = new GetClientForTransactions.Query(ids);

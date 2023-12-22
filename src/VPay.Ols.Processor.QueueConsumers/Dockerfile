@@ -1,4 +1,4 @@
-﻿ARG REGISTRY=plinfharbor.vpayusa.net
+﻿ARG REGISTRY=docker.repo1.uhc.com/vpay-docker
 
 FROM ${REGISTRY}/base-images/dotnet/runtime:6.0-focal AS base
 WORKDIR /app
