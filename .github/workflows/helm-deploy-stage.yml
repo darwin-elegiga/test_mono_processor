@@ -7,7 +7,7 @@ jobs:
      with: 
       CHARTS_PATH: charts/ols-processor
       NAMESPACE: ols-processor-api-stage       
-      RELEASE_NAME: ols-processor  
+      RELEASE_NAME: olsprocessor  
       DRYRUN: false
      secrets: inherit       
    deployment-stl-stage:
@@ -15,6 +15,6 @@ jobs:
     with: 
       CHARTS_PATH: charts/ols-processor
       NAMESPACE: ols-processor-api-stage 
-      RELEASE_NAME: ols-processor
+      RELEASE_NAME: olsprocessor
       DRYRUN: false
     secrets: inherit      
