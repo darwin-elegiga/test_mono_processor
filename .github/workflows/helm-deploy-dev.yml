@@ -48,7 +48,7 @@ jobs:
         with: 
             CHARTS_PATH: charts/ols-processor
             NAMESPACE: ols-processor-api-dev
-            RELEASE_NAME: ols-processor
+            RELEASE_NAME: olsprocessor
             DRYRUN: true
         secrets: inherit 
     deployment-stl-dev-dryrun:
@@ -57,7 +57,7 @@ jobs:
         with: 
             CHARTS_PATH: charts/ols-processor
             NAMESPACE: ols-processor-api-dev
-            RELEASE_NAME: ols-processor
+            RELEASE_NAME: olsprocessor
             DRYRUN: true
         secrets: inherit   
     deployment-plano-stage-dryrun:
@@ -66,7 +66,7 @@ jobs:
         with: 
             CHARTS_PATH: charts/ols-processor
             NAMESPACE: ols-processor-api-stage
-            RELEASE_NAME: ols-processor
+            RELEASE_NAME: olsprocessor
             DRYRUN: true
         secrets: inherit 
     deployment-stl-stage-dryrun:
@@ -75,7 +75,7 @@ jobs:
          with: 
             CHARTS_PATH: charts/ols-processor
             NAMESPACE: ols-processor-api-stage 
-            RELEASE_NAME: ols-processor
+            RELEASE_NAME: olsprocessor
             DRYRUN: true
          secrets: inherit  
     deployment-plano-production-dryrun:
@@ -83,7 +83,7 @@ jobs:
         with: 
           CHARTS_PATH: charts/ols-processor
           NAMESPACE: ols-processor-api-prod
-          RELEASE_NAME: ols-processor
+          RELEASE_NAME: olsprocessor
           DRYRUN: true
         secrets: inherit 
     deployment-stl-production-dryrun:
@@ -91,7 +91,7 @@ jobs:
         with: 
           CHARTS_PATH: charts/ols-processor
           NAMESPACE: ols-processor-api-prod
-          RELEASE_NAME: ols-processor
+          RELEASE_NAME: olsprocessor
           DRYRUN: true
         secrets: inherit        
     deployment-plano-dev:
@@ -100,7 +100,7 @@ jobs:
         with: 
             CHARTS_PATH: charts/ols-processor
             NAMESPACE: ols-processor-api-dev
-            RELEASE_NAME: ols-processor
+            RELEASE_NAME: olsprocessor
             DRYRUN: false
         secrets: inherit
     deployment-stl-dev:
@@ -109,6 +109,6 @@ jobs:
         with: 
             CHARTS_PATH: charts/ols-processor
             NAMESPACE: ols-processor-api-dev
-            RELEASE_NAME: ols-processor
+            RELEASE_NAME: olsprocessor
             DRYRUN: false
         secrets: inherit    
