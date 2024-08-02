@@ -22,7 +22,7 @@ jobs:
         uses: optum-financial/vpay-actions-common-workflow/.github/workflows/docker-build-and-publish.yml@main
         with: 
             PROJECT: ols-processor 
-            IMAGE_NAME: ols-processor-api
+            IMAGE_NAME: api
             BUILD_ARGS: "PROJECT_DIR PROJECT_NAME"
             DOCKER_URL: "docker.repo1.uhc.com"
             DOCKER_USERNAME: ${{ vars.PMNTS_DEVOPS_MSA }}
