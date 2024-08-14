@@ -3,36 +3,36 @@ on: [workflow_dispatch]
 
 jobs: 
    deployment-plano-production-dryrun:
-        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-prod.yml@main
-        with: 
-          CHARTS_PATH: charts/ols-processor
-          NAMESPACE: ols-processor-prod
-          RELEASE_NAME: ols-processor
-          DRYRUN: true
-        secrets: inherit 
+     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-prod.yml@main
+     with: 
+       CHARTS_PATH: charts/ols-processor
+       NAMESPACE: ols-processor-prod
+       RELEASE_NAME: ols-processor
+       DRYRUN: true
+     secrets: inherit 
    deployment-stl-production-dryrun:
-        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-prod.yml@main
-        with: 
-          CHARTS_PATH: charts/ols-processor
-          NAMESPACE: ols-processor-prod
-          RELEASE_NAME: ols-processor
-          DRYRUN: true
-        secrets: inherit        
+     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-prod.yml@main
+     with: 
+       CHARTS_PATH: charts/ols-processor
+       NAMESPACE: ols-processor-prod
+       RELEASE_NAME: ols-processor
+       DRYRUN: true
+     secrets: inherit        
    deployment-plano-production:
-    uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-prod.yml@main
-    needs: [deployment-plano-production-dryrun, deployment-stl-production-dryrun]
-    with: 
-      CHARTS_PATH: charts/ols-processor
-      NAMESPACE: ols-processor-prod
-      RELEASE_NAME: ols-processor
-      DRYRUN: false
-    secrets: inherit     
+     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-prod.yml@main
+     needs: [deployment-plano-production-dryrun, deployment-stl-production-dryrun]
+     with: 
+       CHARTS_PATH: charts/ols-processor
+       NAMESPACE: ols-processor-prod
+       RELEASE_NAME: ols-processor
+       DRYRUN: false
+     secrets: inherit     
    deployment-stl-production:
-    uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-prod.yml@main
-    needs: [deployment-plano-production-dryrun, deployment-stl-production-dryrun]
-    with: 
-      CHARTS_PATH: charts/ols-processor
-      NAMESPACE: ols-processor-prod
-      RELEASE_NAME: ols-processor
-      DRYRUN: false
-    secrets: inherit       
+     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-prod.yml@main
+     needs: [deployment-plano-production-dryrun, deployment-stl-production-dryrun]
+     with: 
+       CHARTS_PATH: charts/ols-processor
+       NAMESPACE: ols-processor-prod
+       RELEASE_NAME: ols-processor
+       DRYRUN: false
+     secrets: inherit       
