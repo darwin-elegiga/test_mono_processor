@@ -1,10 +1,5 @@
 name: helm-build-and-deploy-to-stage
-#on: [workflow_dispatch]
-on: 
-  workflow_dispatch:
-  push:
-    tags:
-    - '*'
+on: [workflow_dispatch]
 
 jobs:
    deployment-plano-stage:
