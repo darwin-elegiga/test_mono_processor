@@ -1,23 +1,7 @@
 name: helm-build-and-deploy-to-dev
-on: 
-  workflow_dispatch:
-  push:
-    tags:
-    - '*'
+on: [workflow_dispatch, push]
 
 jobs:
-    # processor:
-    #     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/docker-build-and-publish.yml@main
-    #     with: 
-    #         PROJECT: ols-processor 
-    #         IMAGE_NAME: ols-processor-processor
-    #         BUILD_ARGS: "PROJECT_DIR PROJECT_NAME"
-    #         DOCKER_URL: "docker.repo1.uhc.com"
-    #         DOCKER_USERNAME: ${{ vars.PMNTS_DEVOPS_MSA }}
-    #         DOCKER_REGISTRY_URL: "docker.repo1.uhc.com/vpay-docker"
-    #         BUILD_ARGS_ENV_FILE_PATH: .github/build-args/processor/
-    #     secrets:
-    #         DOCKER_PASSWORD: ${{ secrets.PMNTS_DEVOPS_MSA_PWD }} 
     api:
         uses: optum-financial/vpay-actions-common-workflow/.github/workflows/docker-build-and-publish.yml@main
         with: 
