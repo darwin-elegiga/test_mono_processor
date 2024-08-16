@@ -1,4 +1,4 @@
-name: helm-build-and-deploy-to-stage
+name: helm-deploy-to-stage
 on: [workflow_dispatch]
 
 jobs:
