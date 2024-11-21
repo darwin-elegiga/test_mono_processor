@@ -1,11 +1,9 @@
-#syntax=docker/dockerfile:1.2
-
 #######################################
 ## This Dockerfile requires BuildKit ##
 #######################################
 
 ## General arguments
-ARG REGISTRY=docker.repo1.uhc.com
+ARG REGISTRY=docker.repo1.uhc.com/vpay-docker
 ARG DOTNET_SDK_VERSION=8.0.403
 ARG DOTNET_RUNTIME_VERSION=8.0.4
 ARG DOTNET_SDK_VARIANT=jammy
