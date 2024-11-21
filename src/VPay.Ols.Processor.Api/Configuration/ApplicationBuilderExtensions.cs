@@ -1,5 +1,4 @@
 ﻿using System.IO.Abstractions;
-using Hellang.Middleware.ProblemDetails;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -22,6 +21,9 @@ using VPay.Ols.Processor.Models.PostedTransactions;
 
 namespace VPay.Ols.Processor.Api.Configuration;
 
+using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.HttpLogging;
+
 public static class ApplicationBuilderExtensions
 {
     public static void Configure(this ConfigurationManager configuration)
@@ -40,6 +42,8 @@ public static class ApplicationBuilderExtensions
     {
         services
             .AddHttpContextAccessor()
+            //https://github.com/dotnet/aspnetcore/issues/51322
+            .AddHttpLogging(o => o = new HttpLoggingOptions())
             .ConfigureOptions<ProblemDetailsOptionsCustomSetup>()
             .AddProblemDetails();
 
