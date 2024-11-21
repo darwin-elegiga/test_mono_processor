@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="System.IO.Abstractions" Version="16.1.20" />
-    <PackageReference Include="VPay.FileTransfer.Messaging.Abstractions" Version="2.0.0" />
+    <PackageReference Include="VPay.FileTransfer.Messaging.Abstractions" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\database\VPay.Ols.Processor.Data\VPay.Ols.Processor.Data.csproj" />
