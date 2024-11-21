@@ -1,10 +1,10 @@
 ARG REGISTRY=docker.repo1.uhc.com/vpay-docker
 
-FROM ${REGISTRY}/base-images/dotnet/aspnet:6.0-focal AS base
+FROM ${REGISTRY}/base-images/dotnet/aspnet:8.0.4-jammy AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM ${REGISTRY}/base-images/dotnet/sdk:6.0-focal AS build
+FROM ${REGISTRY}/base-images/dotnet/sdk:8.0.403-jammy AS build
 WORKDIR /src
 COPY ["nuget.config", "."]
 COPY ["src/VPay.Ols.Processor.Api/VPay.Ols.Processor.Api.csproj", "src/VPay.Ols.Processor.Api/"]
