@@ -1,26 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="MediatR" Version="10.0.1" />
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-        <PackageReference Include="VPay.Extensions.Logging.GrayLog" Version="0.6.7" />
-        <PackageReference Include="VPay.FileTransfer.Messaging" Version="2.0.0" />
-        <PackageReference Include="VPay.MassTransit.DependencyInjection" Version="2.4.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\database\VPay.Ols.Processor.Data.Sql\VPay.Ols.Processor.Data.Sql.csproj" />
-      <ProjectReference Include="..\VPay.Ols.Processor\VPay.Ols.Processor.csproj" />
-    </ItemGroup>
-    
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="VPay.Extensions.Logging.GrayLog" Version="2.0.0" />
+    <PackageReference Include="VPay.FileTransfer.Messaging" Version="2.2.0" />
+    <PackageReference Include="VPay.MassTransit.DependencyInjection" Version="3.0.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\database\VPay.Ols.Processor.Data.Sql\VPay.Ols.Processor.Data.Sql.csproj" />
+    <ProjectReference Include="..\VPay.Ols.Processor\VPay.Ols.Processor.csproj" />
+  </ItemGroup>
 </Project>

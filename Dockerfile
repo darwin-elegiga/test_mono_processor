@@ -1,27 +1,18 @@
-#syntax=docker/dockerfile:1.2
-
 #######################################
 ## This Dockerfile requires BuildKit ##
 #######################################
 
 ## General arguments
 ARG REGISTRY=docker.repo1.uhc.com/vpay-docker
-ARG DOTNET_VERSION=6.0
-
-## ***Use for dotnet 5.0 and above***
-ARG DOTNET_SDK_VARIANT=focal
-ARG DOTNET_RUNTIME_VARIANT=focal
+ARG DOTNET_SDK_VERSION=8.0.403
+ARG DOTNET_RUNTIME_VERSION=8.0.4
+ARG DOTNET_SDK_VARIANT=jammy
+ARG DOTNET_RUNTIME_VARIANT=jammy
 ARG BASE_SDK_IMAGE=dotnet/sdk
 ARG BASE_RUNTIME_IMAGE=dotnet/aspnet
 
-## ***Use for dotnet core 3.1 and below***
-# ARG DOTNET_SDK_VARIANT=bionic
-# ARG DOTNET_RUNTIME_VARIANT=bionic
-# ARG BASE_SDK_IMAGE=dotnet/core/sdk
-# ARG BASE_RUNTIME_IMAGE=dotnet/core/aspnet
-
 ## Build Stage
-FROM ${REGISTRY}/base-images/${BASE_SDK_IMAGE}:${DOTNET_VERSION}-${DOTNET_SDK_VARIANT} as build
+FROM ${REGISTRY}/base-images/${BASE_SDK_IMAGE}:${DOTNET_SDK_VERSION}-${DOTNET_SDK_VARIANT} AS build
 
 ## Build stage arguments
 ARG CONFIG_PROFILE=Release
@@ -50,7 +41,7 @@ COPY . ./
 RUN dotnet publish --no-restore -c ${CONFIG_PROFILE} -o /app/out ${PROJECT}
 
 ## New stage used to reduce the size of the final image
-FROM ${REGISTRY}/base-images/${BASE_RUNTIME_IMAGE}:${DOTNET_VERSION}-${DOTNET_RUNTIME_VARIANT} AS final
+FROM ${REGISTRY}/base-images/${BASE_RUNTIME_IMAGE}:${DOTNET_RUNTIME_VERSION}-${DOTNET_RUNTIME_VARIANT} AS final
 ## Final stage arguments
 ARG PROJECT_NAME
 
