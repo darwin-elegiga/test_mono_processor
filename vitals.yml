@@ -2,7 +2,11 @@ apiVersion: v1
 metadata:
   askId: AIDE_0077865
   caAgileId: 638692936141d
-  projectKey: com.optum:eps-eps
-  projectFriendlyName: vpay-test
+  projectKey: com.uhg.optum.financials:vpay-ols-processor
+  projectFriendlyName: vpay-ols-processor
   componentType: code
   targetQG: GATE_00
+  solutionFileName: ./src/VPay.Ols.Processor.Api/VPay.Ols.Processor.Api.csproj
+  buildConfiguration: Release
+  dotnetVersion: 6.x
+  excludeTests: true
