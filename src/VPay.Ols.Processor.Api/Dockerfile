@@ -1,10 +1,18 @@
 ARG REGISTRY=docker.repo1.uhc.com/vpay-docker
+ARG DOTNET_VERSION=6.0
 
-FROM ${REGISTRY}/base-images/dotnet/aspnet:6.0-focal AS base
+ARG DOTNET_SDK_VARIANT=focal
+ARG DOTNET_RUNTIME_VARIANT=focal
+ARG BASE_SDK_IMAGE=dotnet/sdk
+ARG BASE_RUNTIME_IMAGE=dotnet/aspnet
+
+## Build Stage
+FROM ${REGISTRY}/base-images/${BASE_SDK_IMAGE}:${DOTNET_VERSION}-${DOTNET_SDK_VARIANT} as build
+
 WORKDIR /app
 EXPOSE 80
 
-FROM ${REGISTRY}/base-images/dotnet/sdk:6.0-focal AS build
+FROM ${REGISTRY}/base-images/${BASE_SDK_IMAGE}:${DOTNET_VERSION}-${DOTNET_SDK_VARIANT} as build
 WORKDIR /src
 COPY ["nuget.config", "."]
 COPY ["src/VPay.Ols.Processor.Api/VPay.Ols.Processor.Api.csproj", "src/VPay.Ols.Processor.Api/"]
