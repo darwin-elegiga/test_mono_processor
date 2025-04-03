@@ -1,5 +1,3 @@
-#syntax=docker/dockerfile:1.2
-
 #######################################
 ## This Dockerfile requires BuildKit ##
 #######################################
