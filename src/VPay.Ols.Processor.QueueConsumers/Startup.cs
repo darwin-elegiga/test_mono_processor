@@ -31,7 +31,7 @@ public static class Startup
 
         services.UseMassTransit(rabbitConfig, opts =>
         {
-            opts.AddConsumer<AuthorizationFileConsumer>();
+            opts.AddConsumer<AuthorizationFileConsumer, AuthorizationFileConsumerDefinition>();
             opts.AddConsumer<PostedTransactionFileProcessedConsumer>();
             opts.AddConsumer<NonFinancialFileProcessedConsumer>();
         });
