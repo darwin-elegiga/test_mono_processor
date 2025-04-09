@@ -23,7 +23,7 @@
         <PackageReference Include="VPay.AspNetCore.SwashBuckle" Version="0.6.7" />
         <PackageReference Include="VPay.AspNetCore.SwashBuckle.HealthChecks" Version="0.6.7" />
         <PackageReference Include="VPay.Extensions.Logging.GrayLog" Version="0.6.7" />
-        <PackageReference Include="VPay.MassTransit.DependencyInjection" Version="2.4.1" />
+        <PackageReference Include="VPay.MassTransit.DependencyInjection" Version="3.0.6" />
     </ItemGroup>
 
     <ItemGroup>
