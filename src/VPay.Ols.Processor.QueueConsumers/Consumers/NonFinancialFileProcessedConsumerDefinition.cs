@@ -2,18 +2,11 @@
 using MassTransit.Definition;
 using MassTransit.RabbitMqTransport;
 using MassTransit;
+using VPay.MassTransit.RabbitMqTransport;
 
 namespace VPay.Ols.Processor.QueueConsumers.Consumers;
 
-public class NonFinancialFileProcessedConsumerDefinition : ConsumerDefinition<NonFinancialFileProcessedConsumer>
+public class NonFinancialFileProcessedConsumerDefinition : QuorumConsumerDefinition<NonFinancialFileProcessedConsumer>
 {
-    protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<NonFinancialFileProcessedConsumer> consumerConfigurator)
-    {
-        if (endpointConfigurator is IRabbitMqReceiveEndpointConfigurator rabbit)
-        {
-            rabbit.SetQuorumQueue(3);
-        }
 
-        base.ConfigureConsumer(endpointConfigurator, consumerConfigurator);
-    }
 }
