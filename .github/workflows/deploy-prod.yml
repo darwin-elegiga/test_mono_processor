@@ -1,4 +1,4 @@
-name: helm-deploy-to-production
+name: deploy-to-prod
 on:
   workflow_dispatch:
     inputs:
@@ -9,18 +9,9 @@ on:
         type: string
         default: 'false'
  
-jobs: 
-   deployment-production-dryrun:
-     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-to-prod.yml@main
-     with: 
-       CHARTS_PATH: charts/ols-processor
-       NAMESPACE: ols-processor-prod
-       RELEASE_NAME: ols-processor
-       DRYRUN: true
-     secrets: inherit       
+jobs:   
    deployment-production:
      uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-to-prod.yml@main
-     needs: [deployment-production-dryrun]
      with: 
        CHARTS_PATH: charts/ols-processor
        NAMESPACE: ols-processor-prod
