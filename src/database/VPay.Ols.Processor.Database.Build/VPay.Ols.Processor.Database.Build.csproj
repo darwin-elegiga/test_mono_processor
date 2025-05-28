@@ -6,15 +6,15 @@
         <!-- For additional properties that can be set here, please refer to https://github.com/rr-wfm/MSBuild.Sdk.SqlProj#model-properties -->
     </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="..\VPay.Ols.Processor.Database.SSDT\**\*.sql" />
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\VPay.Ols.Processor.Database.SSDT\**\*.sql" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="..\VPay.Ols.Processor.Database.SSDT\bin\**\*.sql" />
-  </ItemGroup>
+    <ItemGroup>
+        <Content Remove="..\VPay.Ols.Processor.Database.SSDT\bin\**\*.sql" />
+    </ItemGroup>
 
-  <PropertyGroup>
+    <PropertyGroup>
         <!-- Refer to https://github.com/rr-wfm/MSBuild.Sdk.SqlProj#publishing-support for supported publishing options -->
     </PropertyGroup>
 </Project>

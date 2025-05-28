@@ -1,0 +1,22 @@
+name: deploy-to-prod
+on:
+  workflow_dispatch:
+    inputs:
+      CHG_TICKET:
+        required: true
+        type: string
+      WAR_ROOM:
+        type: string
+        default: 'false'
+ 
+jobs:      
+   deployment-production:
+     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-to-prod.yml@main
+     with: 
+       CHARTS_PATH: charts/ols-processor
+       NAMESPACE: ols-processor-prod
+       RELEASE_NAME: ols-processor
+       CHG_TICKET: ${{inputs.CHG_TICKET}}
+       WAR_ROOM: ${{inputs.WAR_ROOM}}
+       DRYRUN: false
+     secrets: inherit
