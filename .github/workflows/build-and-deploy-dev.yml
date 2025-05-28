@@ -1,12 +1,26 @@
-name: helm-build-and-deploy-to-dev
+name: build-and-deploy-to-dev
 on: 
   workflow_dispatch:
+    inputs:
+      PRE:
+        required: true
+        type: boolean
+        default: true
+  release:
+    types: [published]
   push:
     tags:
     - '*'
 
 jobs:
+    sonar:
+     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/sonar-analysis.yml@main
+     secrets:
+       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
     api:
+        needs: sonar
+        if: always()
         uses: optum-financial/vpay-actions-common-workflow/.github/workflows/docker-build-and-publish.yml@main
         with: 
             PROJECT: ols-processor 
@@ -16,9 +30,12 @@ jobs:
             DOCKER_USERNAME: ${{ vars.PMNTS_DEVOPS_MSA }}
             DOCKER_REGISTRY_URL: "docker.repo1.uhc.com/vpay-docker"
             BUILD_ARGS_ENV_FILE_PATH: .github/build-args/api/
+            PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }}
         secrets:
             DOCKER_PASSWORD: ${{ secrets.PMNTS_DEVOPS_MSA_PWD }} 
     queue-consumer:
+        needs: sonar
+        if: always()
         uses: optum-financial/vpay-actions-common-workflow/.github/workflows/docker-build-and-publish.yml@main
         with: 
             PROJECT: ols-processor 
@@ -28,47 +45,12 @@ jobs:
             DOCKER_USERNAME: ${{ vars.PMNTS_DEVOPS_MSA }}
             DOCKER_REGISTRY_URL: "docker.repo1.uhc.com/vpay-docker"
             BUILD_ARGS_ENV_FILE_PATH: .github/build-args/queue-consumer/
+            PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }}
         secrets:
-            DOCKER_PASSWORD: ${{ secrets.PMNTS_DEVOPS_MSA_PWD }}       
-    deployment-plano-dev-dryrun:
-        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-dev.yml@main       
-        needs: [api, queue-consumer]
-        with: 
-            CHARTS_PATH: charts/ols-processor
-            NAMESPACE: ols-processor-dev
-            RELEASE_NAME: ols-processor
-            DRYRUN: true
-        secrets: inherit 
-    deployment-stl-dev-dryrun:
-        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-dev.yml@main        
-        needs: [api, queue-consumer]
-        with: 
-            CHARTS_PATH: charts/ols-processor
-            NAMESPACE: ols-processor-dev
-            RELEASE_NAME: ols-processor
-            DRYRUN: true
-        secrets: inherit   
-    deployment-plano-stage-dryrun:
-        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-stage.yml@main        
-        needs: [api, queue-consumer]
-        with: 
-            CHARTS_PATH: charts/ols-processor
-            NAMESPACE: ols-processor-stage
-            RELEASE_NAME: ols-processor
-            DRYRUN: true
-        secrets: inherit 
-    deployment-stl-stage-dryrun:
-         uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-stage.yml@main
-         needs: [api, queue-consumer]
-         with: 
-            CHARTS_PATH: charts/ols-processor
-            NAMESPACE: ols-processor-stage 
-            RELEASE_NAME: ols-processor
-            DRYRUN: true
-         secrets: inherit        
+            DOCKER_PASSWORD: ${{ secrets.PMNTS_DEVOPS_MSA_PWD }}               
     deployment-plano-dev:
         uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-dev.yml@main
-        needs: [deployment-plano-dev-dryrun, deployment-stl-dev-dryrun]
+        needs: [api, queue-consumer]
         with: 
             CHARTS_PATH: charts/ols-processor
             NAMESPACE: ols-processor-dev
@@ -77,7 +59,7 @@ jobs:
         secrets: inherit
     deployment-stl-dev:
         uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-dev.yml@main
-        needs: [deployment-plano-dev-dryrun, deployment-stl-dev-dryrun]
+        needs: [api, queue-consumer]
         with: 
             CHARTS_PATH: charts/ols-processor
             NAMESPACE: ols-processor-dev
