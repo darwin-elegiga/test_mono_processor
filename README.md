@@ -5,3 +5,9 @@
 # OLS Processor
 
 This repository contains projects related to OLS processing.  Things like post-processing of OLS files can be handled here.
+
+### Location of id_rsa_localonly Key
+Please refer to the following path for the value of `id_rsa_localonly` key:
+ ```
+ y:/vcard/RSA_Keys/vpay-ols-processor/keys
+ ```
