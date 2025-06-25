@@ -6,4 +6,4 @@ version: 0.0.1
 dependencies:
   - name: helm-gen
     version: v1.2.0
-    repository: https://plinfharbor.vpayusa.net/chartrepo/devops
+    repository: https://repo1.uhc.com/artifactory/UHG-Releases/com/uhg/optum/financials/payments/helm
