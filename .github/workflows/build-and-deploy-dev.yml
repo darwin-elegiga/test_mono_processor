@@ -1,4 +1,8 @@
 name: build-and-deploy-to-dev
+permissions:
+  contents: read
+  pull-requests: read
+  packages: read
 on: 
   workflow_dispatch:
     inputs:
@@ -49,6 +53,7 @@ jobs:
         secrets:
             DOCKER_PASSWORD: ${{ secrets.PMNTS_DEVOPS_MSA_PWD }}               
     deployment-plano-dev:
+        if: always()
         uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-dev.yml@main
         needs: [api, queue-consumer]
         with: 
@@ -58,6 +63,7 @@ jobs:
             DRYRUN: false
         secrets: inherit
     deployment-stl-dev:
+        if: always()
         uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-dev.yml@main
         needs: [api, queue-consumer]
         with: 
