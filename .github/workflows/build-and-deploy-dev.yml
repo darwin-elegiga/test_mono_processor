@@ -52,23 +52,23 @@ jobs:
             PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }}
         secrets:
             DOCKER_PASSWORD: ${{ secrets.PMNTS_DEVOPS_MSA_PWD }}               
-    # deployment-plano-dev:
-    #     if: always()
-    #     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-dev.yml@main
-    #     needs: [api, queue-consumer]
-    #     with: 
-    #         CHARTS_PATH: charts/ols-processor
-    #         NAMESPACE: ols-processor-dev
-    #         RELEASE_NAME: ols-processor
-    #         DRYRUN: false
-    #     secrets: inherit
-    # deployment-stl-dev:
-    #     if: always()
-    #     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-dev.yml@main
-    #     needs: [api, queue-consumer]
-    #     with: 
-    #         CHARTS_PATH: charts/ols-processor
-    #         NAMESPACE: ols-processor-dev
-    #         RELEASE_NAME: ols-processor
-    #         DRYRUN: false
-    #     secrets: inherit    
+    deployment-plano-dev:
+        if: always()
+        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-dev.yml@main
+        needs: [api, queue-consumer]
+        with: 
+            CHARTS_PATH: charts/ols-processor
+            NAMESPACE: ols-processor-dev
+            RELEASE_NAME: ols-processor
+            DRYRUN: false
+        secrets: inherit
+    deployment-stl-dev:
+        if: always()
+        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-dev.yml@main
+        needs: [api, queue-consumer]
+        with: 
+            CHARTS_PATH: charts/ols-processor
+            NAMESPACE: ols-processor-dev
+            RELEASE_NAME: ols-processor
+            DRYRUN: false
+        secrets: inherit    
