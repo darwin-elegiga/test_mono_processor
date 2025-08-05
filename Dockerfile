@@ -3,7 +3,7 @@
 #######################################
 
 ## General arguments
-ARG REGISTRY=docker.repo1.uhc.com/vpay-docker
+ARG REGISTRY=edgeinternal1uhg.optum.com/commpay-vpay-docker-vir/docker
 ARG DOTNET_VERSION=6.0
 
 ## ***Use for dotnet 5.0 and above***
