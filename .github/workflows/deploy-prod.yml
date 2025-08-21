@@ -1,6 +1,6 @@
 name: deploy-to-prod
 permissions:
-  contents: read
+  contents: write
   pull-requests: read
   packages: read
 on:
