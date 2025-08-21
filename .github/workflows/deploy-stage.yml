@@ -1,4 +1,8 @@
 name: deploy-to-stage
+permissions:
+  contents: read
+  pull-requests: read
+  packages: read
 on: [workflow_dispatch]
 
 jobs:
@@ -17,4 +21,4 @@ jobs:
       NAMESPACE: ols-processor-stage 
       RELEASE_NAME: ols-processor
       DRYRUN: false
-    secrets: inherit      
+    secrets: inherit
