@@ -8,5 +8,5 @@ metadata:
   targetQG: GATE_00
   solutionFileName: ./src/VPay.Ols.Processor.Api/VPay.Ols.Processor.Api.csproj
   buildConfiguration: Release
-  dotnetVersion: 6.x
+  dotnetVersion: 8.x
   excludeTests: true
