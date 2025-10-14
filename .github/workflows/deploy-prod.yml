@@ -15,7 +15,7 @@ on:
  
 jobs:      
    deployment-production:
-     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-to-prod.yml@main
+     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-to-prod-repo1.yml@main
      with: 
        CHARTS_PATH: charts/ols-processor
        NAMESPACE: ols-processor-prod
