@@ -109,7 +109,7 @@ public static class ProcessNonFinancial
             _fileSystem.Directory.CreateDirectory(_settings.OutputDirectory);
 
             await _fileSystem.File.WriteAllTextAsync(outputPath, _writer.WriteNonFinancialFile(originalFile), cancellationToken).ConfigureAwait(false);
-            await _mediator.Send(new SendToFileTransferService.Command(_fileSystem.FileInfo.FromFileName(outputPath)), cancellationToken).ConfigureAwait(false);
+            await _mediator.Send(new SendToFileTransferService.Command(_fileSystem.FileInfo.New(outputPath)), cancellationToken).ConfigureAwait(false);
 
             return await _mediator.Send(new AddOlsFile.Command(fileName, fileHash, OlsFileType.NonFinancial), cancellationToken).ConfigureAwait(false);
         }

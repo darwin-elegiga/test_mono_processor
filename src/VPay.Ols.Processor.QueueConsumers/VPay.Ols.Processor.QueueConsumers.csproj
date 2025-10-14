@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
     <PackageReference Include="VPay.Extensions.Logging.GrayLog" Version="2.0.0" />
     <PackageReference Include="VPay.FileTransfer.Messaging" Version="2.2.0" />
     <PackageReference Include="VPay.MassTransit.DependencyInjection" Version="3.0.8" />
