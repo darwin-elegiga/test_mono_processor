@@ -40,8 +40,11 @@ cp **/*.csproj ../ --parents;
 RUN rm -rf docker_build_context
 SHELL ["/bin/sh", "-c"]
 
-## Restore project
-RUN dotnet restore ${PROJECT}
+## Restore project using BuildKit secrets for NuGet authentication
+RUN --mount=type=secret,id=jf-token,env=JF_TOKEN \
+    --mount=type=secret,id=jf-user,env=JF_USER \
+    dotnet restore ${PROJECT}
+    
 ## Copy all files if restore succeeds
 COPY . ./
 ## Publish project without restoring
@@ -51,9 +54,6 @@ RUN dotnet publish --no-restore -c ${CONFIG_PROFILE} -o /app/out ${PROJECT}
 FROM ${REGISTRY}/base-images/${BASE_RUNTIME_IMAGE}:${DOTNET_VERSION}-${DOTNET_RUNTIME_VARIANT} AS final
 ## Final stage arguments
 ARG PROJECT_NAME
-
-# Change time zone to central time
-RUN ln -fs /usr/share/zoneinfo/America/Chicago /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
 
 WORKDIR /app
 
