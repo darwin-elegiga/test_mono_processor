@@ -21,9 +21,9 @@ on:
 
 jobs:
     sonar:
-     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/sonar-analysis.yml@main
+     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/sonar-analysis-dotnet.yml@main
      secrets:
-       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+       sonar-token: ${{ secrets.SONAR_TOKEN }}
       
     api:
         needs: sonar
@@ -35,6 +35,7 @@ jobs:
             DOCKER_URL: "centraluhg.jfrog.io"
             BUILD_ARGS_ENV_FILE_PATH: .github/build-args/api/
             PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }} 
+            
     queue-consumer:
         needs: sonar
         if: always()
