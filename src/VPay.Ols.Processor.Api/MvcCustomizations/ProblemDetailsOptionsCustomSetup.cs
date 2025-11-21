@@ -13,13 +13,13 @@ public class ProblemDetailsOptionsCustomSetup : IConfigureOptions<ProblemDetails
     public ProblemDetailsOptionsCustomSetup(IWebHostEnvironment environment) =>
         Environment = environment;
 
-    private IWebHostEnvironment Environment { get; }
+       private IWebHostEnvironment Environment { get; }
 
-    public void Configure(ProblemDetailsOptions options)
-    {
-        options.ValidationProblemStatusCode = StatusCodes.Status400BadRequest;
+       public void Configure(ProblemDetailsOptions options)
+       {
+          options.ValidationProblemStatusCode = StatusCodes.Status400BadRequest;
 
-        options.IncludeExceptionDetails = (_, __) => Environment.IsDevelopment() || Environment.IsEnvironment("LocalDevelopment");
+          options.IncludeExceptionDetails = (_, __) => Environment.IsDevelopment() || Environment.IsEnvironment("LocalDevelopment");
 
         // This will map NotImplementedException to the 501 Not Implemented status code.
         options.MapToStatusCode<NotImplementedException>(StatusCodes.Status501NotImplemented);
