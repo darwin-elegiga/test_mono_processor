@@ -5,22 +5,23 @@ using Microsoft.Extensions.Options;
 
 namespace VPay.Ols.Processor.Api.MvcCustomizations;
 {
-public class ProblemDetailsOptionsCustomSetup : IConfigureOptions<ProblemDetailsOptions>
-{
     using Hellang.Middleware.ProblemDetails;
-    public ProblemDetailsOptionsCustomSetup(IWebHostEnvironment environment) =>
-        Environment = environment;
+    public class ProblemDetailsOptionsCustomSetup : IConfigureOptions<ProblemDetailsOptions>
+    {    
+       public ProblemDetailsOptionsCustomSetup(IWebHostEnvironment environment) =>
+          Environment = environment;
 
-    private IWebHostEnvironment Environment { get; }
+       private IWebHostEnvironment Environment { get; }
 
-    public void Configure(ProblemDetailsOptions options)
-    {
-        options.ValidationProblemStatusCode = StatusCodes.Status400BadRequest;
+       public void Configure(ProblemDetailsOptions options)
+       {
+          options.ValidationProblemStatusCode = StatusCodes.Status400BadRequest;
 
-        options.IncludeExceptionDetails = (_, __) => Environment.IsDevelopment() || Environment.IsEnvironment("LocalDevelopment");
+          options.IncludeExceptionDetails = (_, __) => Environment.IsDevelopment() || Environment.IsEnvironment("LocalDevelopment");
 
-        // This will map NotImplementedException to the 501 Not Implemented status code.
-        options.MapToStatusCode<NotImplementedException>(StatusCodes.Status501NotImplemented);
-    }
+          // This will map NotImplementedException to the 501 Not Implemented status code.
+          options.MapToStatusCode<NotImplementedException>(StatusCodes.Status501NotImplemented);
+       }
+   }
 }
-}
+
