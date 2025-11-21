@@ -22,6 +22,7 @@ using VPay.Ols.Processor.Models.PostedTransactions;
 namespace VPay.Ols.Processor.Api.Configuration;
 
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.HttpLogging;
 
 public static class ApplicationBuilderExtensions
 {
@@ -43,6 +44,13 @@ public static class ApplicationBuilderExtensions
             .AddHttpContextAccessor()
             .ConfigureOptions<ProblemDetailsOptionsCustomSetup>()
             .AddProblemDetails();
+
+        services.AddHttpLogging(options =>
+        {
+            options.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders | HttpLoggingFields.ResponsePropertiesAndHeaders;
+            options.RequestBodyLogLimit = 4096;
+            options.ResponseBodyLogLimit = 4096;
+        });
 
         services.AddControllers(opt =>
         {
