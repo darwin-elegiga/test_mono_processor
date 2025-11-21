@@ -44,7 +44,7 @@ COPY . ./
 RUN dotnet publish --no-restore -c ${CONFIG_PROFILE} -o /app/out ${PROJECT}
 
 ## New stage used to reduce the size of the final image
-FROM ${REGISTRY}/base-images/${BASE_RUNTIME_IMAGE}:${DOTNET_RUNTIME_VERSION}-${DOTNET_RUNTIME_VARIANT} AS final
+FROM ${REGISTRY}/${BASE_RUNTIME_IMAGE}:${DOTNET_RUNTIME_VERSION}-${DOTNET_RUNTIME_VARIANT} AS final
 ## Final stage arguments
 ARG PROJECT_NAME
 
