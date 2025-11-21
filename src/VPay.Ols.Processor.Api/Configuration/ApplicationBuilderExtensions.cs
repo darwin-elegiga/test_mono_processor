@@ -71,7 +71,7 @@ public static class ApplicationBuilderExtensions
         services.AddConfigurationSettings<AuthorizationFileSettings>(configuration);
         services.AddConfigurationSettings<NonFinancialFileSettings>(configuration);
 
-        var fileQueueConfig = new RabbitMqConfig();
+        var fileQueueConfig = new TransportConfig();
         configuration.GetSection("OlsProcessorQueue").Bind(fileQueueConfig);
 
         services.UseMassTransit(fileQueueConfig);

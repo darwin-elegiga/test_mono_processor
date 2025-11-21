@@ -10,10 +10,20 @@
   ],
   "vhosts": [
     {
+      "name": "/"
+    },
+    {
       "name": "Nacha"
     }
   ],
   "permissions": [
+    {
+      "user": "rabbitmq",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
     {
       "user": "rabbitmq",
       "vhost": "Nacha",

@@ -26,7 +26,7 @@ public static class Startup
     {
         services.AddMediatR(typeof(AddOlsFile.Handler).Assembly);
 
-        var rabbitConfig = new RabbitMqConfig();
+        var rabbitConfig = new TransportConfig();
         hostContext.Configuration.Bind("OlsProcessorQueue", rabbitConfig);
 
         services.UseMassTransit(rabbitConfig, opts =>
