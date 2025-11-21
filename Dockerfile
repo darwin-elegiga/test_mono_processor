@@ -12,7 +12,7 @@ ARG BASE_SDK_IMAGE=dotnet/sdk
 ARG BASE_RUNTIME_IMAGE=dotnet/aspnet
 
 ## Build Stage
-FROM ${REGISTRY}/base-images/${BASE_SDK_IMAGE}:${DOTNET_VERSION}-${DOTNET_SDK_VARIANT} as build
+FROM ${REGISTRY}/${BASE_SDK_IMAGE}:${DOTNET_SDK_VERSION}-${DOTNET_SDK_VARIANT} as build
 
 ## Build stage arguments
 ARG CONFIG_PROFILE=Release
@@ -44,7 +44,7 @@ COPY . ./
 RUN dotnet publish --no-restore -c ${CONFIG_PROFILE} -o /app/out ${PROJECT}
 
 ## New stage used to reduce the size of the final image
-FROM ${REGISTRY}/base-images/${BASE_RUNTIME_IMAGE}:${DOTNET_VERSION}-${DOTNET_RUNTIME_VARIANT} AS final
+FROM ${REGISTRY}/base-images/${BASE_RUNTIME_IMAGE}:${DOTNET_RUNTIME_VERSION}-${DOTNET_RUNTIME_VARIANT} AS final
 ## Final stage arguments
 ARG PROJECT_NAME
 
