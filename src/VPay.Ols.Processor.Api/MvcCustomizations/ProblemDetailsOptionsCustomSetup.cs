@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace VPay.Ols.Processor.Api.MvcCustomizations;
-
+{
 public class ProblemDetailsOptionsCustomSetup : IConfigureOptions<ProblemDetailsOptions>
 {
     using Hellang.Middleware.ProblemDetails;
@@ -22,4 +22,5 @@ public class ProblemDetailsOptionsCustomSetup : IConfigureOptions<ProblemDetails
         // This will map NotImplementedException to the 501 Not Implemented status code.
         options.MapToStatusCode<NotImplementedException>(StatusCodes.Status501NotImplemented);
     }
+}
 }
