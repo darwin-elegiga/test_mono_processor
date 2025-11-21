@@ -6,7 +6,7 @@ metadata:
   projectFriendlyName: vpay-ols-processor
   componentType: code
   targetQG: GATE_00
-  solutionFileName: ./src/VPay.Ols.Processor.Api/VPay.Ols.Processor.Api.csproj
+  solutionFileName: VPay.Ols.Processor.sln
   buildConfiguration: Release
-  dotnetVersion: 6.x
+  dotnetVersion: 8.x
   excludeTests: true
