@@ -1,4 +1,3 @@
-﻿using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +7,7 @@ namespace VPay.Ols.Processor.Api.MvcCustomizations;
 
 public class ProblemDetailsOptionsCustomSetup : IConfigureOptions<ProblemDetailsOptions>
 {
+    using Hellang.Middleware.ProblemDetails;
     public ProblemDetailsOptionsCustomSetup(IWebHostEnvironment environment) =>
         Environment = environment;
 
