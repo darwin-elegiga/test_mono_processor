@@ -7,8 +7,9 @@ services:
       - DOTNET_ENVIRONMENT=LocalDevelopment
       - ASPNETCORE_Logging__GELF__AdditionalFields__namespace=ols-processor-api-local
       - DOTNET_Logging__GELF__AdditionalFields__namespace=ols-processor-api-local
+      - ASPNETCORE_URLS=http://+:80
     ports:
-      - "80"
+      - "5900:80"
     networks:
       - olsprocessor
 
