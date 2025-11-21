@@ -4,10 +4,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace VPay.Ols.Processor.Api.MvcCustomizations;
-{
+
+using Hellang.Middleware.ProblemDetails;
+
 public class ProblemDetailsOptionsCustomSetup : IConfigureOptions<ProblemDetailsOptions>
 {
-    using Hellang.Middleware.ProblemDetails;
+    
     public ProblemDetailsOptionsCustomSetup(IWebHostEnvironment environment) =>
         Environment = environment;
 
@@ -23,4 +25,4 @@ public class ProblemDetailsOptionsCustomSetup : IConfigureOptions<ProblemDetails
         options.MapToStatusCode<NotImplementedException>(StatusCodes.Status501NotImplemented);
     }
 }
-}
+

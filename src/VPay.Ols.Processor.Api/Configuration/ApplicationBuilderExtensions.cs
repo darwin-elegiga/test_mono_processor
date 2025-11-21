@@ -1,5 +1,4 @@
 ﻿using System.IO.Abstractions;
-using Hellang.Middleware.ProblemDetails;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -21,6 +20,8 @@ using VPay.Ols.Processor.Models.NonFinancial;
 using VPay.Ols.Processor.Models.PostedTransactions;
 
 namespace VPay.Ols.Processor.Api.Configuration;
+
+using Hellang.Middleware.ProblemDetails;
 
 public static class ApplicationBuilderExtensions
 {

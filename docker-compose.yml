@@ -11,7 +11,7 @@ services:
       dockerfile: src/VPay.Ols.Processor.Api/Dockerfile
 
   ols-sqlserver:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: ols-sqlserver
     ports:
       - "5633:1433"
@@ -27,7 +27,7 @@ services:
       - ./scripts/start-sql-db/entrypoint.sh:/entrypoint.sh
 
   ols-migrate:
-    image: docker.repo1.uhc.com/vpay-docker/base-images/dotnet/sdk:6.0-focal
+    image: docker.repo1.uhc.com/vpay-docker/base-images/dotnet/sdk:8.0.403-jammy
     depends_on:
       - ols-sqlserver
     volumes:
