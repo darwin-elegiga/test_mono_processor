@@ -6,4 +6,4 @@ version: 0.0.1
 dependencies:
   - name: helm-gen
     version: v1.2.0
-    repository: https://repo1.uhc.com/artifactory/UHG-Releases/com/uhg/optum/financials/payments/helm
+    repository: https://centraluhg.jfrog.io/artifactory/commpay-vpay-helm-vir
