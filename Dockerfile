@@ -1,4 +1,3 @@
-
 # Build this Dockerfile using the "api" directory as the context
 
 #######################################
@@ -54,9 +53,13 @@ ARG PROJECT_NAME
 
 WORKDIR /app
 
-# Create vpay group/user for Ubuntu/Jammy variant
-RUN groupadd -g 1000 vpay || true && \
-    useradd -u 1000 -g vpay -d /home/vpay -m vpay || true
+# # Create vpay group/user for Ubuntu/Jammy variant
+# RUN groupadd -g 1000 vpay || true && \
+#     useradd -u 1000 -g vpay -d /home/vpay -m vpay || true
+
+# Create non-root user 'vpay' and set ownership
+RUN groupadd -r vpay && useradd -r -g vpay vpay && \
+    chown -R vpay:vpay /app
 
 # Copy published output from build stage with correct ownership
 COPY --from=build --chown=vpay:vpay /app/out .
