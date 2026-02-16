@@ -8,11 +8,6 @@ permissions:
   security-events: write
 on: 
   workflow_dispatch:
-    inputs:
-      PRE:
-        required: true
-        type: boolean
-        default: true
   release:
     types: [published]
   push:
@@ -32,9 +27,11 @@ jobs:
         with: 
             PROJECT: ols-processor 
             IMAGE_NAME: api
+            DOCKERFILE: Dockerfile
+            DOCKER_CONTEXT_DIR: ''
             DOCKER_URL: "centraluhg.jfrog.io"
             BUILD_ARGS_ENV_FILE_PATH: .github/build-args/api/
-            PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }} 
+        secrets: inherit 
             
     queue-consumer:
         needs: sonar
@@ -43,9 +40,11 @@ jobs:
         with: 
             PROJECT: ols-processor 
             IMAGE_NAME: queue-consumers
+            DOCKERFILE: Dockerfile
+            DOCKER_CONTEXT_DIR: ''
             DOCKER_URL: "centraluhg.jfrog.io"
             BUILD_ARGS_ENV_FILE_PATH: .github/build-args/queue-consumer/
-            PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }}
+        secrets: inherit
             
     deployment-plano-dev:
        if: always()
