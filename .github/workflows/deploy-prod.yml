@@ -25,4 +25,10 @@ jobs:
        CHG_TICKET: ${{inputs.CHG_TICKET}}
        WAR_ROOM: ${{inputs.WAR_ROOM}}
        DRYRUN: false
+       PROJECT: ols-processor
+      IMAGES: |
+        [
+          {"name": "api", "path": ".github/build-args/api/", "dockerfile": "Dockerfile", "context": "."},
+          {"name": "queue-consumers", "path": ".github/build-args/queue-consumer/", "dockerfile": "Dockerfile", "context": "."}
+        ]
      secrets: inherit
