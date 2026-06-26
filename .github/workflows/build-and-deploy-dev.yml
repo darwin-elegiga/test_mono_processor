@@ -19,9 +19,7 @@ on:
 jobs:
     sonar:
      uses: optum-financial/vpay-actions-common-workflow/.github/workflows/sonar-analysis.yml@main
-     secrets:
-       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      
+     secrets: inherit
     api:
         needs: sonar
         if: always()
