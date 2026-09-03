@@ -9,7 +9,7 @@ namespace VPay.Ols.Processor.Data.Connection;
 
 internal static class DapperHelpers
 {
-    internal static Task<T> QuerySingleOrDefaultAsync<T>
+    internal static Task<T?> QuerySingleOrDefaultAsync<T>
     (
         this IDbConnection connection,
         string sql,

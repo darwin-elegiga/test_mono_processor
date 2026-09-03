@@ -4,11 +4,11 @@
 
 ## General arguments
 ARG REGISTRY=docker.repo1.uhc.com/vpay-docker
-ARG DOTNET_VERSION=6.0
+ARG DOTNET_VERSION=10.0
 
 ## ***Use for dotnet 5.0 and above***
-ARG DOTNET_SDK_VARIANT=focal
-ARG DOTNET_RUNTIME_VARIANT=focal
+ARG DOTNET_SDK_VARIANT=noble
+ARG DOTNET_RUNTIME_VARIANT=noble
 ARG BASE_SDK_IMAGE=dotnet/sdk
 ARG BASE_RUNTIME_IMAGE=dotnet/aspnet
 
@@ -30,6 +30,7 @@ ENV PROJECT=${PROJECT_DIR}/${PROJECT_NAME}.csproj
 WORKDIR /app
 
 COPY nuget.config* ./
+COPY global.json* ./
 COPY *.sln ./
 
 ## Copy .csproj files into the correct file structure
@@ -58,7 +59,7 @@ RUN ln -fs /usr/share/zoneinfo/America/Chicago /etc/localtime && dpkg-reconfigur
 WORKDIR /app
 
 COPY --from=build /app/out .
-ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_HTTP_PORTS=80
 
 ## Create a symlink so we can use exec form entrypoint
 RUN ln -s ${PROJECT_NAME}.dll Entrypoint.dll

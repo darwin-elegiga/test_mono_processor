@@ -52,7 +52,7 @@ public interface IDataConnection<T> : IDisposable where T : IDbConnection
     /// Execute a sproc to return a single-row asynchronously.
     /// </summary>
     /// <typeparam name="TModel">The type of result to return.</typeparam>
-    Task<TModel> GetSingleOrDefaultAsync<TModel>(string sql, object? parameters,
+    Task<TModel?> GetSingleOrDefaultAsync<TModel>(string sql, object? parameters,
         CancellationToken cancellationToken);
 
     /// <summary>

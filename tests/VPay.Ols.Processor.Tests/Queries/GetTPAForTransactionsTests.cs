@@ -41,7 +41,7 @@ public class GetTPAForTransactionsTests
 
         _connection.Setup(x => x.ListAsync<TransactionClient>(sprocCaptor.Capture(), queryCaptor.Capture(), default)).ReturnsAsync(queryResult);
 
-        var result = await _handler.Handle(query, default).ConfigureAwait(false);
+        var result = await _handler.Handle(query, default);
 
         using(new AssertionScope())
         {

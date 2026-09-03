@@ -42,7 +42,7 @@ public class AddOlsFileTests
 
         _connection.Setup(x => x.ExecuteAsync(sprocCaptor.Capture(), objCaptor.Capture(), default)).ReturnsAsync(1);
 
-        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+        var result = await _handler.Handle(command, default);
 
         using(new AssertionScope())
         {
@@ -71,7 +71,7 @@ public class AddOlsFileTests
 
         _connection.Setup(x => x.ExecuteAsync(sprocCaptor.Capture(), objCaptor.Capture(), default)).ThrowsAsync(ex);
 
-        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+        var result = await _handler.Handle(command, default);
 
         using (new AssertionScope())
         {

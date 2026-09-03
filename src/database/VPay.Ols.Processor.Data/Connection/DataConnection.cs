@@ -148,7 +148,7 @@ public abstract class DataConnection<TDbConnection> : IDataConnection<TDbConnect
     /// Execute a sproc to return a single-row asynchronously.
     /// </summary>
     /// <typeparam name="TModel">The type of results to return.</typeparam>
-    public async Task<TModel> GetSingleOrDefaultAsync<TModel>(string sql, object? parameters,
+    public async Task<TModel?> GetSingleOrDefaultAsync<TModel>(string sql, object? parameters,
         CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(sql))

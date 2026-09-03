@@ -57,7 +57,7 @@ public static class ProcessAuthorizations
 
                 var outputPath = await WriteFile(processedFile, generatedFileName, cancellationToken).ConfigureAwait(false);
 
-                await _mediator.Send(new SendToFileTransferService.Command(_fileSystem.FileInfo.FromFileName(outputPath)), cancellationToken).ConfigureAwait(false);
+                await _mediator.Send(new SendToFileTransferService.Command(_fileSystem.FileInfo.New(outputPath)), cancellationToken).ConfigureAwait(false);
 
                 return await AddFileToDatabase(command.FilePath, fileHash, cancellationToken).ConfigureAwait(false);
             }

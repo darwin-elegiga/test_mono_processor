@@ -1,9 +1,9 @@
 ﻿using System.IO.Abstractions;
+using Asp.Versioning;
 using Hellang.Middleware.ProblemDetails;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -40,8 +40,10 @@ public static class ApplicationBuilderExtensions
     {
         services
             .AddHttpContextAccessor()
-            .ConfigureOptions<ProblemDetailsOptionsCustomSetup>()
-            .AddProblemDetails();
+            .AddHttpLogging(_ => { })
+            .ConfigureOptions<ProblemDetailsOptionsCustomSetup>();
+
+        Hellang.Middleware.ProblemDetails.ProblemDetailsExtensions.AddProblemDetails(services);
 
         services.AddControllers(opt =>
         {
@@ -88,7 +90,8 @@ public static class ApplicationBuilderExtensions
             o.AssumeDefaultVersionWhenUnspecified = true;
             o.DefaultApiVersion = new ApiVersion(1, 0);
             o.ApiVersionReader = new HeaderApiVersionReader();
-        });
+        })
+        .AddMvc();
 
         services.AddSwagger();
 

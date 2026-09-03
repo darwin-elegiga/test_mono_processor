@@ -96,7 +96,7 @@ public class SendToFileTransferServiceTests : IDisposable
             .Verifiable();
 
         var command = new SendToFileTransferService.Command(new MockFileInfo(_fileSystem, FileTransferPath));
-        await _handler.Handle(command, default).ConfigureAwait(false);
+        await _handler.Handle(command, default);
 
         using (new AssertionScope())
         {

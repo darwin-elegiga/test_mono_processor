@@ -70,7 +70,7 @@ public class ProcessAuthorizationsTests
         _fileSystem.Setup(x => x.File.OpenText(It.IsAny<string>())).Throws(ex);
 
         // act
-        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+        var result = await _handler.Handle(command, default);
 
         // assert
         result.Should().BeEquivalentTo(Result.Fail($"Unable to read authorization file. {ex.Message}"));
@@ -91,7 +91,7 @@ public class ProcessAuthorizationsTests
         _fileSystem.Setup(x => x.Path.Combine(_settings.OutputDirectory, It.IsAny<string>())).Returns("optum-file.txt");
         _fileSystem.Setup(x => x.Directory.CreateDirectory(It.IsAny<string>()));
         _fileSystem.Setup(x => x.File.WriteAllTextAsync(It.Is<string>(s => s == "optum-file.txt"), It.Is<string>(s => s == "TEST_OUTPUT_STRING"), default));
-        _fileSystem.Setup(x => x.FileInfo.FromFileName(It.IsAny<string>())).Returns(Mock.Of<IFileInfo>());
+        _fileSystem.Setup(x => x.FileInfo.New(It.IsAny<string>())).Returns(Mock.Of<IFileInfo>());
 
         AuthorizationFile originalFile = BuildOriginalFile();
         _parser.Setup(x => x.ParseFile(It.IsAny<StreamReader>())).Returns(originalFile);
@@ -121,7 +121,7 @@ public class ProcessAuthorizationsTests
 
         _mediator
             .Setup(x => x.Send(It.IsAny<SendToFileTransferService.Command>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Unit.Value)
+            .Returns(Task.CompletedTask)
             .Verifiable();
 
         var writeFileCaptor = new ArgumentCaptor<AuthorizationFile>();
@@ -134,7 +134,7 @@ public class ProcessAuthorizationsTests
         AuthorizationFile expectedOutput = BuildExpectedFile();
 
         // act
-        Result result = await _handler.Handle(command, default).ConfigureAwait(false);
+        Result result = await _handler.Handle(command, default);
 
         // assert
         using(new AssertionScope())

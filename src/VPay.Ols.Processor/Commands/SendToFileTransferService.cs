@@ -40,7 +40,7 @@ public static class SendToFileTransferService
             _fileReadyForTransferNotificationPublisher = fileReadyForTransferNotificationPublisher;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var localFileInfo = CopyFileLocally(request.FileInfo);
 
@@ -68,8 +68,6 @@ public static class SendToFileTransferService
             {
                 localFileInfo.Delete();
             }
-
-            return Unit.Value;
         }
 
         private IFileInfo CopyFileLocally(IFileInfo fileInfo)

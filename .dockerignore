@@ -1,6 +1,7 @@
 *
 !*.sln
 !nuget.config
+!global.json
 !src/**
 !database/**
 **/bin

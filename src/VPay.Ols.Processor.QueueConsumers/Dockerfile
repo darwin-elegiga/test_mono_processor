@@ -1,9 +1,9 @@
 ﻿ARG REGISTRY=docker.repo1.uhc.com/vpay-docker
 
-FROM ${REGISTRY}/base-images/dotnet/runtime:6.0-focal AS base
+FROM ${REGISTRY}/base-images/dotnet/runtime:10.0-noble AS base
 WORKDIR /app
 
-FROM ${REGISTRY}/base-images/dotnet/sdk:6.0-focal AS build
+FROM ${REGISTRY}/base-images/dotnet/sdk:10.0-noble AS build
 WORKDIR /source
 COPY ["src/VPay.Ols.Processor.QueueConsumers/VPay.Ols.Processor.QueueConsumers.csproj", "src/VPay.Ols.Processor.QueueConsumers/"]
 RUN dotnet restore "src/VPay.Ols.Processor.QueueConsumers/VPay.Ols.Processor.QueueConsumers.csproj"

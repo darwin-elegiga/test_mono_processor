@@ -1,6 +1,5 @@
 ﻿using System.IO.Abstractions;
 using MassTransit;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +23,7 @@ public static class Startup
 {
     public static void ConfigureServices(HostBuilderContext hostContext, IServiceCollection services)
     {
-        services.AddMediatR(typeof(AddOlsFile.Handler).Assembly);
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AddOlsFile.Handler).Assembly));
 
         var rabbitConfig = new RabbitMqConfig();
         hostContext.Configuration.Bind("OlsProcessorQueue", rabbitConfig);

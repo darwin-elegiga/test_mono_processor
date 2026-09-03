@@ -65,7 +65,7 @@ public class ProcessNonFinancialTests
         var ex = new Exception("Test file exception");
         _fileSystem.Setup(x => x.File.OpenText(It.IsAny<string>())).Throws(ex);
 
-        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+        var result = await _handler.Handle(command, default);
 
         result.Should().BeEquivalentTo(Result.Fail($"Unable to read non-financial file. {ex.Message}"));
     }
@@ -295,7 +295,7 @@ public class ProcessNonFinancialTests
         _writer.Setup(x => x.WriteNonFinancialFile(outputObjCaptor.Capture())).Returns("TEST_OUTPUT_STRING");
 
         _fileSystem.Setup(x => x.File.WriteAllTextAsync(It.Is<string>(s => s == "optum-file.txt"), It.Is<string>(s => s == "TEST_OUTPUT_STRING"), default));
-        _fileSystem.Setup(x => x.FileInfo.FromFileName(It.IsAny<string>())).Returns(Mock.Of<IFileInfo>());
+        _fileSystem.Setup(x => x.FileInfo.New(It.IsAny<string>())).Returns(Mock.Of<IFileInfo>());
 
         var fileObjCaptor = new ArgumentCaptor<AddOlsFile.Command>();
         var expectedFileObj = new AddOlsFile.Command("test-file.txt", "TEST_HASH", OlsFileType.NonFinancial);
@@ -304,10 +304,10 @@ public class ProcessNonFinancialTests
 
         _mediator
             .Setup(x => x.Send(It.IsAny<SendToFileTransferService.Command>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Unit.Value)
+            .Returns(Task.CompletedTask)
             .Verifiable();
 
-        var result = await _handler.Handle(command, default).ConfigureAwait(false);
+        var result = await _handler.Handle(command, default);
 
         using (new AssertionScope())
         {
