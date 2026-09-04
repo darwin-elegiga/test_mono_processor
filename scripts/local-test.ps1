@@ -349,7 +349,7 @@ $projects = @(
 $restoreFailed = $false
 foreach ($entry in $projects) {
     $log = Join-Path $ReportDir "restore-$($entry.Name).log"
-    $args = @('restore', (Quote-Arg $entry.Project))
+    $args = @('restore', (Quote-Arg $entry.Project), '--disable-build-servers')
     if ($NuGetConfig) { $args += @('--configfile', (Quote-Arg $NuGetConfig)) }
     $code = Invoke-Logged 'dotnet' $args $log
     if ($code -eq 0) {
@@ -370,7 +370,7 @@ if ($restoreFailed) {
 }
 foreach ($entry in $projects[0..1]) {
     $pkgLog = Join-Path $ReportDir "packages-$($entry.Name).txt"
-    Invoke-Logged 'dotnet' @('list', (Quote-Arg $entry.Project), 'package', '--include-transitive') $pkgLog | Out-Null
+    Invoke-Logged 'dotnet' @('list', (Quote-Arg $entry.Project), 'package', '--include-transitive', '--no-restore') $pkgLog | Out-Null
     $suspects = @(Get-Content $pkgLog | Where-Object { $_ -match 'Microsoft\.AspNetCore\.Mvc\.Versioning|MediatR\.Extensions\.Microsoft|>\s*MediatR\s+.*\s(10|11)\.\d' })
     if ($suspects.Count -gt 0) {
         Add-Result 'Restore' "$($entry.Name) transitive packages" 'WARN' ("legacy packages still in the graph: " + ($suspects -join ' / '))
@@ -384,7 +384,7 @@ foreach ($entry in $projects[0..1]) {
 $buildFailed = $false
 foreach ($entry in $projects) {
     $log = Join-Path $ReportDir "build-$($entry.Name).log"
-    $code = Invoke-Logged 'dotnet' @('build', (Quote-Arg $entry.Project), '-c', $Configuration, '--no-restore') $log
+    $code = Invoke-Logged 'dotnet' @('build', (Quote-Arg $entry.Project), '-c', $Configuration, '--no-restore', '--disable-build-servers') $log
     if ($code -eq 0) {
         Add-Result 'Build' $entry.Name 'PASS' 'exit 0'
     }
