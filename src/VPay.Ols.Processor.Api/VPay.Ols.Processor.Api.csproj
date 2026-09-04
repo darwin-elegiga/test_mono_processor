@@ -20,8 +20,8 @@
         <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.9.0" />
         <PackageReference Include="System.IO.Abstractions" Version="22.0.14" />
         <PackageReference Include="VPay.AspNetCore.Mvc" Version="0.6.7" />
-        <PackageReference Include="VPay.AspNetCore.SwashBuckle" Version="0.6.7" />
-        <PackageReference Include="VPay.AspNetCore.SwashBuckle.HealthChecks" Version="0.6.7" />
+        <PackageReference Include="VPay.AspNetCore.SwashBuckle" Version="1.0.0-beta.2" />
+        <PackageReference Include="VPay.AspNetCore.SwashBuckle.HealthChecks" Version="1.0.0-beta.2" />
         <PackageReference Include="VPay.Extensions.Logging.GrayLog" Version="0.6.7" />
         <PackageReference Include="VPay.MassTransit.DependencyInjection" Version="3.0.8" />
     </ItemGroup>
