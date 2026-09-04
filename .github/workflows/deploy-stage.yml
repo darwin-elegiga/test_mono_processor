@@ -7,7 +7,7 @@ on: [workflow_dispatch]
 
 jobs:
    deployment-plano-stage:
-     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-stage-repo1.yml@main
+     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-stage.yml@main
      with: 
       CHARTS_PATH: charts/ols-processor
       NAMESPACE: ols-processor-stage       

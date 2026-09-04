@@ -1,9 +1,12 @@
 name: build-and-deploy-to-dev
 permissions:
-  contents: read
-  pull-requests: read
+  actions: read
+  contents: write
+  id-token: write
   packages: read
-on: 
+  pull-requests: read
+  security-events: write
+on:
   workflow_dispatch:
     inputs:
       PRE:
@@ -14,59 +17,55 @@ on:
     types: [published]
   push:
     tags:
-    - '*'
+      - '*'
 
 jobs:
-    sonar:
-     uses: optum-financial/vpay-actions-common-workflow/.github/workflows/sonar-analysis.yml@main
-     secrets: inherit
-    api:
-        needs: sonar
-        if: always()
-        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/docker-build-and-publish.yml@main
-        with: 
-            PROJECT: ols-processor 
-            IMAGE_NAME: api
-            BUILD_ARGS: "PROJECT_DIR PROJECT_NAME"
-            DOCKER_URL: "docker.repo1.uhc.com"
-            DOCKER_USERNAME: ${{ vars.PMNTS_DEVOPS_MSA }}
-            DOCKER_REGISTRY_URL: "docker.repo1.uhc.com/vpay-docker"
-            BUILD_ARGS_ENV_FILE_PATH: .github/build-args/api/
-            PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }}
-        secrets:
-            DOCKER_PASSWORD: ${{ secrets.PMNTS_DEVOPS_MSA_PWD }} 
-    queue-consumer:
-        needs: sonar
-        if: always()
-        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/docker-build-and-publish.yml@main
-        with: 
-            PROJECT: ols-processor 
-            IMAGE_NAME: queue-consumers
-            BUILD_ARGS: "PROJECT_DIR PROJECT_NAME"
-            DOCKER_URL: "docker.repo1.uhc.com"
-            DOCKER_USERNAME: ${{ vars.PMNTS_DEVOPS_MSA }}
-            DOCKER_REGISTRY_URL: "docker.repo1.uhc.com/vpay-docker"
-            BUILD_ARGS_ENV_FILE_PATH: .github/build-args/queue-consumer/
-            PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }}
-        secrets:
-            DOCKER_PASSWORD: ${{ secrets.PMNTS_DEVOPS_MSA_PWD }}               
-    deployment-plano-dev:
-        if: always()
-        uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-dev-repo1.yml@main
-        needs: [api, queue-consumer]
-        with: 
-            CHARTS_PATH: charts/ols-processor
-            NAMESPACE: ols-processor-dev
-            RELEASE_NAME: ols-processor
-            DRYRUN: false
-        secrets: inherit
+  sonar:
+    uses: optum-financial/vpay-actions-common-workflow/.github/workflows/sonar-analysis.yml@main
+    secrets: inherit
+  api:
+    needs: sonar
+    if: always()
+    uses: optum-financial/vpay-actions-common-workflow/.github/workflows/docker-build-and-publish-saas.yml@main
+    with:
+      PROJECT: ols-processor
+      IMAGE_NAME: api
+      DOCKERFILE: Dockerfile
+      DOCKER_CONTEXT_DIR: ""
+      DOCKER_URL: "centraluhg.jfrog.io"
+      BUILD_ARGS_ENV_FILE_PATH: .github/build-args/api/
+      PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }}
+    secrets: inherit
+  queue-consumer:
+    needs: sonar
+    if: always()
+    uses: optum-financial/vpay-actions-common-workflow/.github/workflows/docker-build-and-publish-saas.yml@main
+    with:
+      PROJECT: ols-processor
+      IMAGE_NAME: queue-consumers
+      DOCKERFILE: Dockerfile
+      DOCKER_CONTEXT_DIR: ""
+      DOCKER_URL: "centraluhg.jfrog.io"
+      BUILD_ARGS_ENV_FILE_PATH: .github/build-args/queue-consumer/
+      PRE: ${{ (inputs.PRE == true || github.event_name == 'push' ) && github.event_name != 'release' }}
+    secrets: inherit
+  deployment-plano-dev:
+    if: always()
+    uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-plano-dev.yml@main
+    needs: [api, queue-consumer]
+    with:
+      CHARTS_PATH: charts/ols-processor
+      NAMESPACE: ols-processor-dev
+      RELEASE_NAME: ols-processor
+      DRYRUN: false
+    secrets: inherit
   # deployment-stl-dev:
-  #       if: always()
-  #       uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-dev.yml@main
-  #       needs: [api, queue-consumer]
-  #       with: 
-  #           CHARTS_PATH: charts/ols-processor
-  #           NAMESPACE: ols-processor-dev
-  #           RELEASE_NAME: ols-processor
-  #           DRYRUN: false
-  #       secrets: inherit    
+  #   if: always()
+  #   uses: optum-financial/vpay-actions-common-workflow/.github/workflows/helm-deploy-stl-dev.yml@main
+  #   needs: [api, queue-consumer]
+  #   with:
+  #     CHARTS_PATH: charts/ols-processor
+  #     NAMESPACE: ols-processor-dev
+  #     RELEASE_NAME: ols-processor
+  #     DRYRUN: false
+  #   secrets: inherit

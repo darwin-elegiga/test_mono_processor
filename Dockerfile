@@ -5,7 +5,8 @@
 ## General arguments
 ARG REGISTRY_URL=centraluhg.jfrog.io
 ARG REPO_PATH=glb-docker-mcr-docker-20200805-rem
-ARG DOTNET_VERSION=10.0
+ARG DOTNET_SDK_VERSION=10.0.400
+ARG DOTNET_RUNTIME_VERSION=10.0.11
 
 ## ***Use for dotnet 5.0 and above***
 ARG DOTNET_SDK_VARIANT=noble
@@ -20,7 +21,7 @@ ARG BASE_RUNTIME_IMAGE=dotnet/aspnet
 # ARG BASE_RUNTIME_IMAGE=dotnet/core/aspnet
 
 ## Build Stage
-FROM ${REGISTRY_URL}/${REPO_PATH}/${BASE_SDK_IMAGE}:${DOTNET_VERSION}-${DOTNET_SDK_VARIANT} AS build
+FROM ${REGISTRY_URL}/${REPO_PATH}/${BASE_SDK_IMAGE}:${DOTNET_SDK_VERSION}-${DOTNET_SDK_VARIANT} AS build
 
 ## Build stage arguments
 ARG CONFIG_PROFILE=Release
@@ -52,7 +53,7 @@ COPY . ./
 RUN dotnet publish --no-restore -c ${CONFIG_PROFILE} -o /app/out ${PROJECT}
 
 ## New stage used to reduce the size of the final image
-FROM ${REGISTRY_URL}/${REPO_PATH}/${BASE_RUNTIME_IMAGE}:${DOTNET_VERSION}-${DOTNET_RUNTIME_VARIANT} AS final
+FROM ${REGISTRY_URL}/${REPO_PATH}/${BASE_RUNTIME_IMAGE}:${DOTNET_RUNTIME_VERSION}-${DOTNET_RUNTIME_VARIANT} AS final
 ## Final stage arguments
 ARG PROJECT_NAME
 

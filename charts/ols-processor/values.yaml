@@ -2,7 +2,7 @@ chart:
   virtual:
     shared:
       image:
-        registry: plinfharbor.vpayusa.net
+        registry: centraluhg.jfrog.io
         tag: latest
         pullPolicy: Always
       env:
